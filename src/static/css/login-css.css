@@ -1,0 +1,138 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	padding:0;
+	margin:0 auto;
+  font-family: 'Lato', sans-serif; 
+}
+.validationBx {
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left;
+  display: flex;
+  color: #e1202c !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+.active_button{
+  background: #0182c1;
+  color: #fff;
+  border-radius: 31px;
+  border: none;
+  text-align: center;
+  border: 1px solid #0182c1;
+}  
+.activeTextcolor{
+  color: #0182c1;
+}
+
+.log-main{
+  width: 100%;
+  background: url(../images/login-bg.jpg) no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.log-main .form-section{
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0!important;
+}
+.log-main .log-box-txt {
+  max-width: 600px;
+  width: 100%;
+  padding: 0 15px;
+  text-align: center;
+}
+.log-main .log-box-txt .login-logo {
+  margin-bottom: 15px;
+  width: 230px;
+}
+.log-main  .log-box-txt h1 {
+  margin: 20px 0 20px;
+  font-weight: bold;
+  font-size: 23px;
+  line-height: 40px;
+  color: #081131;
+}
+.log-main .log-box-txt .form-control {
+  height: auto;
+  font-weight: normal;
+  outline: none;
+  font-size: 16px;
+  line-height: 32px;
+  color: #081131;
+  background: #FFFFFF;
+  border: 1px solid #d3d6d9;
+  box-sizing: border-box;
+  border-radius: 31px;
+  padding: 14px 16px 14px 40px;
+  display: block;
+  transition: 0.2s ease-out;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+}
+.log-main .log-box-txt .buttonLog{
+  width: 100%;
+  padding: 16px 15px;
+  margin: 20px 0 0;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 26px;
+}  
+.log-main .log-box-txt .forgot_button {
+  border: none;
+  margin: 0 0 0 auto;
+  display: flex;
+  background: transparent;
+  font-weight: bold;
+  line-height: 20px;
+  font-size: 16px;
+  color: #e1202c;
+}
+.log-main .log-box-txt h6 {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #8D98AF;
+  margin: 40px 0 0;
+  padding: 10px 0 0;
+}
+.logintypeBx {
+  background-color: #ffffff;
+  border: 1px solid #fff;
+  box-shadow: 2px 0px 12px 6px #e8e8e8;
+  border-radius: 10px;
+  padding: 25px 15px 15px;
+  text-align: center;
+  margin: auto;
+  cursor: pointer;
+  position: relative;
+}
+.logintypeBx:hover{
+  border: 1px solid #0182c1;
+}
+.no-border-efct{
+  border: 1px solid #fff !important;
+}
+.logintypeBx .typeImg{
+  width: 60px;
+}
+.rightTickIcon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.logintypeBx p {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 600;
+  margin: 6px 0;
+}

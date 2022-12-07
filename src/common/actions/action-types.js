@@ -1,0 +1,6 @@
+
+export const authActions = {
+    AUTH_LOGIN:"AUTH_LOGIN",
+    AUTH_ADMIN_LOGIN:"AUTH_ADMIN_LOGIN",
+    AUTH_RESIDENT_LOGIN:"AUTH_RESIDENT_LOGIN",
+};
