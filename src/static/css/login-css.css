@@ -6,14 +6,15 @@ body{
   font-family: 'Lato', sans-serif; 
 }
 .validationBx {
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0 0 0 40px !important;
+  /* padding: 5px !important; */
   text-align: left;
   display: flex;
   color: #e1202c !important;
   font-size: 16px !important;
-  font-weight: 400 !important;
+  font-weight: 600 !important;
 }
+
 .active_button{
   background: #0182c1;
   color: #fff;

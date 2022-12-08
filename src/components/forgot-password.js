@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Logo from '../static/images/logo.png';
+import { doAuthSuperForgetPassword } from '../common/actions/auth-action';
+import { toastr } from 'react-redux-toastr';
 
 export const ForgotPasswordView = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const ForgotPasswordFormik = useFormik({
         initialValues: { Email: "", Password: "" },
         validationSchema: Yup.object({
@@ -14,6 +18,19 @@ export const ForgotPasswordView = () => {
             if (ForgotPasswordFormik.dirty && ForgotPasswordFormik.isValid) {
                 const params = {
                     email: values?.Email
+                }
+                if (window.location.pathname === "/admin-forgot-password") {
+                    dispatch(doAuthSuperForgetPassword(params)).then((res) => {
+                        if (res?.data?.success && res?.status === 200) {
+                            toastr.success("Success", res?.data?.message);
+                            // navigate("/dashboard");
+                            return
+                        }
+                        else {
+                            toastr.error("Error", res?.data?.message);
+                            return
+                        }
+                    });
                 }
             }
         }
@@ -26,7 +43,7 @@ export const ForgotPasswordView = () => {
                     <div className="align-self-cente form-section">
                         <div className="log-box-txt">
                             <form method='POST' onSubmit={ForgotPasswordFormik.handleSubmit}>
-                                <img src={Logo} className="login-logo" alt="Logo" />
+                                <img src={Logo} className="login-logo" alt="Logo" onClick={()=>navigate("/")}/>
                                 <h1>Recover Your Password</h1>
                                 <div className="form-group">
                                     <input type="text" name="Email" className="form-control"

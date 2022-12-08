@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Logo from '../static/images/logo.png';
@@ -6,10 +7,13 @@ import SuperAdmin from '../static/images/super-admin.png';
 import AdminImage from '../static/images/admin.png';
 import ResidentsImage from '../static/images/people.png';
 import RightTick from '../static/images/right-tick.png';
+import { doAuthLogin } from '../common/actions/auth-action';
+import { toastr } from 'react-redux-toastr';
 
 
 export const LoginView = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const LoginFormik = useFormik({
         initialValues: { Email: "", Password: "" },
         validationSchema: Yup.object({
@@ -23,7 +27,17 @@ export const LoginView = () => {
                     password: values?.Password
                 }
                 if (window.location.pathname === "/") {
-                    console.log("Super admin params", params);
+                    dispatch(doAuthLogin(params)).then((res) => {
+                        if (res?.data?.success && res?.status === 200) {
+                            toastr.success("Success", res?.data?.message);
+                            // navigate("/dashboard");
+                            return
+                        }
+                        else {
+                            toastr.error("Error", res?.data?.message);
+                            return
+                        }
+                    });
                 }
                 else if (window.location.pathname === "/society-admin") {
                     console.log("Society admin params", params);
@@ -31,8 +45,6 @@ export const LoginView = () => {
                 else if (window.location.pathname === "/resident-login") {
                     console.log("Resident Login params", params);
                 }
-
-
             }
         }
     })
@@ -44,7 +56,7 @@ export const LoginView = () => {
                     <div className="align-self-cente form-section">
                         <div className="log-box-txt">
                             <form method='POST' onSubmit={LoginFormik.handleSubmit}>
-                                <img src={Logo} className="login-logo" alt="Logo " />
+                                <img src={Logo} className="login-logo" alt="Logo " onClick={() => navigate("/")} />
                                 <h1>Log in to your account</h1>
                                 <div className="form-group">
                                     <input type="text" name="Email" className="form-control"
@@ -69,7 +81,9 @@ export const LoginView = () => {
                                         )}
                                 </div>
                                 <div className="form-group d-flex">
-                                    <button className='forgot_button' type='button' onClick={()=>navigate("/forgot-password")}>Forgot Password?</button>
+                                    <button className='forgot_button' type='button' onClick={() => {
+                                        window.location.pathname === "/" ? navigate("/admin-forgot-password") : navigate("/forgot-password")
+                                    }}>Forgot Password?</button>
                                 </div>
                                 <div className="form-group">
                                     <button type="submit" className='buttonLog active_button'>Log In</button>
@@ -86,7 +100,7 @@ export const LoginView = () => {
                                         <div className={window.location.pathname === "/society-admin" ? "no-border-efct logintypeBx" : 'logintypeBx'} onClick={() => navigate('/society-admin')}>
                                             {window.location.pathname === "/society-admin" && <img src={RightTick} alt='Right Tick' className='rightTickIcon' />}
                                             <img src={AdminImage} alt='Society Admin ' className='typeImg' />
-                                            <p className={window.location.pathname === "/society-admin" ? "activeTextcolor " : ''}>Admin</p>
+                                            <p className={window.location.pathname === "/society-admin" ? "activeTextcolor " : ''}>Society Admin</p>
                                         </div>
                                     </div>
                                     <div className='col-md-4'>

@@ -23,11 +23,14 @@ export const Router = () => {
 					<Route element={<AuthPrivateRoutes />} >
 						
 					</Route> */}
+					<Route exact={true} path="/" element={<LoginView />} />
 					<Route element={<PrivateRoutes />}>
-						<Route exact={true} path="/" element={<LoginView />} />
+						{/* <Route exact={true} path="/" element={<LoginView />} /> */}
 						<Route exact={true} path="/society-admin" element={<LoginView />} />
 						<Route exact={true} path="/resident-login" element={<LoginView />} />
 						<Route exact={true} path="/forgot-password" element={<ForgotPasswordView />} />
+						<Route exact={true} path="/admin-forgot-password" element={<ForgotPasswordView />} />
+
 					</Route>
 
 				</Routes>

@@ -12,15 +12,16 @@ function App() {
     <React.Fragment>
       <Router history={createHistory}></Router>
       <ReduxToastr
-        timeOut={3000}
+        timeOut={2000}
         newestOnTop={false}
         preventDuplicates
         position='top-right'
         getState={(state) => state.toastr}
         transitionIn='fadeIn'
         transitionOut='fadeOut'
-        progressBar={true}
-        closeOnToastrClick />
+        progressBar={false}
+        closeOnToastrClick
+      />
 
 
     </React.Fragment>
