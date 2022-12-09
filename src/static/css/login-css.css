@@ -3,7 +3,10 @@
 body{
 	padding:0;
 	margin:0 auto;
-  font-family: 'Lato', sans-serif; 
+  font-family: 'Inter', sans-serif;
+}
+input::placeholder{
+  color: #8D98AF !important;
 }
 .validationBx {
   margin: 0 !important;
@@ -24,6 +27,13 @@ body{
 }  
 .activeTextcolor{
   color: #0182c1;
+}
+.resendotpSection{
+  font-size: 18px;
+  font-weight: 600;
+  padding: 30px 0 0;
+  text-align: center;
+  cursor: pointer;
 }
 
 .log-main{
@@ -73,7 +83,7 @@ body{
   border: 1px solid #d3d6d9;
   box-sizing: border-box;
   border-radius: 31px;
-  padding: 14px 16px 14px 40px;
+  padding: 14px 16px;
   display: block;
   transition: 0.2s ease-out;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
@@ -96,7 +106,7 @@ body{
   font-size: 16px;
   color: #e1202c;
 }
-.log-main .log-box-txt h6 {
+.log-main .foot-bottom h6 {
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
