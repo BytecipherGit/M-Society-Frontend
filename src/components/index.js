@@ -1,1 +1,11 @@
+export { CopyrightView } from './copy-right';
 export { LoginView } from './login';
+export { ForgotPasswordView } from './forgot-password';
+export { ResetPasswordView } from './reset-password';
+export { DashboardView } from './super-admin/dashboard';
+export { SuperHeaderView } from './super-admin/super-admin-header';
+export { SidebarView } from './super-admin/side-bar';
+export { SocietyListingView } from './super-admin/society-listing';
+export { AddSocietyView } from './super-admin/add-society';
+export { EditSocietyView } from './super-admin/edit-society';
+export { ViewSocietyDetialView } from './super-admin/view-society-detail';
