@@ -266,8 +266,8 @@ button{
 }
 .navbar .navbar-nav {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: end;
+  justify-content: end;
 }
 .profile-droup .userIconimg{
   width: 40px;
@@ -672,7 +672,7 @@ aside .active img {
 .paginationBox ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: end;
   margin: 0;
 }
 .paginationBox ul li{
@@ -838,4 +838,66 @@ aside .active img {
 .buttonreset:hover{
   background: #ff0202;
 }
-
+.customModal .modal-dialog {
+	max-width: 650px;
+	margin: 1.75rem auto;
+	margin: 0 auto;
+	min-height: 100vh;
+	position: relative;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 50px 0;
+}
+.customModal .modal-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+}
+.customModal .modal-header .btn-close {
+  background: url(../images/toggel-close.png) no-repeat;
+  background-size: cover;
+  width: 22px;
+  height: 22px;
+}
+.customModal .modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 35px 30px;
+}
+.customModal .modal-body p {
+  font-weight: 400;
+  font-size: 20px;
+  margin: 10px 0;
+  text-align: center;
+  line-height: 28px;
+}
+.customModal .modal-footer {
+  padding: 20px 30px;
+  width: 100%;
+  display: flex;
+}
+.customModal .modal-footer button {
+  border-radius: 31px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 26px;
+  width: min-content;
+  padding: 10px 45px;
+  margin: 0 0 0 15px;
+}
+.customModal .modal-footer button:hover {
+  background: #03486a;
+}
+.customModal .modal-footer .cancel {
+  background: #FC5A5A;
+}
+.customModal .modal-footer .cancel:hover {
+  background: #ff0202 !important; 
+}

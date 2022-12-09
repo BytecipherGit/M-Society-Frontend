@@ -5,9 +5,13 @@ import DeleteIcon from "../../static/images/delete.png";
 import EditIcon from "../../static/images/edit-icon.png";
 import PlusIcon from "../../static/images/button-plus.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Modal, ModalHeader } from "react-bootstrap";
 
 export const SocietyListingView = () => {
     const navigate = useNavigate();
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const handleClose = () => setOpenDeleteModal(false);
     return (
         <>
             <SuperHeaderView />
@@ -16,7 +20,7 @@ export const SocietyListingView = () => {
 
                 <div className="main-container">
                     <div className="main-heading">
-                        <h1>Society <button className="active_button" onClick={() => {navigate('/add-society')}}><img src={PlusIcon} alt='Plus' /> Add</button></h1>
+                        <h1>Society <button className="active_button" onClick={() => { navigate('/add-society') }}><img src={PlusIcon} alt='Plus' /> Add</button></h1>
                     </div>
                     <div className="table_design">
                         <div className="table-responsive">
@@ -40,13 +44,13 @@ export const SocietyListingView = () => {
                                         <td>Active</td>
                                         <td>
                                             <button>
-                                                <img src={ViewIcon} alt="view icon" onClick={() => {navigate('/view-society-detail')}} />
+                                                <img src={ViewIcon} alt="view icon" onClick={() => { navigate('/view-society-detail') }} />
                                             </button>
                                             <button>
-                                                <img src={DeleteIcon} alt="Delete icon" />
+                                                <img src={DeleteIcon} alt="Delete icon" onClick={() => { setOpenDeleteModal(true) }} />
                                             </button>
                                             <button>
-                                                <img src={EditIcon} alt="view icon" onClick={() => {navigate('/edit-society')}}  />
+                                                <img src={EditIcon} alt="view icon" onClick={() => { navigate('/edit-society') }} />
                                             </button>
                                         </td>
                                     </tr>
@@ -58,13 +62,13 @@ export const SocietyListingView = () => {
                                         <td>Deactive</td>
                                         <td>
                                             <button>
-                                                <img src={ViewIcon} alt="view icon" onClick={() => {navigate('/view-society-detail')}} />
+                                                <img src={ViewIcon} alt="view icon" onClick={() => { navigate('/view-society-detail') }} />
                                             </button>
                                             <button>
-                                                <img src={DeleteIcon} alt="Delete icon" />
+                                                <img src={DeleteIcon} alt="Delete icon" onClick={() => { setOpenDeleteModal(true) }}/>
                                             </button>
                                             <button>
-                                                <img src={EditIcon} alt="view icon" onClick={() => {navigate('/edit-society')}}  />
+                                                <img src={EditIcon} alt="view icon" onClick={() => { navigate('/edit-society') }} />
                                             </button>
                                         </td>
                                     </tr>
@@ -76,13 +80,13 @@ export const SocietyListingView = () => {
                                         <td>Active</td>
                                         <td>
                                             <button>
-                                                <img src={ViewIcon} alt="view icon" onClick={() => {navigate('/view-society-detail')}} />
+                                                <img src={ViewIcon} alt="view icon" onClick={() => { navigate('/view-society-detail') }} />
                                             </button>
                                             <button>
-                                                <img src={DeleteIcon} alt="Delete icon" />
+                                                <img src={DeleteIcon} alt="Delete icon" onClick={() => { setOpenDeleteModal(true) }}/>
                                             </button>
                                             <button>
-                                                <img src={EditIcon} alt="view icon" onClick={() => {navigate('/edit-society')}} />
+                                                <img src={EditIcon} alt="view icon" onClick={() => { navigate('/edit-society') }} />
                                             </button>
                                         </td>
                                     </tr>
@@ -97,9 +101,9 @@ export const SocietyListingView = () => {
                                 <div className="col-md-6">
                                     <ul>
                                         <li>Prev</li>
-                                        <li className="active">01</li>
-                                        <li>02</li>
-                                        <li>03</li>
+                                        <li className="active">1</li>
+                                        <li>2</li>
+                                        <li>3</li>
                                         <li>Next</li>
                                     </ul>
                                 </div>
@@ -109,6 +113,27 @@ export const SocietyListingView = () => {
                 </div>
 
             </div>
+            {openDeleteModal &&
+                <div
+                className="modal show"
+                style={{ display: 'block', position: 'initial' }}
+              >
+                <Modal show={openDeleteModal} onHide={handleClose} className="customModal">
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete Society</Modal.Title>
+                  </Modal.Header>
+          
+                  <Modal.Body>
+                    <p>Are you sure to delete this society?</p>
+                  </Modal.Body>
+          
+                  <Modal.Footer>
+                    <button type="button" className="active_button">Yes</button>
+                    <button type="button" className="cancel" onClick={handleClose}>No</button>
+                  </Modal.Footer>
+                </Modal>
+              </div>
+            }
         </>
     )
 };

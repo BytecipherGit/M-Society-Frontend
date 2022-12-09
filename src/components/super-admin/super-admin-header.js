@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
+
 import LogoutIcon from "../../static/images/logout-icon.png";
 import DropdownIcon from "../../static/images/droup-down-gray.png";
 import UserIcon from "../../static/images/user-img.png";
 import NotificationsIcon from '../../static/images/notifications-icon.png'
-import { authActions } from "../../common/actions";
-import { toastr } from "react-redux-toastr";
 
 
 export const SuperHeaderView = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [notification, setNotification] = useState(false);
 
@@ -24,16 +21,16 @@ export const SuperHeaderView = () => {
                         <div className='collapse navbar-collapse' id='navbarCollapse'>
                             <ul className='navbar-nav ml-auto'>
                                 <li class="nav-item dropdown" onClick={() => {
-                                    setNotification(!notification);
-                                }}>
+                                        setNotification(!notification);
+                                    }}>
                                     <button
                                         className={
                                             notification
                                                 ? 'nav-link profile-droup nav-link dropdown-toggle dropdown-toggle1'
                                                 : 'nav-link profile-droup nav-link dropdown-toggle dropdown-toggle1'
                                         }
-                                        id="navbarDropdownMenuLink"
-                                        data-toggle="dropdown"
+                                        id="navbarDropdownMenuLink" 
+                                        data-toggle="dropdown" 
                                         aria-expanded="false">
                                         <img src={NotificationsIcon} alt='Notification' />
                                         <span className="notification_point"></span>
@@ -157,15 +154,9 @@ export const SuperHeaderView = () => {
                                         <button className='dropdown-item'>
                                             Change Passward
                                         </button>
-                                        
                                         <hr />
                                         <button
-                                            className='dropdown-item dropdown-item-no d-flex' onClick={() => {
-                                                dispatch(authActions.doAuthLogout()).then((res) => {
-                                                    toastr.info("INFO", res.message);
-                                                    navigate("/");
-                                                })
-                                            }}>
+                                            className='dropdown-item dropdown-item-no d-flex'>
                                             Logout
                                             <img src={LogoutIcon} alt='logout icon' />
                                         </button>
