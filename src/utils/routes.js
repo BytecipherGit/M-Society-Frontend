@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { LoginView } from '../components';
-import { ForgotPasswordView } from '../components/forgot-password';
-import { PrivateRoutes } from './protected-routes';
+import { AddSocietyView, DashboardView, EditSocietyView, ForgotPasswordView, LoginView, ResetPasswordView, SocietyListingView, ViewSocietyDetialView } from '../components';
+import { DashboardPrivateRoutes, OtpPrivateRoutes, PrivateRoutes } from './protected-routes';
 
 
 
@@ -23,14 +22,27 @@ export const Router = () => {
 					<Route element={<AuthPrivateRoutes />} >
 						
 					</Route> */}
-					<Route exact={true} path="/" element={<LoginView />} />
+
 					<Route element={<PrivateRoutes />}>
-						{/* <Route exact={true} path="/" element={<LoginView />} /> */}
+						<Route exact={true} path="/" element={<LoginView />} />
 						<Route exact={true} path="/society-admin" element={<LoginView />} />
 						<Route exact={true} path="/resident-login" element={<LoginView />} />
 						<Route exact={true} path="/forgot-password" element={<ForgotPasswordView />} />
 						<Route exact={true} path="/admin-forgot-password" element={<ForgotPasswordView />} />
 
+					</Route>
+
+					<Route element={<DashboardPrivateRoutes />} >
+						<Route exact={true} path="/dashboard" element={<DashboardView />} />
+						<Route exact={true} path="/society-listing" element={<SocietyListingView />} />
+						<Route exact={true} path="/add-society" element={<AddSocietyView />} />
+						<Route exact={true} path="/edit-society" element={<EditSocietyView />} />
+						<Route exact={true} path="/view-society-detail" element={<ViewSocietyDetialView />} />
+					</Route>
+
+					<Route element={<OtpPrivateRoutes />} >
+						<Route exact={true} path="/reset-password" element={<ResetPasswordView />} />
+						<Route exact={true} path="/admin-reset-password" element={<ResetPasswordView />} />
 					</Route>
 
 				</Routes>

@@ -5,29 +5,23 @@ export const doSocietyAdd = (params) => {
     return async (dispatch) => {
         const response = Instance(
             "POST",
-            ApiUrl.AUTH_SUPER_ADMIN_FORGET_PASS_API,
+            ApiUrl.ADD_SOCIETY_API,
             params
         );
-        // console.log(params);
         if (response?.status === 200 && response?.data?.success) {
-            // console.log(response.data);
-            if (!response?.data?.success) {
-                alert(response?.data?.message);
-            }
-            // alert(response.data.message);
-            localStorage.setItem("accessToken", response.data.accessToken);
-            localStorage.setItem("refreshToken", response.data.refreshToken);
-            // return response?.data;
+
+            // dispatch({
+            //     type: superAdminActions.SUPER_ADMIN_SEND_OTP,
+            //     payload: {
+            //         email: params.email,
+            //         otp: response?.data?.data?.OTP
+            //     },
+            // });
+            return response;
         } else if (response?.response?.status === 500) {
-            // console.log(response.response.data.message);
+            return response.response;
         } else if (response?.response?.status === 404 || response?.response?.status === 401 || response?.response?.status === 400) {
-            // console.log(response.response.data.message);
-            alert(response?.response?.data?.message);
+            return response.response;
         }
-        // return dispatch({
-        //     type: authActions.AUTH_LOGIN,
-        //     payload: response?.data,
-        // });
-        return response;
     };
 }

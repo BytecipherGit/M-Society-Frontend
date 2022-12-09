@@ -3,8 +3,9 @@ const BaseUrl = process.env.REACT_APP_BASE_URL;
 export const ApiUrl = {
     //Auth Super Admin API URLS
     AUTH_SUPER_ADMIN_LOGIN_API: BaseUrl + "superAdmin/login",
-    AUTH_SUPER_ADMIN_FORGET_PASS_API: BaseUrl + "superAdmin/forgetPassword",
+    AUTH_SUPER_ADMIN_SET_NEW_PASS_API: BaseUrl + "superAdmin/setNewPassword",
     AUTH_SUPER_ADMIN_CHANGE_PASS_API: BaseUrl + "superAdmin/changePassword",
+    AUTH_SUPER_ADMIN_SEND_OTP_API: BaseUrl + "superAdmin/sendOtp",
 
     // Society Admin API URLS
     SOCIETY_ADMIN_LOGIN_API: "society/adminLogin",
@@ -30,6 +31,7 @@ export const ApiUrl = {
     RESIDENT_USER_UPDATE_API: BaseUrl + "residentialUser/",
     GET_ALL_RESIDENT_USER_API: BaseUrl + "residentialUser/all",
     GET_SELECTED_RESIDENT_USER_API: BaseUrl + "residentialUser/",
-    RESIDENT_USER_FORGET_PASS_API: BaseUrl + "residentialUser/forgetPassword",
+    RESIDENT_USER_SET_NEW_PASS_API: BaseUrl + "residentialUser/setNewPassword",
     RESIDENT_USER_CHANGE_PASS_API: BaseUrl + "residentialUser/changePassword",
+    RESIDENT_USER_SEND_OTP_API: BaseUrl + "residentialUser/sendOtp",
 };

@@ -10,3 +10,5 @@ export default function ScrollToTop() {
 
   return null;
 }
+
+export const passwordValidateRegex= /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;

@@ -20,7 +20,8 @@ function App() {
         transitionIn='fadeIn'
         transitionOut='fadeOut'
         progressBar={false}
-        closeOnToastrClick
+        closeOnToastrClick={true}        
+
       />
 
 
