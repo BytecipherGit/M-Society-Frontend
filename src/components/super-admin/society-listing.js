@@ -6,7 +6,8 @@ import EditIcon from "../../static/images/edit-icon.png";
 import PlusIcon from "../../static/images/button-plus.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Modal, ModalHeader } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { ACTION, ADDRESS, ADMIN_NAME, PAGINATE_NEXT, PAGINATE_PREV, SOCIETY_NAME, STATUS, S_NO } from "../../common/constants";
 
 export const SocietyListingView = () => {
     const navigate = useNavigate();
@@ -27,12 +28,12 @@ export const SocietyListingView = () => {
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>S.No.</th>
-                                        <th>Society Name</th>
-                                        <th>Address</th>
-                                        <th>Admin Name</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th>{S_NO}</th>
+                                        <th>{SOCIETY_NAME}</th>
+                                        <th>{ADDRESS}</th>
+                                        <th>{ADMIN_NAME}</th>
+                                        <th>{STATUS}</th>
+                                        <th>{ACTION}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,42 +55,7 @@ export const SocietyListingView = () => {
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>02</td>
-                                        <td>Shree Krishna Society</td>
-                                        <td>29 Bengali Square, Indore, Madhya Pradesh 452016</td>
-                                        <td>Raju Patidar</td>
-                                        <td>Deactive</td>
-                                        <td>
-                                            <button>
-                                                <img src={ViewIcon} alt="view icon" onClick={() => { navigate('/view-society-detail') }} />
-                                            </button>
-                                            <button>
-                                                <img src={DeleteIcon} alt="Delete icon" onClick={() => { setOpenDeleteModal(true) }}/>
-                                            </button>
-                                            <button>
-                                                <img src={EditIcon} alt="view icon" onClick={() => { navigate('/edit-society') }} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>03</td>
-                                        <td>Shree Ram Society</td>
-                                        <td>29 Bengali Square, Indore, Madhya Pradesh 452016</td>
-                                        <td>Savan Sharma</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button>
-                                                <img src={ViewIcon} alt="view icon" onClick={() => { navigate('/view-society-detail') }} />
-                                            </button>
-                                            <button>
-                                                <img src={DeleteIcon} alt="Delete icon" onClick={() => { setOpenDeleteModal(true) }}/>
-                                            </button>
-                                            <button>
-                                                <img src={EditIcon} alt="view icon" onClick={() => { navigate('/edit-society') }} />
-                                            </button>
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -100,11 +66,11 @@ export const SocietyListingView = () => {
                                 </div>
                                 <div className="col-md-6">
                                     <ul>
-                                        <li>Prev</li>
+                                        <li>{PAGINATE_PREV}</li>
                                         <li className="active">1</li>
                                         <li>2</li>
                                         <li>3</li>
-                                        <li>Next</li>
+                                        <li>{PAGINATE_NEXT}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -115,24 +81,24 @@ export const SocietyListingView = () => {
             </div>
             {openDeleteModal &&
                 <div
-                className="modal show"
-                style={{ display: 'block', position: 'initial' }}
-              >
-                <Modal show={openDeleteModal} onHide={handleClose} className="customModal">
-                  <Modal.Header closeButton>
-                    <Modal.Title>Delete Society</Modal.Title>
-                  </Modal.Header>
-          
-                  <Modal.Body>
-                    <p>Are you sure to delete this society?</p>
-                  </Modal.Body>
-          
-                  <Modal.Footer>
-                    <button type="button" className="active_button">Yes</button>
-                    <button type="button" className="cancel" onClick={handleClose}>No</button>
-                  </Modal.Footer>
-                </Modal>
-              </div>
+                    className="modal show"
+                    style={{ display: 'block', position: 'initial' }}
+                >
+                    <Modal show={openDeleteModal} onHide={handleClose} className="customModal">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete Society</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <p>Are you sure to delete this society?</p>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <button type="button" className="active_button">Yes</button>
+                            <button type="button" className="cancel" onClick={handleClose}>No</button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
             }
         </>
     )

@@ -22,6 +22,7 @@ export const RESET_PASSWORD = "Reset Password";
 export const RESET_YOUR_PASS = "Reset Your Password";
 export const RESEND_OTP = "RE-SEND OTP?";
 export const SUBMIT = "Submit";
+export const RESET="Reset";
 export const CONFIRM_PASS_PLACEHOLDER = "Confirm Password";
 export const NEW_PASS_PLACEHOLDER = "New Password";
 export const OTP_PLACEHOLDER = "OTP";
@@ -35,9 +36,31 @@ export const SOCIETY_LISTING = "Society Listing";
 export const RECENT_NOTIFICATIONS = "Recent Notifications";
 export const SEE_ALL_NOTIFICATION = "See All Notifications";
 
+// page heading
+export const SOCIETY="Society";
+export const ADD_SOCIETY="Add Society"
+
+// table headings static text
 export const S_NO = "S.No.";
 export const SOCIETY_NAME = "Society Name";
 export const ADDRESS = "Address";
 export const ADMIN_NAME = "Admin_Name";
 export const STATUS = "Status";
 export const ACTION = "Action";
+
+// pagination static text
+export const PAGINATE_NEXT = "Next";
+export const PAGINATE_PREV = "Prev";
+export const BACK_BUTTON="Back";
+
+// add society field labels
+export const SOCIETY_DETAILS="Society Details";
+export const SOCIETY_ADDRESS="Society Address";
+export const PIN="Pin";
+export const REGISTRATION_NUMBER="Registration Number";
+export const SOCIETY_ADMIN_DETAILS="Society Admin Details";
+export const ADMIN_ADDRESS="Admin Address";
+export const PHONE_NUMBER="Phone Number";
+export const EMAIL="Email";
+export const OCCUPATION="Occupation (Work)";
+export const HOUSE_NUMBER="House Number";
