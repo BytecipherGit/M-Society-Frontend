@@ -1,12 +1,14 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Modal } from "react-bootstrap";
 import { SidebarView } from "./side-bar";
 import { SuperHeaderView } from "./super-admin-header";
 import ViewIcon from "../../static/images/view.png";
 import DeleteIcon from "../../static/images/delete.png";
 import EditIcon from "../../static/images/edit-icon.png";
 import PlusIcon from "../../static/images/button-plus.png";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Modal } from "react-bootstrap";
+
 import { ACTION, ADDRESS, ADMIN_NAME, PAGINATE_NEXT, PAGINATE_PREV, SOCIETY_NAME, STATUS, S_NO } from "../../common/constants";
 
 export const SocietyListingView = () => {
@@ -81,24 +83,24 @@ export const SocietyListingView = () => {
             </div>
             {openDeleteModal &&
                 <div
-                    className="modal show"
-                    style={{ display: 'block', position: 'initial' }}
-                >
-                    <Modal show={openDeleteModal} onHide={handleClose} className="customModal">
-                        <Modal.Header closeButton>
-                            <Modal.Title>Delete Society</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                            <p>Are you sure to delete this society?</p>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                            <button type="button" className="active_button">Yes</button>
-                            <button type="button" className="cancel" onClick={handleClose}>No</button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
+                className="modal show"
+                style={{ display: 'block', position: 'initial' }}
+              >
+                <Modal show={openDeleteModal} onHide={handleClose} className="customModal">
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete Society</Modal.Title>
+                  </Modal.Header>
+          
+                  <Modal.Body>
+                    <p>Are you sure you want to delete this society?</p>
+                  </Modal.Body>
+          
+                  <Modal.Footer>
+                    <button type="button" className="active_button">Yes</button>
+                    <button type="button" className="cancel" onClick={handleClose}>No</button>
+                  </Modal.Footer>
+                </Modal>
+              </div>
             }
         </>
     )
