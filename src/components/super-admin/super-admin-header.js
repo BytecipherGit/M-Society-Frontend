@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 import LogoutIcon from "../../static/images/logout-icon.png";
 import DropdownIcon from "../../static/images/droup-down-gray.png";
@@ -151,7 +151,7 @@ export const SuperHeaderView = () => {
                                         <button className='dropdown-item'>
                                             Profile
                                         </button>
-                                        <button className='dropdown-item'>
+                                        <button className='dropdown-item' onClick={() => { navigate('/change-password') }}>
                                             Change Passward
                                         </button>
                                         <hr />

@@ -27,7 +27,9 @@ button{
   background: #8D98AF;
   border-radius: 100px;
 }
-
+.ColorRed{
+  color: #FC5A5A;
+}
 /*----======= Header Part Css Close ========--------*/
 .header_dash{
   width: 100%;
@@ -642,7 +644,7 @@ aside .active img {
 .table_design{
   background: #FFFFFF;
   box-shadow: 0 7px 9px rgb(0 0 0 / 8%);
-  border-radius: 20px;
+  border-radius: 10px;
   margin: 34px 0;
   padding: 29px 34px;
   border: 1px solid #eeecec;
@@ -678,7 +680,7 @@ aside .active img {
 .paginationBox ul li{
   color: #0182c1;
   list-style: none;
-  line-height: 45px;
+  line-height: 40px;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
@@ -686,8 +688,8 @@ aside .active img {
   user-select: none;
   transition: all 0.3s ease;
   margin: 0 5px;  
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
 }
 .paginationBox ul li:first-child{
   margin: 0px 3px 0 -5px;
@@ -709,66 +711,9 @@ aside .active img {
   background: #0182c1;
 }
 
-.userDetailBx {
-  background: #FFFFFF;
-  box-shadow: 0px 0px 14px rgba(23, 54, 97, 0.04);
-  border-radius: 20px;
-  margin: 34px 0;
-  padding: 50px 34px;
-
-}
-.userContantMR{
-  border-bottom: 1px solid #151515;
-  padding: 0 0 20px 0;
-  width: 100%;
-  margin: 28px 0 0;
-}
-.userContantBx h2 {
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 24px;
-  margin: 0 0 20px;
-}
-.userContantBx h2 span{
-  font-weight: 600;
-  padding-right: 10px;
-}
-.changePasswordUI {
-  background: #FFFFFF;
-  box-shadow: 0px 0px 14px rgba(23, 54, 97, 0.04);
-  border-radius: 20px;
-  margin: 34px 0;
-  padding: 60px 34px 50px;
-}
-.changePasswordUI .form-group .form-control {
-  padding: 10px 12px;
-  height: auto;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 44px;
-  letter-spacing: 0.02em;
-  color: #000;
-  background: rgba(255, 255, 255, 0.24);
-  border: 1.5px solid #EAEFF3;
-  border-radius: 8px;
-}
-.changePasswordUI .form-group button {
-  color: #fff;
-  padding: 12px 30px;
-  text-decoration: none;
-  font-weight: bold;
-  margin:30px auto 0;
-  font-size: 21px;
-  line-height: 32px;
-  cursor: pointer;
-  display: flex;
-  text-transform: uppercase;
-}
 
 /* ---=== Add Society ===----*/
-.ColorRed{
-  color: #FC5A5A;
-}
+
 .form-box{
   background: #FFFFFF;
   box-shadow: 0 7px 9px rgb(0 0 0 / 8%);
@@ -814,7 +759,7 @@ aside .active img {
   width: 100%;
   padding: 12px 12px;
   margin: 20px 0 0;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 20px;
   line-height: 26px;
 }
@@ -829,7 +774,7 @@ aside .active img {
   float: left;
   border-radius:31px;
   color:#fff;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 20px;
   line-height: 26px; 
   position: relative;
@@ -864,6 +809,18 @@ aside .active img {
   background-size: cover;
   width: 22px;
   height: 22px;
+}
+.customModal .modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.0);
+  border-radius: .3rem;
+  outline: 0;
 }
 .customModal .modal-body {
   position: relative;
@@ -900,4 +857,75 @@ aside .active img {
 }
 .customModal .modal-footer .cancel:hover {
   background: #ff0202 !important; 
+}
+
+.changePasswordUI {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 14px rgba(23, 54, 97, 0.04);
+  border-radius: 10px;
+  margin: 80px 0 0;
+  padding: 60px 40px 50px;
+  border: 1px solid #eeecec;
+}
+.changePasswordUI h2 {
+  margin: 0 0 30px;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 38px;
+  color: #151515;
+  display: flex;
+  align-items: center;
+}
+.changePasswordUI p {
+  font-size: 18px;
+  color: #b8b7b7;
+  line-height: 24px;
+  margin: 0;
+}
+.changePasswordUI ul {
+  padding: 0;
+  margin: 30px 0;
+}
+.changePasswordUI ul li {
+  list-style-type: none;
+  padding: 10px 0;
+  font-weight: 400;
+  font-size: 16px;
+  color: #b8b7b7;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+.changePasswordUI ul li img {
+  padding:0 10px 0 0;
+}
+.changePasswordUI .form-group .form-control {
+  height: auto;
+  font-weight: normal;
+  outline: none;
+  font-size: 16px;
+  line-height: 32px;
+  color: #081131;
+  background: #FFFFFF;
+  border: 1px solid #d3d6d9;
+  box-sizing: border-box;
+  border-radius: 31px;
+  padding: 10px 12px;
+  display: block;
+  transition: 0.2s ease-out;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+}
+.changePasswordUI .form-group button {
+  padding: 12px 30px;
+  margin: 20px 0 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  min-width:48%;
+}
+.changePasswordUI .form-group button:hover {
+  background:#03486a ;
+}
+.changePasswordUI button.cancelBnt:hover{
+  background: transparent !important;
 }

@@ -18,7 +18,11 @@ export const SidebarView = ({ menu }) => {
         <li className={window.location.pathname === "/dashboard" ? "active" : ''}>
           <button onClick={() => {navigate('/dashboard')}}>Dashboard</button>
         </li>
-        <li className={window.location.pathname === "/society-listing" || window.location.pathname === "/add-society" ? "active" : ''}>
+        <li className={window.location.pathname === "/society-listing"
+         || window.location.pathname === "/add-society" 
+         || window.location.pathname === "/view-society-detail"
+         || window.location.pathname === "/edit-society"
+             ? "active" : ''}>
           <button onClick={() => {navigate('/society-listing')}}>Society Listing</button>
         </li>
 

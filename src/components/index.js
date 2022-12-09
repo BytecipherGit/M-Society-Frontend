@@ -9,3 +9,4 @@ export { SocietyListingView } from './super-admin/society-listing';
 export { AddSocietyView } from './super-admin/add-society';
 export { EditSocietyView } from './super-admin/edit-society';
 export { ViewSocietyDetialView } from './super-admin/view-society-detail';
+export { ChangePasswordView } from './super-admin/change-password';
