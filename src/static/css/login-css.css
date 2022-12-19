@@ -9,7 +9,7 @@ input::placeholder{
   color: #8D98AF !important;
 }
 .validationBx {
-  margin: 0 0 0 40px !important;
+  margin: 0 0 0 30px !important;
   padding: 5px !important;
   text-align: left;
   display: flex;
