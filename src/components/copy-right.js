@@ -1,3 +1,4 @@
+import React from "react";
 import { M_SOCIETY_COPYRIGHT } from "../common/constants"
 
 export const CopyrightView = () => {
