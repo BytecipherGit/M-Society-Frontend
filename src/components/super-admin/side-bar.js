@@ -24,7 +24,7 @@ export const SidebarView = ({ menu }) => {
          || window.location.pathname === "/view-society-detail"
          || window.location.pathname === "/edit-society"
              ? "active" : ''}>
-          <button onClick={() => {navigate('/society-listing')}}>Society Listing</button>
+          <button onClick={() => {navigate('/society-listing')}}>{SOCIETY_LISTING}</button>
         </li>
 
       </aside>

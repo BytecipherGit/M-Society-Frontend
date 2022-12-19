@@ -154,14 +154,14 @@ export const SuperHeaderView = () => {
                                         }
                                         aria-labelledby='navbarDropdownMenuLink'
                                     >
-                                        <button className='dropdown-item'>
+                                        <button className='dropdown-item' type="button">
                                             {PROFILE}
                                         </button>
-                                        <button className='dropdown-item'>
+                                        <button className='dropdown-item' type="button" onClick={() => navigate("/change-password")}>
                                             {CHANGE_PASSWORD}
                                         </button>
                                         <hr />
-                                        <button
+                                        <button type="button"
                                             className='dropdown-item dropdown-item-no d-flex' onClick={() => { dispatch(doAuthLogout()) }}>
                                             {LOGOUT}
                                             <img src={LogoutIcon} alt='logout icon' />

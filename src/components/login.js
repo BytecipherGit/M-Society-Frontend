@@ -25,7 +25,7 @@ import {
     SOCIETY_ADMIN,
     SUPER_ADMIN
 } from '../common/constants';
-import { passwordValidateRegex } from '../utils';
+
 
 
 export const LoginView = () => {

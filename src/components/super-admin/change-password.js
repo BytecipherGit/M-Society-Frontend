@@ -28,7 +28,7 @@ export const ChangePasswordView = () => {
                                         <h2>Change Password</h2>
                                         <p>Password must contain:</p>
                                         <ul>
-                                            <li><img src={RightTick} alt='Right Tick'/> At least 6 characters</li>
+                                            <li><img src={RightTick} alt='Right Tick'/> At least 6 characters long</li>
                                             <li><img src={RightTick} alt='Right Tick'/> At least 1 upper case letter (A to Z)</li>
                                             <li><img src={RightTick} alt='Right Tick'/> At least 1 lower case letter (a to z)</li>
                                             <li><img src={RightTick} alt='Right Tick'/> At least 1 number (0 to 9)</li>
@@ -46,8 +46,8 @@ export const ChangePasswordView = () => {
                                                 <input type='text' placeholder='Confirm Password' name='confirmPassword' className='form-control' />
                                             </div>
                                             <div className='form-group'>
-                                                <button type='Submit' className='active_button col-ml-6'>Change Password</button>                                                   
-                                                <button type='Submit' className="ColorRed col-ml-6 cancelBnt">Cancel</button> 
+                                                <button type='button' className='active_button col-ml-6'>Change Password</button>                                                   
+                                                <button type='button' className="ColorRed col-ml-6 cancelBnt" onClick={()=>navigate("/dashboard")}>Cancel</button> 
                                             </div>
                                         </form>
                                     </div>
