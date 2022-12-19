@@ -22,21 +22,29 @@ import {
 import {
   getAllSociety,
   getSelectedSociety,
+  deleteSociety,
+  generateNewToken,
 } from "../../common/store/actions/super-actions";
+import { toastr } from "react-redux-toastr";
 
 export const SocietyListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [selectedItem, setSelectedItem] = useState();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleClose = () => setOpenDeleteModal(false);
   const societyList = useSelector(
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
-  console.log(societyList);
   useEffect(() => {
-    dispatch(getAllSociety()).then((res) => {});
+    handleGetAllSociety();
+    // dispatch(generateNewToken()).then((res) => {
+    //   console.log(res);
+    // });
     // eslint-disable-next-line
   }, []);
+
+  // word uppercase function
   const toUpperCase = (str) => {
     const arr = str.split(" ");
     for (var i = 0; i < arr.length; i++) {
@@ -45,19 +53,52 @@ export const SocietyListingView = () => {
     const str2 = arr.join(" ");
     return str2;
   };
+  const handleGetAllSociety = () => {
+    dispatch(getAllSociety())
+      .then((res) => {
+        console.log("all society response", res);
+        if (!res?.data?.success) {
+          toastr.error("Error", res?.data?.message);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   const handleView = (item) => {
     dispatch(getSelectedSociety(item)).then((res) => {
-      if (res.data.success) {
+      if (res?.data?.success) {
         navigate("/view-society-detail");
+      } else {
+        toastr.error("Error", res?.data?.message);
       }
     });
   };
   const handleEdit = (item) => {
     dispatch(getSelectedSociety(item)).then((res) => {
-      if (res.data.success) {
+      if (res?.data?.success) {
         navigate("/edit-society");
+      } else {
+        toastr.error("Error", res?.data?.message);
       }
     });
+  };
+  // Delete society
+  const handleDeleteModal = (item) => {
+    setSelectedItem(item);
+    setOpenDeleteModal(true);
+  };
+  const handleDelete = (conformation) => {
+    if (conformation) {
+      dispatch(deleteSociety({ id: selectedItem._id })).then((res) => {
+        if (res?.data?.success) {
+          toastr.success("Success", res?.data?.message);
+          handleGetAllSociety();
+          setOpenDeleteModal(false);
+        } else {
+          toastr.error("Error", res?.data?.message);
+        }
+      });
+    }
   };
   return (
     <>
@@ -117,7 +158,7 @@ export const SocietyListingView = () => {
                                 src={DeleteIcon}
                                 alt="Delete icon"
                                 onClick={() => {
-                                  setOpenDeleteModal(true);
+                                  handleDeleteModal(item);
                                 }}
                               />
                             </button>
@@ -175,7 +216,11 @@ export const SocietyListingView = () => {
             </Modal.Body>
 
             <Modal.Footer>
-              <button type="button" className="active_button">
+              <button
+                type="button"
+                className="active_button"
+                onClick={(e) => handleDelete(true)}
+              >
                 Yes
               </button>
               <button type="button" className="cancel" onClick={handleClose}>

@@ -25,6 +25,7 @@ import {
   SUBMIT,
 } from "../../common/constants";
 import { doSocietyAdd } from "../../common/store/actions/super-actions";
+import { toastr } from "react-redux-toastr";
 
 const validationSchema = Yup.object().shape({
   societyName: Yup.string().required("Required"),
@@ -80,8 +81,15 @@ export const AddSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                console.log(values);
-                dispatch(doSocietyAdd(values));
+                dispatch(doSocietyAdd(values)).then((res) => {
+                  console.log(res);
+                  if (res?.data?.success) {
+                    toastr.success("Success1", res?.data?.message);
+                    navigate("/society-listing");
+                  } else {
+                    toastr.error("Error1", res?.data?.message);
+                  }
+                });
               }}
             >
               {({
@@ -92,7 +100,7 @@ export const AddSocietyView = () => {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
-                /* and other goodies */
+                resetForm,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <h2>{SOCIETY_DETAILS}</h2>
@@ -319,7 +327,11 @@ export const AddSocietyView = () => {
                     </div>
                     <div className="col-md-2">
                       <div className="form-group">
-                        <button type="reset" className="buttonreset">
+                        <button
+                          type="reset"
+                          className="buttonreset"
+                          onClick={resetForm}
+                        >
                           {RESET}
                         </button>
                       </div>

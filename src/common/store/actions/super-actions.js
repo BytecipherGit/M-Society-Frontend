@@ -1,6 +1,38 @@
 import { Instance } from "../api-services";
 import { ApiUrl } from "../api-urls";
-import { superAdminActions } from "./action-types";
+import { authActions, superAdminActions } from "./action-types";
+
+export const generateNewToken = (params) => {
+  return async (dispatch) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    params = {
+      email: user?.email,
+      token: localStorage.getItem("refreshToken"),
+    };
+
+    const response = await Instance(
+      "POST",
+      ApiUrl.AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API,
+      params
+    );
+    console.log(response);
+    if (response?.status === 200 && response?.data?.success) {
+      // set New Tokens
+      localStorage.setItem("accessToken", response?.data?.accessToken);
+      localStorage.setItem("refreshToken", response?.data?.refreshToken);
+      dispatch({
+        type: authActions.AUTH_LOGIN,
+        payload: response?.data,
+      });
+      return response;
+    } else {
+      dispatch({
+        type: authActions.RESET_STATE,
+        payload: {},
+      });
+    }
+  };
+};
 
 export const doAuthSuperSendOtp = (params) => {
   return async (dispatch) => {
@@ -98,22 +130,14 @@ export const getAllSociety = (params) => {
       ApiUrl.SUPER_ADMIN_GET_ALL_SOCIETY,
       params
     );
-    console.log("socity data", response);
-
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
         type: superAdminActions.GET_ALL_SOCIETY,
         payload: response?.data,
       });
       return response;
-    } else if (response?.response?.status === 500) {
-      return response.response;
-    } else if (
-      response?.response?.status === 404 ||
-      response?.response?.status === 401 ||
-      response?.response?.status === 400
-    ) {
-      return response.response;
+    } else {
+      return response;
     }
   };
 };
@@ -121,7 +145,7 @@ export const getAllSociety = (params) => {
 // Add Society
 export const doSocietyAdd = (params) => {
   return async (dispatch) => {
-    const response = Instance("POST", ApiUrl.ADD_SOCIETY_API, params);
+    const response = await Instance("POST", ApiUrl.ADD_SOCIETY_API, params);
     if (response?.status === 200 && response?.data?.success) {
       // dispatch({
       //   type: superAdminActions.SUPER_ADMIN_ADD_SOCIETY,
@@ -139,7 +163,7 @@ export const doSocietyAdd = (params) => {
     }
   };
 };
-// Add Society
+// get selected Society
 export const getSelectedSociety = (params) => {
   return async (dispatch) => {
     const response = await Instance(
@@ -152,6 +176,53 @@ export const getSelectedSociety = (params) => {
         type: superAdminActions.SUPER_ADMIN_VIEW_SOCIETY,
         payload: response?.data,
       });
+      return response;
+    } else if (response?.response?.status === 500) {
+      return response.response;
+    } else if (
+      response?.response?.status === 404 ||
+      response?.response?.status === 401 ||
+      response?.response?.status === 400
+    ) {
+      return response.response;
+    }
+  };
+};
+// Update selected Society
+export const updateSociety = (params) => {
+  return async (dispatch) => {
+    const response = await Instance("PUT", ApiUrl.UPDATE_SOCIETY_API, params);
+    if (response?.status === 200 && response?.data?.success) {
+      // dispatch({
+      //   type: superAdminActions.SUPER_ADMIN_ADD_SOCIETY,
+      //   payload: {},
+      // });
+      return response;
+    } else if (response?.response?.status === 500) {
+      return response.response;
+    } else if (
+      response?.response?.status === 404 ||
+      response?.response?.status === 401 ||
+      response?.response?.status === 400
+    ) {
+      return response.response;
+    }
+  };
+};
+
+// Delete selected Society
+export const deleteSociety = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "DELETE",
+      ApiUrl.DELETE_SOCIETY_API,
+      params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      // dispatch({
+      //   type: superAdminActions.SUPER_ADMIN_ADD_SOCIETY,
+      //   payload: {},
+      // });
       return response;
     } else if (response?.response?.status === 500) {
       return response.response;

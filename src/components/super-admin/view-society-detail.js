@@ -10,6 +10,7 @@ export const ViewSocietyDetialView = () => {
   const selectedSociety = useSelector(
     ({ superAdmin }) => superAdmin?.selectedSociety?.data
   );
+  const { society, admin } = selectedSociety;
   //   console.log(selectedSociety);
   return (
     <>
@@ -44,7 +45,7 @@ export const ViewSocietyDetialView = () => {
                       type=""
                       name=""
                       className="form-control disabled"
-                      value={selectedSociety?.society?.name}
+                      value={society?.name}
                       disabled
                     />
                   </div>
@@ -58,7 +59,7 @@ export const ViewSocietyDetialView = () => {
                       type=""
                       name=""
                       className="form-control"
-                      value={selectedSociety?.society?.address}
+                      value={society?.address}
                       disabled
                     />
                   </div>
@@ -72,7 +73,7 @@ export const ViewSocietyDetialView = () => {
                       type=""
                       name=""
                       className="form-control"
-                      value={selectedSociety?.society?.pin}
+                      value={society?.pin}
                       disabled
                     />
                   </div>
@@ -88,7 +89,7 @@ export const ViewSocietyDetialView = () => {
                       type=""
                       name=""
                       className="form-control"
-                      value={selectedSociety?.society?.registrationNumber}
+                      value={society?.registrationNumber}
                       disabled
                     />
                   </div>
@@ -96,97 +97,108 @@ export const ViewSocietyDetialView = () => {
               </div>
               <hr />
               <h2>Society Admin Detials</h2>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Admin Name <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control"
-                      value={selectedSociety?.admin[0]?.name}
-                      disabled
-                    />
-                  </div>
-                </div>
+              {admin &&
+                admin.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              Admin Name <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control"
+                              value={item.name}
+                              disabled
+                            />
+                          </div>
+                        </div>
 
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Phone Number <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control"
-                      value={selectedSociety?.admin[0]?.phoneNumber}
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Email <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control"
-                      value={selectedSociety?.admin[0]?.email}
-                      disabled
-                    //   disabled
-                    // sds
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Occupation (Work) <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control"
-                      value={selectedSociety?.admin[0]?.occupation}
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      House Number <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control "
-                      value={selectedSociety?.admin[0]?.houseNumber}
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Admin Address <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      className="form-control"
-                      value={selectedSociety?.admin[0]?.address}
-                      disabled
-                    />
-                  </div>
-                </div>
-              </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              Phone Number <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control"
+                              value={item.phoneNumber}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              Email <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control"
+                              value={item.email}
+                              disabled
+                              //   disabled
+                              // sds
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              House Number <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control "
+                              value={item.houseNumber}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              Occupation (Work){" "}
+                              <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control"
+                              value={item.occupation}
+                              disabled
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label>
+                              Admin Address <span className="ColorRed">*</span>
+                            </label>
+                            <input
+                              type=""
+                              name=""
+                              className="form-control"
+                              value={item.address}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {admin?.length > 1 && <hr />}
+                    </div>
+                  );
+                })}
             </form>
           </div>
         </div>

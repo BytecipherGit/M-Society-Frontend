@@ -8,14 +8,15 @@ export const ApiUrl = {
   AUTH_SUPER_ADMIN_SEND_OTP_API: BaseUrl + "superAdmin/sendOtp",
   AUTH_SUPER_ADMIN_LOGOUT_API: BaseUrl + "superAdmin/logout",
   SUPER_ADMIN_GET_ALL_SOCIETY: BaseUrl + "society/all",
+  ADD_SOCIETY_API: BaseUrl + "society",
+  UPDATE_SOCIETY_API: BaseUrl + "society/",
+  DELETE_SOCIETY_API: BaseUrl + "society/",
+  AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API: BaseUrl + "superAdmin/refresh-token",
 
   // Society Admin API URLS
   SOCIETY_ADMIN_LOGIN_API: "society/adminLogin",
   SOCIETY_ADMIN_SIGNUP_API: "society/adminSignUp",
   SOCIETY_ADMIN_SEND_INVITE_API: "society/sendInvitation",
-  ADD_SOCIETY_API: BaseUrl + "society",
-  UPDATE_SOCIETY_API: "society",
-  DELETE_SOCIETY_API: "society/",
   GET_ALL_SOCIETY_API: "society/all",
   GET_SELECTED_SOCIETY_API: BaseUrl + "society/",
 

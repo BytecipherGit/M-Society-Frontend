@@ -1,16 +1,58 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import * as Yup from "yup";
+import { Formik } from "formik";
+
+import { useSelector, useDispatch } from "react-redux";
 import { SidebarView } from "./side-bar";
 import { SuperHeaderView } from "./super-admin-header";
 import BackArrow from "../../static/images/back-icon.png";
-
+import {
+  BACK_BUTTON,
+  PIN,
+  REGISTRATION_NUMBER,
+  RESET,
+  SOCIETY_ADDRESS,
+  SOCIETY_DETAILS,
+  SOCIETY_NAME,
+  SUBMIT,
+} from "../../common/constants";
+import { updateSociety } from "../../common/store/actions/super-actions";
+import { toastr } from "react-redux-toastr";
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Required"),
+  address: Yup.string().required("Required"),
+  pin: Yup.string().required("Required"),
+  registrationNumber: Yup.string().required("Required"),
+  //   adminName: Yup.string().required("Required"),
+  //   adminAddress: Yup.string().required("Required"),
+  //   phoneNumber: Yup.string().required("Required"),
+  //   houseNumber: Yup.string().required("Required"),
+  //   occupation: Yup.string().required("Required"),
+  //   email: Yup.string().email("Invalid email").required("Required"),
+});
 export const EditSocietyView = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const selectedSociety = useSelector(
     ({ superAdmin }) => superAdmin?.selectedSociety?.data
   );
-  console.log(selectedSociety);
+  const { society } = selectedSociety;
+
+  const initialValues = {
+    id: society?._id,
+    name: society?.name,
+    address: society?.address,
+    pin: society?.pin,
+    registrationNumber: society?.registrationNumber,
+    // adminName: admin?.adminName,
+    // adminAddress: admin?.adminAddress,
+    // phoneNumber: admin?.phoneNumber,
+    // email: admin?.email,
+    // houseNumber: admin?.houseNumber,
+    // occupation: admin?.occupation,
+    // status: "active",
+  };
   return (
     <>
       <SuperHeaderView />
@@ -26,162 +68,269 @@ export const EditSocietyView = () => {
                   navigate("/society-listing");
                 }}
               >
-                <img src={BackArrow} alt="Plus" /> Back
+                <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
               </button>
             </h1>
           </div>
 
           <div className="form-box main-form-detial">
-            <form>
-              <h2>Society Detials</h2>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Society Name <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="Shree Ram Society"
-                    />
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={(values) => {
+                dispatch(updateSociety(values)).then((res) => {
+                  if (res?.data?.success) {
+                    toastr.success("Success", res.data.message);
+                    navigate("/society-listing");
+                  } else {
+                    toastr.error("Error", res.data.message);
+                  }
+                });
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+
+                /* and other goodies */
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <h2>{SOCIETY_DETAILS}</h2>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {SOCIETY_NAME} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.name}
+                        />
+                        {errors.name && touched.name && (
+                          <h6 className="validationBx">{errors.name}</h6>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="address"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.address}
+                        />
+                        {errors.address && touched.address && (
+                          <h6 className="validationBx">{errors.address}</h6>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {PIN} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="pin"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.pin}
+                        />
+                        {errors.pin && touched.pin && (
+                          <h6 className="validationBx">{errors.pin}</h6>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Society Address <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="29 Bengali Square, Indore, Madhya Pradesh 452016"
-                    />
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {REGISTRATION_NUMBER}{" "}
+                          <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          disabled
+                          type="text"
+                          name="registrationNumber"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.registrationNumber}
+                        />
+                        {errors.registrationNumber &&
+                          touched.registrationNumber && (
+                            <h6 className="validationBx">
+                              {errors.registrationNumber}
+                            </h6>
+                          )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Pin <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="451610"
-                    />
+                  {/* <hr /> */}
+                  {/* <h2>{SOCIETY_ADMIN_DETAILS}</h2>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {ADMIN_NAME} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="adminName"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.adminName}
+                        />
+                        {errors.adminName && touched.adminName && (
+                          <h6 className="validationBx">{errors.adminName}</h6>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {PHONE_NUMBER} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="phoneNumber"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.phoneNumber}
+                        />
+                        {errors.phoneNumber && touched.phoneNumber && (
+                          <h6 className="validationBx">{errors.phoneNumber}</h6>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {EMAIL} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                        />
+                        {errors.email && touched.email && (
+                          <h6 className="validationBx">{errors.email}</h6>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Registration Number <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="RGBA1245613XXZ"
-                    />
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {HOUSE_NUMBER} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="houseNumber"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.houseNumber}
+                        />
+                        {errors.houseNumber && touched.houseNumber && (
+                          <h6 className="validationBx">{errors.houseNumber}</h6>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {OCCUPATION} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="occupation"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.occupation}
+                        />
+                        {errors.occupation && touched.occupation && (
+                          <h6 className="validationBx">{errors.occupation}</h6>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {ADMIN_ADDRESS}
+                          <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="adminAddress"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.adminAddress}
+                        />
+                        {errors.adminAddress && touched.adminAddress && (
+                          <h6 className="validationBx">
+                            {errors.adminAddress}
+                          </h6>
+                        )}
+                      </div>
+                    </div>
+                  </div> */}
+                  <div className="row">
+                    <div className="col-md-2">
+                      <div className="form-group">
+                        <button
+                          type="submit"
+                          className="buttonSbmt active_button"
+                        >
+                          {SUBMIT}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="col-md-2">
+                      <div className="form-group">
+                        <button type="reset" className="buttonreset">
+                          {RESET}
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <hr />
-              <h2>Society Admin Detials</h2>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Admin Name <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="Savan Sharma"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Admin Address <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="29 Bengali Square, Indore, Madhya Pradesh 452016"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Phone Number <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="987 654 3210"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Email <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="savansharma@gmail.com"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      Occupation (Work) <span className="ColorRed">*</span>
-                    </label>
-                    <input
-                      type=""
-                      name=""
-                      class="form-control"
-                      value="Real Estate Business"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>
-                      House Number <span className="ColorRed">*</span>
-                    </label>
-                    <input type="" name="" class="form-control" value="12" />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <button className="buttonSbmt active_button">Submit</button>
-                  </div>
-                </div>
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <button className="buttonreset">Cancel</button>
-                  </div>
-                </div>
-              </div>
-            </form>
+                </form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
