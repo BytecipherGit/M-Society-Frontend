@@ -10,13 +10,12 @@ import { SuperHeaderView } from "./super-admin-header";
 import BackArrow from "../../static/images/back-icon.png";
 import {
   BACK_BUTTON,
-  PIN,
+  ZIP_CODE,
   REGISTRATION_NUMBER,
-  RESET,
+  CANCEL_BUTTON,
   SOCIETY_ADDRESS,
-  SOCIETY_DETAILS,
   SOCIETY_NAME,
-  SUBMIT,
+  UPDATE_BUTTON,
 } from "../../common/constants";
 import {
   updateSociety,
@@ -24,16 +23,10 @@ import {
 } from "../../common/store/actions/super-actions";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Required"),
-  address: Yup.string().required("Required"),
-  pin: Yup.string().required("Required"),
-  registrationNumber: Yup.string().required("Required"),
-  //   adminName: Yup.string().required("Required"),
-  //   adminAddress: Yup.string().required("Required"),
-  //   phoneNumber: Yup.string().required("Required"),
-  //   houseNumber: Yup.string().required("Required"),
-  //   occupation: Yup.string().required("Required"),
-  //   email: Yup.string().email("Invalid email").required("Required"),
+  name: Yup.string().required("Society name required"),
+  address: Yup.string().required("Society address required"),
+  pin: Yup.string().required("Zip code required"),
+  registrationNumber: Yup.string().required("Registration number required"),
 });
 export const EditSocietyView = () => {
   const navigate = useNavigate();
@@ -49,13 +42,6 @@ export const EditSocietyView = () => {
     address: society?.address,
     pin: society?.pin,
     registrationNumber: society?.registrationNumber,
-    // adminName: admin?.adminName,
-    // adminAddress: admin?.adminAddress,
-    // phoneNumber: admin?.phoneNumber,
-    // email: admin?.email,
-    // houseNumber: admin?.houseNumber,
-    // occupation: admin?.occupation,
-    // status: "active",
   };
   const callUpdateSocietyAPI = (data) => {
     dispatch(updateSociety(data)).then((res) => {
@@ -110,7 +96,6 @@ export const EditSocietyView = () => {
                 handleSubmit,
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <h2>{SOCIETY_DETAILS}</h2>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
@@ -131,46 +116,6 @@ export const EditSocietyView = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="address"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.address}
-                        />
-                        {errors.address && touched.address && (
-                          <h6 className="validationBx">{errors.address}</h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {PIN} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="pin"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.pin}
-                        />
-                        {errors.pin && touched.pin && (
-                          <h6 className="validationBx">{errors.pin}</h6>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
@@ -195,131 +140,48 @@ export const EditSocietyView = () => {
                           )}
                       </div>
                     </div>
-                  </div>
-                  {/* <hr /> */}
-                  {/* <h2>{SOCIETY_ADMIN_DETAILS}</h2>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {ADMIN_NAME} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="adminName"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.adminName}
-                        />
-                        {errors.adminName && touched.adminName && (
-                          <h6 className="validationBx">{errors.adminName}</h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {PHONE_NUMBER} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="phoneNumber"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.phoneNumber}
-                        />
-                        {errors.phoneNumber && touched.phoneNumber && (
-                          <h6 className="validationBx">{errors.phoneNumber}</h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {EMAIL} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.email}
-                        />
-                        {errors.email && touched.email && (
-                          <h6 className="validationBx">{errors.email}</h6>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {HOUSE_NUMBER} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="houseNumber"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.houseNumber}
-                        />
-                        {errors.houseNumber && touched.houseNumber && (
-                          <h6 className="validationBx">{errors.houseNumber}</h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {OCCUPATION} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="occupation"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.occupation}
-                        />
-                        {errors.occupation && touched.occupation && (
-                          <h6 className="validationBx">{errors.occupation}</h6>
-                        )}
-                      </div>
-                    </div>
 
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {ADMIN_ADDRESS}
-                          <span className="ColorRed">*</span>
+                          {ZIP_CODE} <span className="ColorRed">*</span>
                         </label>
                         <input
                           type="text"
-                          name="adminAddress"
+                          name="pin"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.adminAddress}
+                          value={values.pin}
                         />
-                        {errors.adminAddress && touched.adminAddress && (
-                          <h6 className="validationBx">
-                            {errors.adminAddress}
-                          </h6>
+                        {errors.pin && touched.pin && (
+                          <h6 className="validationBx">{errors.pin}</h6>
                         )}
                       </div>
                     </div>
-                  </div> */}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
+                        </label>
+                        <textarea
+                          name="address"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.address}
+                          rows={3}
+                        ></textarea>
+                        {errors.address && touched.address && (
+                          <h6 className="validationBx">{errors.address}</h6>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-md-2">
                       <div className="form-group">
@@ -327,14 +189,17 @@ export const EditSocietyView = () => {
                           type="submit"
                           className="buttonSbmt active_button"
                         >
-                          {SUBMIT}
+                          {UPDATE_BUTTON}
                         </button>
                       </div>
                     </div>
                     <div className="col-md-2">
                       <div className="form-group">
-                        <button type="reset" className="buttonreset">
-                          {RESET}
+                        <button
+                          className="buttonreset"
+                          onClick={(e) => navigate("/society-listing")}
+                        >
+                          {CANCEL_BUTTON}
                         </button>
                       </div>
                     </div>

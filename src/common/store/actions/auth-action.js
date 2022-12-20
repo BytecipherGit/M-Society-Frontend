@@ -9,7 +9,7 @@ export const doAuthLogin = (params) => {
       ApiUrl.AUTH_SUPER_ADMIN_LOGIN_API,
       params
     );
-    console.log(response);
+    // console.log(response);
     if (response?.status === 200 && response?.data?.success) {
       // set Tokens
       localStorage.setItem("accessToken", response?.data?.accessToken);
@@ -43,7 +43,7 @@ export const doAuthLogout = (params) => {
       ApiUrl.AUTH_SUPER_ADMIN_LOGOUT_API,
       params
     );
-    console.log("logout api rresponse >>>", response);
+    // console.log("logout api rresponse >>>", response);
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
         type: authActions.RESET_STATE,

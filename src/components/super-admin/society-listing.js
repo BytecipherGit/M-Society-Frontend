@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toastr } from "react-redux-toastr";
 import { useState } from "react";
-import { Modal } from "react-bootstrap";
+
 import { SidebarView } from "./side-bar";
 import { SuperHeaderView } from "./super-admin-header";
 import ViewIcon from "../../static/images/view.png";
@@ -24,15 +25,20 @@ import {
   getSelectedSociety,
   deleteSociety,
   generateNewToken,
+  updateSociety,
 } from "../../common/store/actions/super-actions";
-import { toastr } from "react-redux-toastr";
+import { ModalView } from "../../common/modal/modal";
 
 export const SocietyListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const handleClose = () => setOpenDeleteModal(false);
+  const [openStatusModal, setOpenStatusModal] = useState(false);
+  const handleClose = () => {
+    setOpenDeleteModal(false);
+    setOpenStatusModal(false);
+  };
   const societyList = useSelector(
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
@@ -43,11 +49,11 @@ export const SocietyListingView = () => {
 
   // word upperCase function
   const toUpperCase = (str) => {
-    const arr = str.split(" ");
-    for (var i = 0; i < arr.length; i++) {
+    const arr = str?.split(" ");
+    for (var i = 0; i < arr?.length; i++) {
       arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
     }
-    const str2 = arr.join(" ");
+    const str2 = arr?.join(" ");
     return str2;
   };
   const callGetAllSociety = () => {
@@ -92,6 +98,33 @@ export const SocietyListingView = () => {
       }
     });
   };
+  const handleUpdateStatus = (item) => {
+    setSelectedItem(item);
+    setOpenStatusModal(true);
+  };
+  const updateStatus = (conformation) => {
+    if (conformation) {
+      const data = {
+        id: selectedItem._id,
+        status: selectedItem.newStatus ? "active" : "inactive",
+      };
+      dispatch(updateSociety(data)).then((res) => {
+        if (res?.status === 403 && res?.data.success === false) {
+          dispatch(generateNewToken()).then((res) => {
+            if (res?.status === 200 && res?.data.success) {
+              handleDelete(conformation);
+            }
+          });
+        } else if (res?.status === 200 && res?.data?.success) {
+          toastr.success("Success", res.data.message);
+          callGetAllSociety();
+        } else {
+          toastr.error("Error", res?.data?.message);
+        }
+      });
+    }
+  };
+
   // Delete society
   const handleDeleteModal = (item) => {
     setSelectedItem(item);
@@ -126,7 +159,7 @@ export const SocietyListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <h1>
-              Society{" "}
+              Societies
               <button
                 className="active_button"
                 onClick={() => {
@@ -156,10 +189,44 @@ export const SocietyListingView = () => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{toUpperCase(item.name)}</td>
-                          <td>{toUpperCase(item.address)}</td>
-                          <td>{toUpperCase(item.societyAdimId.name)}</td>
-                          <td>{toUpperCase(item.status)}</td>
+                          <td>{toUpperCase(item?.name)}</td>
+                          <td>{toUpperCase(item?.address)}</td>
+                          <td>{toUpperCase(item?.societyAdimId?.name)}</td>
+                          <td>
+                            {item.status === "active" && (
+                              <div className="swich ">
+                                <input
+                                  type="checkbox"
+                                  id={"checkboxT" + item._id}
+                                  defaultChecked={true}
+                                  onChange={(e) => {
+                                    handleUpdateStatus({
+                                      ...item,
+                                      newStatus: e.target.checked,
+                                    });
+                                  }}
+                                />
+                                <label htmlFor={"checkboxT" + item._id}></label>
+                              </div>
+                            )}
+                            {item.status === "inactive" && (
+                              <div className="swich ">
+                                <input
+                                  type="checkbox"
+                                  id={"checkbox" + item._id}
+                                  defaultChecked={false}
+                                  onChange={(e) =>
+                                    handleUpdateStatus({
+                                      ...item,
+                                      newStatus: e.target.checked,
+                                    })
+                                  }
+                                />
+                                <label htmlFor={"checkbox" + item._id}></label>
+                              </div>
+                            )}
+                          </td>
+
                           <td>
                             <button>
                               <img
@@ -215,37 +282,22 @@ export const SocietyListingView = () => {
         </div>
       </div>
       {openDeleteModal && (
-        <div
-          className="modal show"
-          style={{ display: "block", position: "initial" }}
-        >
-          <Modal
-            show={openDeleteModal}
-            onHide={handleClose}
-            className="customModal"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Delete Society</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              <p>Are you sure you want to delete this society?</p>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <button
-                type="button"
-                className="active_button"
-                onClick={(e) => handleDelete(true)}
-              >
-                Yes
-              </button>
-              <button type="button" className="cancel" onClick={handleClose}>
-                No
-              </button>
-            </Modal.Footer>
-          </Modal>
-        </div>
+        <ModalView
+          name="delete"
+          show={openDeleteModal}
+          close={handleClose}
+          handleAction={handleDelete}
+          data={selectedItem}
+        />
+      )}
+      {openStatusModal && (
+        <ModalView
+          name="update status"
+          show={openStatusModal}
+          close={handleClose}
+          handleAction={updateStatus}
+          data={selectedItem}
+        />
       )}
     </>
   );
