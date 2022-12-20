@@ -2,11 +2,10 @@ import { Instance } from "../api-services";
 import { ApiUrl } from "../api-urls";
 import { authActions, superAdminActions } from "./action-types";
 
-export const generateNewToken = (params) => {
+export const generateNewToken = () => {
   return async (dispatch) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    params = {
-      email: user?.email,
+    const params = {
+      email: localStorage.getItem("email"),
       token: localStorage.getItem("refreshToken"),
     };
 
@@ -15,15 +14,14 @@ export const generateNewToken = (params) => {
       ApiUrl.AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API,
       params
     );
-    console.log(response);
     if (response?.status === 200 && response?.data?.success) {
       // set New Tokens
       localStorage.setItem("accessToken", response?.data?.accessToken);
       localStorage.setItem("refreshToken", response?.data?.refreshToken);
-      dispatch({
-        type: authActions.AUTH_LOGIN,
-        payload: response?.data,
-      });
+      // dispatch({
+      //   type: authActions.AUTH_LOGIN,
+      //   payload: response?.data,
+      // });
       return response;
     } else {
       dispatch({
@@ -136,9 +134,8 @@ export const getAllSociety = (params) => {
         payload: response?.data,
       });
       return response;
-    } else {
-      return response;
     }
+    return response.response;
   };
 };
 
@@ -152,15 +149,8 @@ export const doSocietyAdd = (params) => {
       //   payload: {},
       // });
       return response;
-    } else if (response?.response?.status === 500) {
-      return response.response;
-    } else if (
-      response?.response?.status === 404 ||
-      response?.response?.status === 401 ||
-      response?.response?.status === 400
-    ) {
-      return response.response;
     }
+    return response.response;
   };
 };
 // get selected Society
@@ -168,24 +158,16 @@ export const getSelectedSociety = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_SELECTED_SOCIETY_API + params._id
+      ApiUrl.GET_SELECTED_SOCIETY_API + "/" + params._id
     );
-
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
         type: superAdminActions.SUPER_ADMIN_VIEW_SOCIETY,
         payload: response?.data,
       });
       return response;
-    } else if (response?.response?.status === 500) {
-      return response.response;
-    } else if (
-      response?.response?.status === 404 ||
-      response?.response?.status === 401 ||
-      response?.response?.status === 400
-    ) {
-      return response.response;
     }
+    return response.response;
   };
 };
 // Update selected Society
@@ -198,15 +180,8 @@ export const updateSociety = (params) => {
       //   payload: {},
       // });
       return response;
-    } else if (response?.response?.status === 500) {
-      return response.response;
-    } else if (
-      response?.response?.status === 404 ||
-      response?.response?.status === 401 ||
-      response?.response?.status === 400
-    ) {
-      return response.response;
     }
+    return response.response;
   };
 };
 
@@ -224,14 +199,7 @@ export const deleteSociety = (params) => {
       //   payload: {},
       // });
       return response;
-    } else if (response?.response?.status === 500) {
-      return response.response;
-    } else if (
-      response?.response?.status === 404 ||
-      response?.response?.status === 401 ||
-      response?.response?.status === 400
-    ) {
-      return response.response;
     }
+    return response.response;
   };
 };

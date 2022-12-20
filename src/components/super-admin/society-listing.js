@@ -37,14 +37,11 @@ export const SocietyListingView = () => {
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
   useEffect(() => {
-    handleGetAllSociety();
-    // dispatch(generateNewToken()).then((res) => {
-    //   console.log(res);
-    // });
+    callGetAllSociety();
     // eslint-disable-next-line
   }, []);
 
-  // word uppercase function
+  // word upperCase function
   const toUpperCase = (str) => {
     const arr = str.split(" ");
     for (var i = 0; i < arr.length; i++) {
@@ -53,20 +50,27 @@ export const SocietyListingView = () => {
     const str2 = arr.join(" ");
     return str2;
   };
-  const handleGetAllSociety = () => {
-    dispatch(getAllSociety())
-      .then((res) => {
-        console.log("all society response", res);
-        if (!res?.data?.success) {
-          toastr.error("Error", res?.data?.message);
-        }
-      })
-      .catch((error) => console.log(error));
+  const callGetAllSociety = () => {
+    dispatch(getAllSociety()).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callGetAllSociety();
+          }
+        });
+      }
+    });
   };
 
   const handleView = (item) => {
     dispatch(getSelectedSociety(item)).then((res) => {
-      if (res?.data?.success) {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            handleView(item);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
         navigate("/view-society-detail");
       } else {
         toastr.error("Error", res?.data?.message);
@@ -75,7 +79,13 @@ export const SocietyListingView = () => {
   };
   const handleEdit = (item) => {
     dispatch(getSelectedSociety(item)).then((res) => {
-      if (res?.data?.success) {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            handleEdit(item);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
         navigate("/edit-society");
       } else {
         toastr.error("Error", res?.data?.message);
@@ -90,9 +100,15 @@ export const SocietyListingView = () => {
   const handleDelete = (conformation) => {
     if (conformation) {
       dispatch(deleteSociety({ id: selectedItem._id })).then((res) => {
-        if (res?.data?.success) {
+        if (res?.status === 403 && res?.data.success === false) {
+          dispatch(generateNewToken()).then((res) => {
+            if (res?.status === 200 && res?.data.success) {
+              handleDelete(conformation);
+            }
+          });
+        } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          handleGetAllSociety();
+          callGetAllSociety();
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -100,6 +116,7 @@ export const SocietyListingView = () => {
       });
     }
   };
+
   return (
     <>
       <SuperHeaderView />

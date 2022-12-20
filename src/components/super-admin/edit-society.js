@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { toastr } from "react-redux-toastr";
 
 import { useSelector, useDispatch } from "react-redux";
 import { SidebarView } from "./side-bar";
@@ -17,8 +18,11 @@ import {
   SOCIETY_NAME,
   SUBMIT,
 } from "../../common/constants";
-import { updateSociety } from "../../common/store/actions/super-actions";
-import { toastr } from "react-redux-toastr";
+import {
+  updateSociety,
+  generateNewToken,
+} from "../../common/store/actions/super-actions";
+
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   address: Yup.string().required("Required"),
@@ -53,6 +57,22 @@ export const EditSocietyView = () => {
     // occupation: admin?.occupation,
     // status: "active",
   };
+  const callUpdateSocietyAPI = (data) => {
+    dispatch(updateSociety(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callUpdateSocietyAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        toastr.success("Success", res.data.message);
+        navigate("/society-listing");
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
+  };
   return (
     <>
       <SuperHeaderView />
@@ -78,14 +98,7 @@ export const EditSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                dispatch(updateSociety(values)).then((res) => {
-                  if (res?.data?.success) {
-                    toastr.success("Success", res.data.message);
-                    navigate("/society-listing");
-                  } else {
-                    toastr.error("Error", res.data.message);
-                  }
-                });
+                callUpdateSocietyAPI(values);
               }}
             >
               {({
@@ -95,8 +108,6 @@ export const EditSocietyView = () => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-
-                /* and other goodies */
               }) => (
                 <form onSubmit={handleSubmit}>
                   <h2>{SOCIETY_DETAILS}</h2>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useDispatch } from "react-redux";
+import { toastr } from "react-redux-toastr";
 import { SidebarView } from "./side-bar";
 import { SuperHeaderView } from "./super-admin-header";
 import BackArrow from "../../static/images/back-icon.png";
@@ -24,8 +25,10 @@ import {
   SOCIETY_NAME,
   SUBMIT,
 } from "../../common/constants";
-import { doSocietyAdd } from "../../common/store/actions/super-actions";
-import { toastr } from "react-redux-toastr";
+import {
+  doSocietyAdd,
+  generateNewToken,
+} from "../../common/store/actions/super-actions";
 
 const validationSchema = Yup.object().shape({
   societyName: Yup.string().required("Required"),
@@ -56,6 +59,23 @@ export const AddSocietyView = () => {
     occupation: "",
     status: "active",
   };
+
+  const callDoSocietyAddAPI = (data) => {
+    dispatch(doSocietyAdd(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callDoSocietyAddAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        toastr.success("Success", res.data.message);
+        navigate("/society-listing");
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
+  };
   return (
     <>
       <SuperHeaderView />
@@ -81,15 +101,7 @@ export const AddSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                dispatch(doSocietyAdd(values)).then((res) => {
-                  console.log(res);
-                  if (res?.data?.success) {
-                    toastr.success("Success1", res?.data?.message);
-                    navigate("/society-listing");
-                  } else {
-                    toastr.error("Error1", res?.data?.message);
-                  }
-                });
+                callDoSocietyAddAPI(values);
               }}
             >
               {({

@@ -14,7 +14,7 @@ export const doAuthLogin = (params) => {
       // set Tokens
       localStorage.setItem("accessToken", response?.data?.accessToken);
       localStorage.setItem("refreshToken", response?.data?.refreshToken);
-      localStorage.setItem("user", JSON.stringify(response?.data?.data));
+      localStorage.setItem("email", response?.data?.data?.email);
       dispatch({
         type: authActions.AUTH_LOGIN,
         payload: response?.data,
