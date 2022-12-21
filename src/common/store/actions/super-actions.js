@@ -100,14 +100,9 @@ export const doAuthSuperChangePassword = (params) => {
     );
 
     if (response?.status === 200 && response?.data?.success) {
-      // dispatch({
-      //     type: superAdminActions.SUPER_ADMIN_SEND_OTP,
-      //     payload: {
-      //         email: params.email,
-      //         otp: response?.data?.data?.OTP
-      //     },
-      // });
       return response;
+    } else if (response?.response?.status === 403) {
+      return response.response;
     } else if (response?.response?.status === 500) {
       return response.response;
     } else if (
@@ -117,6 +112,7 @@ export const doAuthSuperChangePassword = (params) => {
     ) {
       return response.response;
     }
+    return response;
   };
 };
 
@@ -125,8 +121,7 @@ export const getAllSociety = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.SUPER_ADMIN_GET_ALL_SOCIETY,
-      params
+      ApiUrl.SUPER_ADMIN_GET_ALL_SOCIETY + "?page=" + params
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({

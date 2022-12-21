@@ -1,12 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { SidebarView } from "./side-bar";
-import { SuperHeaderView } from "./super-admin-header";
-import BackArrow from "../../static/images/back-icon.png";
+import { SidebarView } from "../side-bar";
+import { SuperHeaderView } from "../super-admin-header";
+import BackArrow from "../../../static/images/back-icon.png";
 import {
   ADD_SOCIETY,
   ADMIN_ADDRESS,
@@ -24,11 +24,12 @@ import {
   SOCIETY_DETAILS,
   SOCIETY_NAME,
   SUBMIT,
-} from "../../common/constants";
+} from "../../../common/constants";
 import {
   doSocietyAdd,
   generateNewToken,
-} from "../../common/store/actions/super-actions";
+} from "../../../common/store/actions/super-actions";
+import Breadcrumb from "../../../common/components/breadcrumb";
 const validationSchema = Yup.object().shape({
   societyName: Yup.string().required("Society name required"),
   societyAddress: Yup.string().required("Society address required"),
@@ -61,7 +62,6 @@ export const AddSocietyView = () => {
     email: "",
     houseNumber: "",
     occupation: "",
-    status: "active",
   };
 
   const callDoSocietyAddAPI = (data) => {
@@ -87,6 +87,14 @@ export const AddSocietyView = () => {
         <SidebarView />
         <div className="main-container">
           <div className="main-heading">
+            <Breadcrumb>
+              <li class="breadcrumb-item">
+                <Link to="/society-listing">Society-listing</Link>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Add-society
+              </li>
+            </Breadcrumb>
             <h1>
               {ADD_SOCIETY}
               <button

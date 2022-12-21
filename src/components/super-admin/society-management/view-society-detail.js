@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { SidebarView } from "./side-bar";
-import { SuperHeaderView } from "./super-admin-header";
-import BackArrow from "../../static/images/back-icon.png";
+import { SidebarView } from "../side-bar";
+import { SuperHeaderView } from "../super-admin-header";
+import BackArrow from "../../../static/images/back-icon.png";
 import {
   ADMIN_ADDRESS,
   ADMIN_NAME,
@@ -19,7 +19,7 @@ import {
   SOCIETY_DETAILS,
   SOCIETY_NAME,
   UNIQUE_ID,
-} from "../../common/constants";
+} from "../../../common/constants";
 export const ViewSocietyDetialView = () => {
   const navigate = useNavigate();
   const selectedSociety = useSelector(

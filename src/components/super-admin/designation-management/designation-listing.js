@@ -3,35 +3,37 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { useState } from "react";
-
-import { SidebarView } from "./side-bar";
-import { SuperHeaderView } from "./super-admin-header";
-import ViewIcon from "../../static/images/view.png";
-import DeleteIcon from "../../static/images/delete.png";
-import EditIcon from "../../static/images/edit-icon.png";
-import PlusIcon from "../../static/images/button-plus.png";
+import Pagination from "../../../common/components/pagination";
+import { SidebarView } from "../side-bar";
+import { SuperHeaderView } from "../super-admin-header";
+import ViewIcon from "../../../static/images/view.png";
+import DeleteIcon from "../../../static/images/delete.png";
+import EditIcon from "../../../static/images/edit-icon.png";
+import PlusIcon from "../../../static/images/button-plus.png";
 import {
   ACTION,
   ADDRESS,
   ADMIN_NAME,
-  PAGINATE_NEXT,
-  PAGINATE_PREV,
   SOCIETY_NAME,
   STATUS,
   S_NO,
-} from "../../common/constants";
+} from "../../../common/constants";
 import {
   getAllSociety,
   getSelectedSociety,
   deleteSociety,
   generateNewToken,
   updateSociety,
-} from "../../common/store/actions/super-actions";
-import { ModalView } from "../../common/modal/modal";
+} from "../../../common/store/actions/super-actions";
+import { ModalView } from "../../../common/modal/modal";
+import Breadcrumb from "../../../common/components/breadcrumb";
 
-export const SocietyListingView = () => {
+export const DesignationListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalDataCount, setTotalDataCount] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
@@ -43,9 +45,9 @@ export const SocietyListingView = () => {
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
   useEffect(() => {
-    callGetAllSociety();
+    callGetAllSociety(pageNumber);
     // eslint-disable-next-line
-  }, []);
+  }, [pageNumber]);
 
   // word upperCase function
   const toUpperCase = (str) => {
@@ -56,14 +58,18 @@ export const SocietyListingView = () => {
     const str2 = arr?.join(" ");
     return str2;
   };
-  const callGetAllSociety = () => {
-    dispatch(getAllSociety()).then((res) => {
-      if (res?.status === 403 && res?.data.success === false) {
+  const callGetAllSociety = (pageNo) => {
+    dispatch(getAllSociety(pageNo)).then((res) => {
+      if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
-          if (res?.status === 200 && res?.data.success) {
-            callGetAllSociety();
+          if (res?.status === 200 && res?.data?.success) {
+            callGetAllSociety(pageNo);
           }
         });
+      } else if (res?.status === 200 && res?.data.success) {
+        console.log(res);
+        setTotalPages(res?.data?.totalPages);
+        setTotalDataCount(res?.data?.count);
       }
     });
   };
@@ -77,7 +83,7 @@ export const SocietyListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-society-detail");
+        navigate("/view-designation-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -92,37 +98,53 @@ export const SocietyListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/edit-society");
+        navigate("/edit-designation");
       } else {
         toastr.error("Error", res?.data?.message);
       }
     });
   };
+
+  // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    setOpenStatusModal(true);
+    if (item?.status === "inactive") {
+      const data = {
+        id: item?._id,
+        status: item?.newStatus ? "active" : "inactive",
+      };
+      callUpdateSocietyAPI(data);
+    } else {
+      setOpenStatusModal(true);
+    }
   };
+  // update status finction run after conformation
   const updateStatus = (conformation) => {
     if (conformation) {
       const data = {
         id: selectedItem._id,
         status: selectedItem.newStatus ? "active" : "inactive",
       };
-      dispatch(updateSociety(data)).then((res) => {
-        if (res?.status === 403 && res?.data.success === false) {
-          dispatch(generateNewToken()).then((res) => {
-            if (res?.status === 200 && res?.data.success) {
-              handleDelete(conformation);
-            }
-          });
-        } else if (res?.status === 200 && res?.data?.success) {
-          toastr.success("Success", res.data.message);
-          callGetAllSociety();
-        } else {
-          toastr.error("Error", res?.data?.message);
-        }
-      });
+      callUpdateSocietyAPI(data);
     }
+  };
+  // call update Api
+  const callUpdateSocietyAPI = (data) => {
+    dispatch(updateSociety(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callUpdateSocietyAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        toastr.success("Success", res.data.message);
+        callGetAllSociety();
+        setOpenStatusModal(false);
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
   };
 
   // Delete society
@@ -158,12 +180,15 @@ export const SocietyListingView = () => {
 
         <div className="main-container">
           <div className="main-heading">
+            <Breadcrumb>
+              <li class="breadcrumb-item">Designation-listing</li>
+            </Breadcrumb>
             <h1>
-              Societies
+              Designations
               <button
                 className="active_button"
                 onClick={() => {
-                  navigate("/add-society");
+                  navigate("/add-designation");
                 }}
               >
                 <img src={PlusIcon} alt="Plus" /> Add
@@ -172,6 +197,18 @@ export const SocietyListingView = () => {
           </div>
           <div className="table_design">
             <div className="table-responsive">
+              <div className="d-flex justify-content-end">
+                <div className="form-group">
+                  <input
+                    style={{ borderRadius: "25px" }}
+                    type="text"
+                    name="search"
+                    className="form-control"
+                    placeholder="Search"
+                  />
+                </div>
+              </div>
+
               <table className="table table-striped">
                 <thead>
                   <tr>
@@ -193,38 +230,22 @@ export const SocietyListingView = () => {
                           <td>{toUpperCase(item?.address)}</td>
                           <td>{toUpperCase(item?.societyAdimId?.name)}</td>
                           <td>
-                            {item.status === "active" && (
-                              <div className="swich ">
-                                <input
-                                  type="checkbox"
-                                  id={"checkboxT" + item._id}
-                                  defaultChecked={true}
-                                  onChange={(e) => {
-                                    handleUpdateStatus({
-                                      ...item,
-                                      newStatus: e.target.checked,
-                                    });
-                                  }}
-                                />
-                                <label htmlFor={"checkboxT" + item._id}></label>
-                              </div>
-                            )}
-                            {item.status === "inactive" && (
-                              <div className="swich ">
-                                <input
-                                  type="checkbox"
-                                  id={"checkbox" + item._id}
-                                  defaultChecked={false}
-                                  onChange={(e) =>
-                                    handleUpdateStatus({
-                                      ...item,
-                                      newStatus: e.target.checked,
-                                    })
-                                  }
-                                />
-                                <label htmlFor={"checkbox" + item._id}></label>
-                              </div>
-                            )}
+                            <div className="swich ">
+                              <input
+                                type="checkbox"
+                                id={"checkbox" + item._id}
+                                checked={
+                                  item.status === "active" ? true : false
+                                }
+                                onChange={(e) => {
+                                  handleUpdateStatus({
+                                    ...item,
+                                    newStatus: e.target.checked,
+                                  });
+                                }}
+                              />
+                              <label htmlFor={"checkbox" + item._id}></label>
+                            </div>
                           </td>
 
                           <td>
@@ -262,7 +283,16 @@ export const SocietyListingView = () => {
                 </tbody>
               </table>
             </div>
-            <div className="paginationBox">
+
+            <Pagination
+              nPages={totalPages}
+              currentPage={pageNumber}
+              setCurrentPage={setPageNumber}
+              data={societyList}
+              totalDatacount={totalDataCount}
+            />
+
+            {/* <div className="paginationBox">
               <div className="row">
                 <div className="col-md-6">
                   <p className="paginatext">Showing 1 to 10 of 27 entries</p>
@@ -277,27 +307,29 @@ export const SocietyListingView = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
       {openDeleteModal && (
         <ModalView
-          name="delete"
+          modalHeader="Delete society"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
-          data={selectedItem}
-        />
+        >
+          <p>{`Are you sure you want to delete this society (${selectedItem.name} )?`}</p>
+        </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          name="update status"
+          modalHeader="Update society status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
-          data={selectedItem}
-        />
+        >
+          <p>{`Are you sure you want to update status this society (${selectedItem.name} )?`}</p>
+        </ModalView>
       )}
     </>
   );

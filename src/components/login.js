@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Logo from "../static/images/logo.png";
 import SuperAdmin from "../static/images/super-admin.png";
 import AdminImage from "../static/images/admin.png";
-import ResidentsImage from "../static/images/people.png";
+
 import RightTick from "../static/images/right-tick.png";
 import { doAuthLogin } from "../common/store/actions/auth-action";
 import { toastr } from "react-redux-toastr";
@@ -20,7 +20,6 @@ import {
   LOGIN_USERNAME_PLACEHOLDER,
   PASSWORD_PLACEHOLDER,
   PASSWORD_REQUIRED_VALIDATION,
-  RESIDENTS,
   SOCIETY_ADMIN,
   SUPER_ADMIN,
 } from "../common/constants";
@@ -124,7 +123,7 @@ export const LoginView = () => {
                     {LOGIN_BUTTON_TEXT}
                   </button>
                 </div>
-                <div className="row mt-5">
+                <div className="row mt-5 justify-content-md-center">
                   <div className="col-md-4">
                     <div
                       className={
@@ -186,38 +185,6 @@ export const LoginView = () => {
                         }
                       >
                         {SOCIETY_ADMIN}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div
-                      className={
-                        window.location.pathname === "/resident-login"
-                          ? "no-border-efct logintypeBx"
-                          : "logintypeBx"
-                      }
-                      onClick={() => navigate("/resident-login")}
-                    >
-                      {window.location.pathname === "/resident-login" && (
-                        <img
-                          src={RightTick}
-                          alt="Right Tick"
-                          className="rightTickIcon"
-                        />
-                      )}
-                      <img
-                        src={ResidentsImage}
-                        alt="Resident"
-                        className="typeImg"
-                      />
-                      <p
-                        className={
-                          window.location.pathname === "/resident-login"
-                            ? "activeTextcolor "
-                            : ""
-                        }
-                      >
-                        {RESIDENTS}
                       </p>
                     </div>
                   </div>

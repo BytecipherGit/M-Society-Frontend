@@ -165,7 +165,12 @@ export const SuperHeaderView = () => {
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <button className="dropdown-item">{PROFILE}</button>
-                    <button className="dropdown-item">{CHANGE_PASSWORD}</button>
+                    <button
+                      className="dropdown-item"
+                      onClick={(e) => navigate("/change-password")}
+                    >
+                      {CHANGE_PASSWORD}
+                    </button>
                     <hr />
                     <button
                       className="dropdown-item dropdown-item-no d-flex"
@@ -176,7 +181,7 @@ export const SuperHeaderView = () => {
                             navigate("/");
                             return;
                           } else {
-                            toastr.error("Error", res?.data?.message);
+                            toastr.info("Success", "Logged out! ");
                             return;
                           }
                         });

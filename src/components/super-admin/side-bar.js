@@ -50,6 +50,24 @@ export const SidebarView = ({ menu }) => {
             Society Listing
           </button>
         </li>
+        <li
+          className={
+            window.location.pathname === "/designation-listing" ||
+            window.location.pathname === "/add-designation" ||
+            window.location.pathname === "/view-designation-detail" ||
+            window.location.pathname === "/edit-designation"
+              ? "active"
+              : ""
+          }
+        >
+          <button
+            onClick={() => {
+              navigate("/designation-listing");
+            }}
+          >
+            Designation Listing
+          </button>
+        </li>
       </aside>
     </div>
   );

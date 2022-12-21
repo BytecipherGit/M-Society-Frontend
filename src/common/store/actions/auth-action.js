@@ -1,3 +1,4 @@
+import storage from "redux-persist/lib/storage";
 import { Instance } from "../api-services";
 import { ApiUrl } from "../api-urls";
 import { authActions } from "./action-types";
@@ -44,14 +45,23 @@ export const doAuthLogout = (params) => {
       params
     );
     // console.log("logout api rresponse >>>", response);
+
     if (response?.status === 200 && response?.data?.success) {
+      storage?.localStorage?.clear();
+      localStorage?.clear();
       dispatch({
         type: authActions.RESET_STATE,
         payload: {},
       });
 
       return response;
-    } else if (response?.response?.status === 500) {
+    } else if (response?.response?.status === 403) {
+      storage?.localStorage?.clear();
+      localStorage?.clear();
+      dispatch({
+        type: authActions.RESET_STATE,
+        payload: {},
+      });
       return response.response;
     } else if (
       response?.response?.status === 404 ||

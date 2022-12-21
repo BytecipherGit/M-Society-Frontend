@@ -2,8 +2,50 @@ import React from "react";
 import { SidebarView } from "./side-bar";
 import { SuperHeaderView } from "./super-admin-header";
 import RightTick from "../../static/images/right-tick.png";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import {
+  doAuthSuperChangePassword,
+  generateNewToken,
+} from "../../common/store/actions/super-actions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
+const validationSchema = Yup.object().shape({
+  password: Yup.string().required("Old password required"),
+  changePassword: Yup.string().required("New password required"),
+  c_changePassword: Yup.string()
+    .required("Confirm password required")
+    .oneOf([Yup.ref("changePassword"), null], "Confirm passwords must match"),
+});
 
 export const ChangePasswordView = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const initialValues = {
+    email: localStorage.getItem("email"),
+    password: "",
+    changePassword: "",
+    c_changePassword: "",
+  };
+  const callChangePasswordAPI = (data) => {
+    dispatch(doAuthSuperChangePassword(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callChangePasswordAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        navigate("/society-listing");
+        toastr.success("Success", res?.data?.message);
+      } else if (res?.status === 200 && !res?.data?.success) {
+        toastr.error("Error", res?.data?.message);
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
+  };
   return (
     <>
       <SuperHeaderView />
@@ -45,46 +87,89 @@ export const ChangePasswordView = () => {
                     </ul>
                   </div>
                   <div className="col-lg-7 col-md-12">
-                    <form method="POST">
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          placeholder="Old Password"
-                          name="oldPassword"
-                          className="form-control"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          placeholder="New Password"
-                          name="newPassword"
-                          className="form-control"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          placeholder="Confirm Password"
-                          name="confirmPassword"
-                          className="form-control"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <button
-                          type="Submit"
-                          className="active_button col-ml-6"
-                        >
-                          Change Password
-                        </button>
-                        <button
-                          type="Submit"
-                          className="ColorRed col-ml-6 cancelBnt"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={(values) => {
+                        callChangePasswordAPI(values);
+                      }}
+                    >
+                      {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                      }) => (
+                        <form onSubmit={handleSubmit}>
+                          <div className="form-group">
+                            <input
+                              type="password"
+                              placeholder="Old Password"
+                              name="password"
+                              className="form-control"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.password}
+                            />
+                            {errors.password && touched.password && (
+                              <h6 className="validationBx">
+                                {errors.password}
+                              </h6>
+                            )}
+                          </div>
+                          <div className="form-group">
+                            <input
+                              type="password"
+                              placeholder="New Password"
+                              name="changePassword"
+                              className="form-control"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.changePassword}
+                            />
+                            {errors.changePassword &&
+                              touched.changePassword && (
+                                <h6 className="validationBx">
+                                  {errors.changePassword}
+                                </h6>
+                              )}
+                          </div>
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              placeholder="Confirm Password"
+                              name="c_changePassword"
+                              className="form-control"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.c_changePassword}
+                            />
+                            {errors.c_changePassword &&
+                              touched.c_changePassword && (
+                                <h6 className="validationBx">
+                                  {errors.c_changePassword}
+                                </h6>
+                              )}
+                          </div>
+                          <div className="form-group">
+                            <button
+                              type="Submit"
+                              className="active_button col-ml-6"
+                            >
+                              Change Password
+                            </button>
+                            <button
+                              onClick={(e) => navigate("/society-listing")}
+                              className="ColorRed col-ml-6 cancelBnt"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      )}
+                    </Formik>
                   </div>
                 </div>
               </div>

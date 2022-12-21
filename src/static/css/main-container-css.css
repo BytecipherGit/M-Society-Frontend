@@ -629,7 +629,9 @@ aside .active img {
 /*----======= Main Heading Css End ========--------*/
 
 /*---======== Dashboard Page Css Close =====-------*/
-
+.not-change {
+  cursor: not-allowed;
+}
 .table_design {
   background: #ffffff;
   box-shadow: 0 7px 9px rgb(0 0 0 / 8%);
