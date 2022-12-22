@@ -14,11 +14,24 @@ import {
   EditDesignationView,
   ViewDesignationDetialView,
   DesignationListingView,
+  SocietyDashboardView,
+  NoticeListingView,
+  AddNoticeView,
+  EditNoticeView,
+  ViewNoticeDetialView,
+  PhoneDirectoryListingView,
+  AddPhoneDirectoryView,
+  EditPhoneDirectoryView,
+  ViewPhoneDirectoryDetialView,
+  ComplaintListingView,
+  ViewComplaintDetialView,
 } from "../components";
+
 import {
-  DashboardPrivateRoutes,
+  SuperAdminPrivateRoutes,
   OtpPrivateRoutes,
   PrivateRoutes,
+  SocietyPrivateRoutes,
 } from "./protected-routes";
 
 export const Router = () => {
@@ -58,7 +71,7 @@ export const Router = () => {
             />
           </Route>
 
-          <Route element={<DashboardPrivateRoutes />}>
+          {/* <Route element={<SuperAdminPrivateRoutes />}>
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
               exact={true}
@@ -107,8 +120,77 @@ export const Router = () => {
             />
             <Route
               exact={true}
+              path="/society-admin/dashboard"
+              element={<SocietyDashboardView />}
+            />
+            <Route
+              exact={true}
+              path="/society-admin/notice"
+              element={<SocietyDashboardView />}
+            />
+            <Route
+              exact={true}
               path="/change-password"
               element={<ChangePasswordView />}
+            />
+          </Route> */}
+
+          <Route element={<SocietyPrivateRoutes />}>
+            <Route
+              exact={true}
+              path="/society-dashboard"
+              element={<SocietyDashboardView />}
+            />
+            <Route
+              exact={true}
+              path="/notice-listing"
+              element={<NoticeListingView />}
+            />
+            <Route
+              exact={true}
+              path="/add-notice"
+              element={<AddNoticeView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-notice"
+              element={<EditNoticeView />}
+            />
+            <Route
+              exact={true}
+              path="/view-notice-detail"
+              element={<ViewNoticeDetialView />}
+            />
+
+            <Route
+              exact={true}
+              path="/phone-directory-listing"
+              element={<PhoneDirectoryListingView />}
+            />
+            <Route
+              exact={true}
+              path="/add-phone-directory"
+              element={<AddPhoneDirectoryView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-phone-directory"
+              element={<EditPhoneDirectoryView />}
+            />
+            <Route
+              exact={true}
+              path="/view-phone-directory-detail"
+              element={<ViewPhoneDirectoryDetialView />}
+            />
+            <Route
+              exact={true}
+              path="/complaint-listing"
+              element={<ComplaintListingView />}
+            />
+            <Route
+              exact={true}
+              path="/view-complaint-detail"
+              element={<ViewComplaintDetialView />}
             />
           </Route>
 

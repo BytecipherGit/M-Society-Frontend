@@ -4,29 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
-import { SidebarView } from "../side-bar";
-import { SuperHeaderView } from "../super-admin-header";
+import { SocietySidebarView } from "../side-bar";
+
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
-import {
-  ACTION,
-  DESIGNATION_NAME,
-  STATUS,
-  S_NO,
-} from "../../../common/constants";
-import {
-  getSelectedDesignation,
-  deleteDesignation,
-  generateNewToken,
-  updateDesignation,
-  getAllDesignation,
-} from "../../../common/store/actions/super-actions";
+import { ACTION, SOCIETY_NAME, STATUS, S_NO } from "../../../common/constants";
+
+import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { SocietyHeaderView } from "../society-header";
+import {
+  getAllNotice,
+  getSelectedNotice,
+  deleteNotice,
+  updateNotice,
+} from "../../../common/store/actions/society-actions";
 
-export const DesignationListingView = () => {
+export const NoticeListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
@@ -39,11 +36,11 @@ export const DesignationListingView = () => {
     setOpenDeleteModal(false);
     setOpenStatusModal(false);
   };
-  const designationList = useSelector(
-    ({ superAdmin }) => superAdmin?.designationList?.data
+  const noticeList = useSelector(
+    ({ societyAdmin }) => societyAdmin?.noticeList?.data
   );
   useEffect(() => {
-    callGetAllDesignation(pageNumber);
+    callGetAllNotice(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
@@ -56,12 +53,12 @@ export const DesignationListingView = () => {
     const str2 = arr?.join(" ");
     return str2;
   };
-  const callGetAllDesignation = (pageNo) => {
-    dispatch(getAllDesignation(pageNo)).then((res) => {
+  const callGetAllNotice = (pageNo) => {
+    dispatch(getAllNotice(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllDesignation(pageNo);
+            callGetAllNotice(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -73,7 +70,7 @@ export const DesignationListingView = () => {
   };
 
   const handleView = (item) => {
-    dispatch(getSelectedDesignation(item)).then((res) => {
+    dispatch(getSelectedNotice(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -81,14 +78,14 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-designation-detail");
+        navigate("/view-notice-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
     });
   };
   const handleEdit = (item) => {
-    dispatch(getSelectedDesignation(item)).then((res) => {
+    dispatch(getSelectedNotice(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -96,7 +93,7 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/edit-designation");
+        navigate("/edit-notice");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -111,7 +108,7 @@ export const DesignationListingView = () => {
         id: item?._id,
         status: item?.newStatus ? "active" : "inactive",
       };
-      callUpdateSocietyAPI(data);
+      callUpdateNoticeAPI(data);
     } else {
       setOpenStatusModal(true);
     }
@@ -123,21 +120,21 @@ export const DesignationListingView = () => {
         id: selectedItem._id,
         status: selectedItem.newStatus ? "active" : "inactive",
       };
-      callUpdateSocietyAPI(data);
+      callUpdateNoticeAPI(data);
     }
   };
   // call update Api
-  const callUpdateSocietyAPI = (data) => {
-    dispatch(updateDesignation(data)).then((res) => {
+  const callUpdateNoticeAPI = (data) => {
+    dispatch(updateNotice(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateSocietyAPI(data);
+            callUpdateNoticeAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllDesignation();
+        callGetAllNotice();
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -152,7 +149,7 @@ export const DesignationListingView = () => {
   };
   const handleDelete = (conformation) => {
     if (conformation) {
-      dispatch(deleteDesignation({ id: selectedItem._id })).then((res) => {
+      dispatch(deleteNotice({ id: selectedItem._id })).then((res) => {
         if (res?.status === 403 && res?.data.success === false) {
           dispatch(generateNewToken()).then((res) => {
             if (res?.status === 200 && res?.data.success) {
@@ -161,7 +158,7 @@ export const DesignationListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllDesignation();
+          callGetAllNotice();
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -172,21 +169,21 @@ export const DesignationListingView = () => {
 
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
 
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Designation-listing</li>
+              <li class="breadcrumb-item">Notice-listing</li>
             </Breadcrumb>
             <h1>
-              Designations
+              Notice
               <button
                 className="active_button"
                 onClick={() => {
-                  navigate("/add-designation");
+                  navigate("/add-notice");
                 }}
               >
                 <img src={PlusIcon} alt="Plus" /> Add
@@ -211,19 +208,18 @@ export const DesignationListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>{DESIGNATION_NAME}</th>
-
+                    <th>Notice Title</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {designationList &&
-                    designationList.map((item, index) => {
+                  {noticeList &&
+                    noticeList.map((item, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{toUpperCase(item?.name)}</td>
+                          <td>{toUpperCase(item?.title)}</td>
 
                           <td>
                             <div className="swich ">
@@ -284,47 +280,30 @@ export const DesignationListingView = () => {
               nPages={totalPages}
               currentPage={pageNumber}
               setCurrentPage={setPageNumber}
-              data={designationList}
+              data={noticeList}
               totalDatacount={totalDataCount}
             />
-
-            {/* <div className="paginationBox">
-              <div className="row">
-                <div className="col-md-6">
-                  <p className="paginatext">Showing 1 to 10 of 27 entries</p>
-                </div>
-                <div className="col-md-6">
-                  <ul>
-                    <li>{PAGINATE_PREV}</li>
-                    <li className="active">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>{PAGINATE_NEXT}</li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete Designation"
+          modalHeader="Delete notice"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this designation (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this notice (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Designation status"
+          modalHeader="Update notice status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this designation (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this notice (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

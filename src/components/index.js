@@ -1,3 +1,17 @@
+export { ComplaintListingView } from "./society/complaint-management/complaint-listing";
+export { ViewComplaintDetialView } from "./society/complaint-management/view-complaint-detail";
+
+export { AddNoticeView } from "./society/notice-management/add-notice";
+export { EditNoticeView } from "./society/notice-management/edit-notice";
+export { NoticeListingView } from "./society/notice-management/notice-listing";
+export { ViewNoticeDetialView } from "./society/notice-management/view-notice-detail";
+export { AddPhoneDirectoryView } from "./society/phone-directory-managemant/add-phone-directory";
+export { EditPhoneDirectoryView } from "./society/phone-directory-managemant/edit-phone-directory";
+export { PhoneDirectoryListingView } from "./society/phone-directory-managemant/phone-directory-listing";
+export { ViewPhoneDirectoryDetialView } from "./society/phone-directory-managemant/view-phone-directory-detail";
+export { SocietyIndex } from "./society";
+export { SocietyDashboardView } from "./society/dashboard";
+
 export { CopyrightView } from "./copy-right";
 export { LoginView } from "./login";
 export { ForgotPasswordView } from "./forgot-password";

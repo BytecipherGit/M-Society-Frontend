@@ -198,3 +198,77 @@ export const deleteSociety = (params) => {
     return response.response;
   };
 };
+// Add Designation
+export const addDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance("POST", ApiUrl.ADD_DESIGNATION_API, params);
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    }
+    return response.response;
+  };
+};
+// Get all Designation list
+export const getAllDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_ALL_DESIGNATION_API + "?page=" + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: superAdminActions.GET_ALL_DESIGNATION,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// get selected Designation
+export const getSelectedDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SELECTED_DESIGNATION_API + "/" + params._id
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: superAdminActions.SUPER_ADMIN_VIEW_DESIGNATION,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+// Update selected Designation
+export const updateDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "PUT",
+      ApiUrl.UPDATE_DESIGNATION_API,
+      params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// Delete selected Designation
+export const deleteDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "DELETE",
+      ApiUrl.DELETE_DESIGNATION_API,
+      params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    }
+    return response.response;
+  };
+};

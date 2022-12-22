@@ -3,58 +3,46 @@ import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { toastr } from "react-redux-toastr";
-
 import { useSelector, useDispatch } from "react-redux";
-import { SidebarView } from "../side-bar";
-import { SuperHeaderView } from "../super-admin-header";
+import { SocietySidebarView } from "../side-bar";
 import BackArrow from "../../../static/images/back-icon.png";
 import {
   BACK_BUTTON,
-  ZIP_CODE,
-  REGISTRATION_NUMBER,
   CANCEL_BUTTON,
-  SOCIETY_ADDRESS,
-  SOCIETY_NAME,
   UPDATE_BUTTON,
-} from "./../../../common/constants";
-import {
-  updateSociety,
-  generateNewToken,
-} from "../../../common/store/actions/super-actions";
+} from "../../../common/constants";
+import { generateNewToken } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { SocietyHeaderView } from "../society-header";
+import { updateNotice } from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Society name required"),
-  address: Yup.string().required("Society address required"),
-  pin: Yup.string().required("Zip code required"),
-  registrationNumber: Yup.string().required("Registration number required"),
+  title: Yup.string().required("Title required"),
+  description: Yup.string().required("Description required"),
 });
-export const EditSocietyView = () => {
+export const EditNoticeView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectedSociety = useSelector(
-    ({ superAdmin }) => superAdmin?.selectedSociety?.data
+  const selectedNotice = useSelector(
+    ({ societyAdmin }) => societyAdmin?.selectedNotice?.data
   );
-  const { society } = selectedSociety;
 
   const initialValues = {
-    id: society?._id,
-    name: society?.name,
-    address: society?.address,
-    pin: society?.pin,
-    registrationNumber: society?.registrationNumber,
+    id: selectedNotice?._id,
+    title: selectedNotice.title,
+    description: selectedNotice.description,
   };
-  const callUpdateSocietyAPI = (data) => {
-    dispatch(updateSociety(data)).then((res) => {
+  const callUpdateNoticeAPI = (data) => {
+    dispatch(updateNotice(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateSocietyAPI(data);
+            callUpdateNoticeAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society-listing");
+        navigate("/notice-listing");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -62,25 +50,25 @@ export const EditSocietyView = () => {
   };
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society-listing">Society-listing</Link>
+                <Link to="/notice-listing">Notice-listing</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Edit-society
+                Edit-notice
               </li>
             </Breadcrumb>
             <h1>
-              Edit Society
+              Edit Notice
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/notice-listing");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -93,7 +81,7 @@ export const EditSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdateSocietyAPI(values);
+                callUpdateNoticeAPI(values);
               }}
             >
               {({
@@ -109,63 +97,19 @@ export const EditSocietyView = () => {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {SOCIETY_NAME} <span className="ColorRed">*</span>
+                          Title <span className="ColorRed">*</span>
                         </label>
                         <input
                           type="text"
-                          name="name"
+                          name="title"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.name}
+                          value={values.title}
                         />
-                        {errors.name && touched.name && (
-                          <h6 className="validationBx">{errors.name}</h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {REGISTRATION_NUMBER}{" "}
-                          <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          disabled
-                          type="text"
-                          name="registrationNumber"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.registrationNumber}
-                        />
-                        {errors.registrationNumber &&
-                          touched.registrationNumber && (
-                            <h6 className="validationBx">
-                              {errors.registrationNumber}
-                            </h6>
-                          )}
-                      </div>
-                    </div>
-
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {ZIP_CODE} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="pin"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.pin}
-                        />
-                        {errors.pin && touched.pin && (
-                          <h6 className="validationBx">{errors.pin}</h6>
+                        {errors.title && touched.title && (
+                          <h6 className="validationBx">{errors.title}</h6>
                         )}
                       </div>
                     </div>
@@ -174,19 +118,20 @@ export const EditSocietyView = () => {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>
-                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
+                          Description
+                          <span className="ColorRed">*</span>
                         </label>
                         <textarea
-                          name="address"
+                          name="description"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.address}
+                          value={values.description}
                           rows={3}
                         ></textarea>
-                        {errors.address && touched.address && (
-                          <h6 className="validationBx">{errors.address}</h6>
+                        {errors.description && touched.description && (
+                          <h6 className="validationBx">{errors.description}</h6>
                         )}
                       </div>
                     </div>
@@ -206,7 +151,7 @@ export const EditSocietyView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/society-listing")}
+                          onClick={(e) => navigate("/notice-listing")}
                         >
                           {CANCEL_BUTTON}
                         </button>

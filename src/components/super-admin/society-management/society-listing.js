@@ -181,7 +181,7 @@ export const SocietyListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">Society-listing</li>
+              <li className="breadcrumb-item">Society-listing</li>
             </Breadcrumb>
             <h1>
               Societies

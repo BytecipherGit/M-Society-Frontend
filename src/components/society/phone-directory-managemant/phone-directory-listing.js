@@ -4,29 +4,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
-import { SidebarView } from "../side-bar";
-import { SuperHeaderView } from "../super-admin-header";
+import { SocietyHeaderView } from "../society-header";
+import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
 import {
   ACTION,
-  DESIGNATION_NAME,
+  OCCUPATION,
+  PHONE_NUMBER,
   STATUS,
   S_NO,
 } from "../../../common/constants";
-import {
-  getSelectedDesignation,
-  deleteDesignation,
-  generateNewToken,
-  updateDesignation,
-  getAllDesignation,
-} from "../../../common/store/actions/super-actions";
+import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import {
+  deletePhoneDirectory,
+  getAllPhoneDirectory,
+  getSelectedPhoneDirectory,
+  updatePhoneDirectory,
+} from "../../../common/store/actions/society-actions";
 
-export const DesignationListingView = () => {
+export const PhoneDirectoryListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
@@ -39,11 +40,11 @@ export const DesignationListingView = () => {
     setOpenDeleteModal(false);
     setOpenStatusModal(false);
   };
-  const designationList = useSelector(
-    ({ superAdmin }) => superAdmin?.designationList?.data
+  const phoneDirectoryList = useSelector(
+    ({ societyAdmin }) => societyAdmin?.phoneDirectoryList?.data
   );
   useEffect(() => {
-    callGetAllDesignation(pageNumber);
+    callGetAllPhoneDirectoryAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
@@ -56,12 +57,12 @@ export const DesignationListingView = () => {
     const str2 = arr?.join(" ");
     return str2;
   };
-  const callGetAllDesignation = (pageNo) => {
-    dispatch(getAllDesignation(pageNo)).then((res) => {
+  const callGetAllPhoneDirectoryAPI = (pageNo) => {
+    dispatch(getAllPhoneDirectory(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllDesignation(pageNo);
+            callGetAllPhoneDirectoryAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -73,7 +74,7 @@ export const DesignationListingView = () => {
   };
 
   const handleView = (item) => {
-    dispatch(getSelectedDesignation(item)).then((res) => {
+    dispatch(getSelectedPhoneDirectory(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -81,14 +82,14 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-designation-detail");
+        navigate("/view-phone-directory-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
     });
   };
   const handleEdit = (item) => {
-    dispatch(getSelectedDesignation(item)).then((res) => {
+    dispatch(getSelectedPhoneDirectory(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -96,7 +97,7 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/edit-designation");
+        navigate("/edit-phone-directory");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -111,7 +112,7 @@ export const DesignationListingView = () => {
         id: item?._id,
         status: item?.newStatus ? "active" : "inactive",
       };
-      callUpdateSocietyAPI(data);
+      callUpdatePhoneDirectoryAPI(data);
     } else {
       setOpenStatusModal(true);
     }
@@ -123,21 +124,21 @@ export const DesignationListingView = () => {
         id: selectedItem._id,
         status: selectedItem.newStatus ? "active" : "inactive",
       };
-      callUpdateSocietyAPI(data);
+      callUpdatePhoneDirectoryAPI(data);
     }
   };
   // call update Api
-  const callUpdateSocietyAPI = (data) => {
-    dispatch(updateDesignation(data)).then((res) => {
+  const callUpdatePhoneDirectoryAPI = (data) => {
+    dispatch(updatePhoneDirectory(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateSocietyAPI(data);
+            callUpdatePhoneDirectoryAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllDesignation();
+        callGetAllPhoneDirectoryAPI();
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -152,7 +153,7 @@ export const DesignationListingView = () => {
   };
   const handleDelete = (conformation) => {
     if (conformation) {
-      dispatch(deleteDesignation({ id: selectedItem._id })).then((res) => {
+      dispatch(deletePhoneDirectory({ id: selectedItem._id })).then((res) => {
         if (res?.status === 403 && res?.data.success === false) {
           dispatch(generateNewToken()).then((res) => {
             if (res?.status === 200 && res?.data.success) {
@@ -161,7 +162,7 @@ export const DesignationListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllDesignation();
+          callGetAllPhoneDirectoryAPI();
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -172,21 +173,21 @@ export const DesignationListingView = () => {
 
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
 
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Designation-listing</li>
+              <li class="breadcrumb-item">Phone-directory-listing</li>
             </Breadcrumb>
             <h1>
-              Designations
+              Phone Directories
               <button
                 className="active_button"
                 onClick={() => {
-                  navigate("/add-designation");
+                  navigate("/add-phone-directory");
                 }}
               >
                 <img src={PlusIcon} alt="Plus" /> Add
@@ -211,20 +212,22 @@ export const DesignationListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>{DESIGNATION_NAME}</th>
-
+                    <th>Name</th>
+                    <th>{PHONE_NUMBER}</th>
+                    <th>{OCCUPATION}</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {designationList &&
-                    designationList.map((item, index) => {
+                  {phoneDirectoryList &&
+                    phoneDirectoryList.map((item, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{toUpperCase(item?.name)}</td>
-
+                          <td>{toUpperCase(item?.phoneNumber)}</td>
+                          <td>{toUpperCase(item?.profession)}</td>
                           <td>
                             <div className="swich ">
                               <input
@@ -284,47 +287,30 @@ export const DesignationListingView = () => {
               nPages={totalPages}
               currentPage={pageNumber}
               setCurrentPage={setPageNumber}
-              data={designationList}
+              data={phoneDirectoryList}
               totalDatacount={totalDataCount}
             />
-
-            {/* <div className="paginationBox">
-              <div className="row">
-                <div className="col-md-6">
-                  <p className="paginatext">Showing 1 to 10 of 27 entries</p>
-                </div>
-                <div className="col-md-6">
-                  <ul>
-                    <li>{PAGINATE_PREV}</li>
-                    <li className="active">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>{PAGINATE_NEXT}</li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete Designation"
+          modalHeader="Delete Phone Directory"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this designation (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this phone directory (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Designation status"
+          modalHeader="Update Phone Directory status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this designation (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this phone directory (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

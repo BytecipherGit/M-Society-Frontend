@@ -43,6 +43,7 @@ export const ADD_SOCIETY = "Add Society";
 // table headings static text
 export const S_NO = "S.No.";
 export const SOCIETY_NAME = "Society Name";
+export const DESIGNATION_NAME = "Designation Name";
 export const ADDRESS = "Address";
 export const ADMIN_NAME = "Admin Name";
 export const STATUS = "Status";

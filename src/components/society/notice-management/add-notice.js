@@ -2,48 +2,40 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { useDispatch } from "react-redux";
 import { toastr } from "react-redux-toastr";
+import { SocietySidebarView } from "../side-bar";
 
-import { useSelector, useDispatch } from "react-redux";
-import { SidebarView } from "../side-bar";
-import { SuperHeaderView } from "../super-admin-header";
 import BackArrow from "../../../static/images/back-icon.png";
-import {
-  BACK_BUTTON,
-  CANCEL_BUTTON,
-  UPDATE_BUTTON,
-} from "../../../common/constants";
-import {
-  updateDesignation,
-  generateNewToken,
-} from "../../../common/store/actions/super-actions";
+import { BACK_BUTTON, RESET, SUBMIT } from "../../../common/constants";
+import { generateNewToken } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
-
+import { SocietyHeaderView } from "../society-header";
+import { addNotice } from "../../../common/store/actions/society-actions";
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Designation name required"),
+  title: Yup.string().required("Title required"),
+  description: Yup.string().required("Description required"),
 });
-export const EditDesignationView = () => {
+
+export const AddNoticeView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectedDesignation = useSelector(
-    ({ superAdmin }) => superAdmin?.selectedDesignation?.data
-  );
-
   const initialValues = {
-    id: selectedDesignation?._id,
-    name: selectedDesignation?.name,
+    title: "",
+    description: "",
   };
-  const callUpdateDesignationAPI = (data) => {
-    dispatch(updateDesignation(data)).then((res) => {
+
+  const callAddNoticeAPI = (data) => {
+    dispatch(addNotice(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateDesignationAPI(data);
+            callAddNoticeAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/designation-listing");
+        navigate("/notice-listing");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -51,25 +43,25 @@ export const EditDesignationView = () => {
   };
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">
-                <Link to="/designation-listing">Designation-listing</Link>
+              <li class="breadcrumb-item">
+                <Link to="/designation-listing">Notice-listing</Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Edit-designation
+              <li class="breadcrumb-item active" aria-current="page">
+                Add-notice
               </li>
             </Breadcrumb>
             <h1>
-              Edit Designation
+              Add Notice
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation-listing");
+                  navigate("/notice-listing");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -82,7 +74,7 @@ export const EditDesignationView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdateDesignationAPI(values);
+                callAddNoticeAPI(values);
               }}
             >
               {({
@@ -92,30 +84,53 @@ export const EditDesignationView = () => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                resetForm,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          Designation Name <span className="ColorRed">*</span>
+                          Title <span className="ColorRed">*</span>
                         </label>
                         <input
                           type="text"
-                          name="name"
+                          name="title"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.name}
+                          value={values.title}
                         />
-                        {errors.name && touched.name && (
-                          <h6 className="validationBx">{errors.name}</h6>
+                        {errors.title && touched.title && (
+                          <h6 className="validationBx">{errors.title}</h6>
                         )}
                       </div>
                     </div>
                   </div>
 
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          Description
+                          <span className="ColorRed">*</span>
+                        </label>
+                        <textarea
+                          name="description"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.description}
+                          rows={3}
+                        ></textarea>
+                        {errors.description && touched.description && (
+                          <h6 className="validationBx">{errors.description}</h6>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-md-2">
                       <div className="form-group">
@@ -123,17 +138,18 @@ export const EditDesignationView = () => {
                           type="submit"
                           className="buttonSbmt active_button"
                         >
-                          {UPDATE_BUTTON}
+                          {SUBMIT}
                         </button>
                       </div>
                     </div>
                     <div className="col-md-2">
                       <div className="form-group">
                         <button
+                          type="reset"
                           className="buttonreset"
-                          onClick={(e) => navigate("/designation-listing")}
+                          onClick={resetForm}
                         >
-                          {CANCEL_BUTTON}
+                          {RESET}
                         </button>
                       </div>
                     </div>

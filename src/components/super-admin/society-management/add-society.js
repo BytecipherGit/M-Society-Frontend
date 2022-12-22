@@ -88,10 +88,10 @@ export const AddSocietyView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">
+              <li className="breadcrumb-item">
                 <Link to="/society-listing">Society-listing</Link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 Add-society
               </li>
             </Breadcrumb>

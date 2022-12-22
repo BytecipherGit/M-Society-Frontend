@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Breadcrumb = (props) => {
   return (
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
+      <ol className="breadcrumb">
+        <li className="breadcrumb-item">
           <Link to="/">Dashboard</Link>
         </li>
         {props.children}

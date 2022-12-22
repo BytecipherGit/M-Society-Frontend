@@ -15,7 +15,7 @@ export const ApiUrl = {
   AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API: BaseUrl + "superAdmin/refresh-token",
 
   // Society Admin API URLS
-  SOCIETY_ADMIN_LOGIN_API: "society/adminLogin",
+  SOCIETY_ADMIN_LOGIN_API: BaseUrl + "society/adminLogin",
   SOCIETY_ADMIN_SIGNUP_API: "society/adminSignUp",
   SOCIETY_ADMIN_SEND_INVITE_API: "society/sendInvitation",
   GET_ALL_SOCIETY_API: "society/all",
@@ -24,8 +24,29 @@ export const ApiUrl = {
   ADD_DESIGNATION_API: BaseUrl + "designation/",
   DELETE_DESIGNATION_API: BaseUrl + "designation/",
   UPDATE_DESIGNATION_API: BaseUrl + "designation/",
-  GET_ALL_DESIGNATION_API: BaseUrl + "designation/all",
+  GET_ALL_DESIGNATION_API: BaseUrl + "designation",
   GET_SELECTED_DESIGNATION_API: BaseUrl + "designation/",
+
+  // Notice (Society Admin dashboard) API URLS
+  ADD_NOTICE_API: BaseUrl + "notice/",
+  DELETE_NOTICE_API: BaseUrl + "notice/",
+  UPDATE_NOTICE_API: BaseUrl + "notice/",
+  GET_ALL_NOTICE_API: BaseUrl + "notice/all",
+  GET_SELECTED_NOTICE_API: BaseUrl + "notice/",
+
+  // Phone Directory (Society Admin dashboard) API URLS
+  ADD_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
+  DELETE_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
+  UPDATE_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
+  GET_ALL_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/all",
+  GET_SELECTED_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
+
+  // Phone Directory (Society Admin dashboard) API URLS
+
+  DELETE_COMPLAINT_API: BaseUrl + "complaint/",
+  UPDATE_COMPLAINT_API: BaseUrl + "complaint/",
+  GET_ALL_COMPLAINT_API: BaseUrl + "complaint/all",
+  GET_SELECTED_COMPLAINT_API: BaseUrl + "complaint/",
 
   // Resident user API URLS
   RESIDENT_USER_SIGNUP_API: BaseUrl + "residentialUser/signup",

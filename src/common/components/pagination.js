@@ -8,7 +8,6 @@ const Pagination = ({
   totalDatacount,
 }) => {
   const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
-  console.log(totalDatacount);
   const nextPage = () => {
     if (currentPage !== nPages) setCurrentPage(currentPage + 1);
   };
@@ -20,11 +19,11 @@ const Pagination = ({
       <div className="paginationBox">
         <div className="row">
           <div className="col-md-6">
-            <p className="paginatext">{`Showing ${
-              currentPage * data.length + 1
+            {/* <p className="paginatext">{`Showing ${
+              currentPage * data?.length + 1
             } to ${
               data?.length * (pageNumbers + +1)
-            } of ${totalDatacount} entries`}</p>
+            } of ${totalDatacount} entries`}</p> */}
           </div>
           <div className="col-md-6">
             <ul>

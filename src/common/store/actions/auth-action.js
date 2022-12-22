@@ -4,12 +4,12 @@ import { ApiUrl } from "../api-urls";
 import { authActions } from "./action-types";
 
 export const doAuthLogin = (params) => {
+  const url =
+    window.location.pathname === "/"
+      ? ApiUrl.AUTH_SUPER_ADMIN_LOGIN_API
+      : ApiUrl.SOCIETY_ADMIN_LOGIN_API;
   return async (dispatch) => {
-    const response = await Instance(
-      "POST",
-      ApiUrl.AUTH_SUPER_ADMIN_LOGIN_API,
-      params
-    );
+    const response = await Instance("POST", url, params);
     // console.log(response);
     if (response?.status === 200 && response?.data?.success) {
       // set Tokens

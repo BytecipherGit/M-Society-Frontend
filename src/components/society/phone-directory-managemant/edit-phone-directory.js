@@ -5,56 +5,58 @@ import { Formik } from "formik";
 import { toastr } from "react-redux-toastr";
 
 import { useSelector, useDispatch } from "react-redux";
-import { SidebarView } from "../side-bar";
-import { SuperHeaderView } from "../super-admin-header";
+import { SocietySidebarView } from "../side-bar";
+
 import BackArrow from "../../../static/images/back-icon.png";
 import {
   BACK_BUTTON,
-  ZIP_CODE,
-  REGISTRATION_NUMBER,
   CANCEL_BUTTON,
   SOCIETY_ADDRESS,
   SOCIETY_NAME,
   UPDATE_BUTTON,
-} from "./../../../common/constants";
-import {
-  updateSociety,
-  generateNewToken,
-} from "../../../common/store/actions/super-actions";
+  OCCUPATION,
+  PHONE_NUMBER,
+} from "../../../common/constants";
+import { generateNewToken } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { SocietyHeaderView } from "../society-header";
+import { updatePhoneDirectory } from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Society name required"),
-  address: Yup.string().required("Society address required"),
-  pin: Yup.string().required("Zip code required"),
-  registrationNumber: Yup.string().required("Registration number required"),
+  name: Yup.string().required("Name required"),
+  address: Yup.string().required("Address required"),
+  phoneNumber: Yup.string()
+    .required("Phone number required")
+    .min(10, "Phone number is not valid")
+    .max(10, "Phone number is not valid")
+    .matches(/^[0-9]*$/, "Phone number is not valid"),
+  profession: Yup.string().required("Profession required"),
 });
-export const EditSocietyView = () => {
+export const EditPhoneDirectoryView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectedSociety = useSelector(
-    ({ superAdmin }) => superAdmin?.selectedSociety?.data
+  const selectedPhoneDirectory = useSelector(
+    ({ societyAdmin }) => societyAdmin?.selectedPhoneDirectory?.data
   );
-  const { society } = selectedSociety;
 
   const initialValues = {
-    id: society?._id,
-    name: society?.name,
-    address: society?.address,
-    pin: society?.pin,
-    registrationNumber: society?.registrationNumber,
+    id: selectedPhoneDirectory?._id,
+    name: selectedPhoneDirectory?.name,
+    address: selectedPhoneDirectory?.address,
+    phoneNumber: selectedPhoneDirectory?.phoneNumber,
+    profession: selectedPhoneDirectory?.profession,
   };
-  const callUpdateSocietyAPI = (data) => {
-    dispatch(updateSociety(data)).then((res) => {
+  const callUpdatePhoneDirectoryAPI = (data) => {
+    dispatch(updatePhoneDirectory(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateSocietyAPI(data);
+            callUpdatePhoneDirectoryAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society-listing");
+        navigate("/phone-directory-listing");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -62,25 +64,27 @@ export const EditSocietyView = () => {
   };
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">
-                <Link to="/society-listing">Society-listing</Link>
+              <li class="breadcrumb-item">
+                <Link to="/phone-directory-listing">
+                  Phone-directory-listing
+                </Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Edit-society
+              <li class="breadcrumb-item active" aria-current="page">
+                Edit-phone-directory
               </li>
             </Breadcrumb>
             <h1>
-              Edit Society
+              Edit Phone Directory
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/phone-directory-listing");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -93,7 +97,7 @@ export const EditSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdateSocietyAPI(values);
+                callUpdatePhoneDirectoryAPI(values);
               }}
             >
               {({
@@ -128,44 +132,40 @@ export const EditSocietyView = () => {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {REGISTRATION_NUMBER}{" "}
+                          {PHONE_NUMBER}
                           <span className="ColorRed">*</span>
                         </label>
                         <input
-                          disabled
                           type="text"
-                          name="registrationNumber"
+                          name="phoneNumber"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.registrationNumber}
+                          value={values.phoneNumber}
                         />
-                        {errors.registrationNumber &&
-                          touched.registrationNumber && (
-                            <h6 className="validationBx">
-                              {errors.registrationNumber}
-                            </h6>
-                          )}
+                        {errors.phoneNumber && touched.phoneNumber && (
+                          <h6 className="validationBx">{errors.phoneNumber}</h6>
+                        )}
                       </div>
                     </div>
 
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {ZIP_CODE} <span className="ColorRed">*</span>
+                          {OCCUPATION} <span className="ColorRed">*</span>
                         </label>
                         <input
                           type="text"
-                          name="pin"
+                          name="profession"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.pin}
+                          value={values.profession}
                         />
-                        {errors.pin && touched.pin && (
-                          <h6 className="validationBx">{errors.pin}</h6>
+                        {errors.profession && touched.profession && (
+                          <h6 className="validationBx">{errors.profession}</h6>
                         )}
                       </div>
                     </div>
