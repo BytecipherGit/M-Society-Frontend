@@ -51,11 +51,20 @@ export const ApiUrl = {
   // Resident user API URLS
   RESIDENT_USER_SIGNUP_API: BaseUrl + "residentialUser/signup",
   RESIDENT_USER_LOGIN_API: BaseUrl + "residentialUser/login",
+
   RESIDENT_USER_DELETE_API: BaseUrl + "residentialUser/",
   RESIDENT_USER_UPDATE_API: BaseUrl + "residentialUser/",
   GET_ALL_RESIDENT_USER_API: BaseUrl + "residentialUser/all",
   GET_SELECTED_RESIDENT_USER_API: BaseUrl + "residentialUser/",
+
   RESIDENT_USER_SET_NEW_PASS_API: BaseUrl + "residentialUser/setNewPassword",
   RESIDENT_USER_CHANGE_PASS_API: BaseUrl + "residentialUser/changePassword",
   RESIDENT_USER_SEND_OTP_API: BaseUrl + "residentialUser/sendOtp",
+
+  // Document (Society Admin dashboard) API URLS
+  ADD_DOCUMENT_API: BaseUrl + "document/",
+  DELETE_DOCUMENT_API: BaseUrl + "document/",
+  UPDATE_DOCUMENT_API: BaseUrl + "document/",
+  GET_ALL_DOCUMENT_API: BaseUrl + "document/all",
+  GET_SELECTED_DOCUMENT_API: BaseUrl + "document/",
 };

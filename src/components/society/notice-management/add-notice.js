@@ -49,10 +49,10 @@ export const AddNoticeView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">
-                <Link to="/designation-listing">Notice-listing</Link>
+              <li className="breadcrumb-item">
+                <Link to="/notice-listing">Notice-listing</Link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 Add-notice
               </li>
             </Breadcrumb>

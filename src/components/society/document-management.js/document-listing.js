@@ -4,24 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
-import { SocietyHeaderView } from "../society-header";
 import { SocietySidebarView } from "../side-bar";
+
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
+import EditIcon from "../../../static/images/edit-icon.png";
+import PlusIcon from "../../../static/images/button-plus.png";
+import { ACTION, STATUS, S_NO } from "../../../common/constants";
 
-import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
 import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { SocietyHeaderView } from "../society-header";
 import {
-  deleteComplaint,
-  getAllComplaint,
-  getSelectedComplaint,
-  updateComplaint,
+  getAllDocument,
+  getSelectedDocument,
+  updateDocument,
+  deleteDocument,
 } from "../../../common/store/actions/society-actions";
-import { formatDate, toUpperCase } from "../../../common/reuseable-function";
+import { toUpperCase } from "../../../common/reuseable-function";
 
-export const ComplaintListingView = () => {
+export const DocumentListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
@@ -34,20 +37,20 @@ export const ComplaintListingView = () => {
     setOpenDeleteModal(false);
     setOpenStatusModal(false);
   };
-  const complaintList = useSelector(
-    ({ societyAdmin }) => societyAdmin?.complaintList?.data
+  const documentList = useSelector(
+    ({ societyAdmin }) => societyAdmin?.documentList?.data
   );
   useEffect(() => {
-    callGetAllComplaintAPI(pageNumber);
+    callGetAllDocument(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllComplaintAPI = (pageNo) => {
-    dispatch(getAllComplaint(pageNo)).then((res) => {
+  const callGetAllDocument = (pageNo) => {
+    dispatch(getAllDocument(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllComplaintAPI(pageNo);
+            callGetAllDocument(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -58,7 +61,7 @@ export const ComplaintListingView = () => {
   };
 
   const handleView = (item) => {
-    dispatch(getSelectedComplaint(item)).then((res) => {
+    dispatch(getSelectedDocument(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -66,7 +69,22 @@ export const ComplaintListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-complaint-detail");
+        navigate("/view-document-detail");
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
+  };
+  const handleEdit = (item) => {
+    dispatch(getSelectedDocument(item)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            handleEdit(item);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        navigate("/edit-document");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -81,7 +99,7 @@ export const ComplaintListingView = () => {
         id: item?._id,
         status: item?.newStatus ? "active" : "inactive",
       };
-      callUpdateComplaintAPI(data);
+      callUpdateDocumentAPI(data);
     } else {
       setOpenStatusModal(true);
     }
@@ -93,21 +111,21 @@ export const ComplaintListingView = () => {
         id: selectedItem._id,
         status: selectedItem.newStatus ? "active" : "inactive",
       };
-      callUpdateComplaintAPI(data);
+      callUpdateDocumentAPI(data);
     }
   };
   // call update Api
-  const callUpdateComplaintAPI = (data) => {
-    dispatch(updateComplaint(data)).then((res) => {
+  const callUpdateDocumentAPI = (data) => {
+    dispatch(updateDocument(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateComplaintAPI(data);
+            callUpdateDocumentAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllComplaintAPI();
+        callGetAllDocument(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -122,7 +140,7 @@ export const ComplaintListingView = () => {
   };
   const handleDelete = (conformation) => {
     if (conformation) {
-      dispatch(deleteComplaint({ id: selectedItem._id })).then((res) => {
+      dispatch(deleteDocument({ id: selectedItem._id })).then((res) => {
         if (res?.status === 403 && res?.data.success === false) {
           dispatch(generateNewToken()).then((res) => {
             if (res?.status === 200 && res?.data.success) {
@@ -131,7 +149,7 @@ export const ComplaintListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllComplaintAPI();
+          callGetAllDocument(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -149,9 +167,19 @@ export const ComplaintListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Complaint-listing</li>
+              <li className="breadcrumb-item">Document-listing</li>
             </Breadcrumb>
-            <h1>Complaints</h1>
+            <h1>
+              Documents
+              <button
+                className="active_button"
+                onClick={() => {
+                  navigate("/add-document");
+                }}
+              >
+                <img src={PlusIcon} alt="Plus" /> Add
+              </button>
+            </h1>
           </div>
           <div className="table_design">
             <div className="table-responsive">
@@ -171,24 +199,19 @@ export const ComplaintListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>Complian Name</th>
-                    <th>Applicant Name</th>
-                    <th>{PHONE_NUMBER}</th>
-                    <th>Complain Date</th>
+                    <th>Document Name</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {complaintList &&
-                    complaintList.map((item, index) => {
+                  {documentList &&
+                    documentList.map((item, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{toUpperCase(item?.complainTitle)}</td>
-                          <td>{toUpperCase(item?.applicantName)}</td>
-                          <td>{item?.phoneNumber}</td>
-                          <td>{formatDate(item?.createdDate)}</td>
+                          <td>{toUpperCase(item?.documentName)}</td>
+
                           <td>
                             <div className="swich ">
                               <input
@@ -227,6 +250,15 @@ export const ComplaintListingView = () => {
                                 }}
                               />
                             </button>
+                            <button>
+                              <img
+                                src={EditIcon}
+                                alt="view icon"
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                              />
+                            </button>
                           </td>
                         </tr>
                       );
@@ -239,7 +271,7 @@ export const ComplaintListingView = () => {
               nPages={totalPages}
               currentPage={pageNumber}
               setCurrentPage={setPageNumber}
-              data={complaintList}
+              data={documentList}
               totalDatacount={totalDataCount}
             /> */}
           </div>
@@ -247,22 +279,22 @@ export const ComplaintListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete Complaint"
+          modalHeader="Delete document"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this Complaint (${selectedItem.complainTitle} )?`}</p>
+          <p>{`Are you sure you want to delete this document (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Complaint status"
+          modalHeader="Update document status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this Complaint (${selectedItem.complainTitle} )?`}</p>
+          <p>{`Are you sure you want to update status this document (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

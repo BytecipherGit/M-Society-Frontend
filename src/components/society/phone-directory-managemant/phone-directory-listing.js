@@ -26,6 +26,7 @@ import {
   getSelectedPhoneDirectory,
   updatePhoneDirectory,
 } from "../../../common/store/actions/society-actions";
+import { toUpperCase } from "../../../common/reuseable-function";
 
 export const PhoneDirectoryListingView = () => {
   const navigate = useNavigate();
@@ -48,15 +49,6 @@ export const PhoneDirectoryListingView = () => {
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  // word upperCase function
-  const toUpperCase = (str) => {
-    const arr = str?.split(" ");
-    for (var i = 0; i < arr?.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    const str2 = arr?.join(" ");
-    return str2;
-  };
   const callGetAllPhoneDirectoryAPI = (pageNo) => {
     dispatch(getAllPhoneDirectory(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
@@ -66,7 +58,6 @@ export const PhoneDirectoryListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
-        console.log(res);
         setTotalPages(res?.data?.totalPages);
         setTotalDataCount(res?.data?.count);
       }
@@ -180,7 +171,7 @@ export const PhoneDirectoryListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">Phone-directory-listing</li>
+              <li className="breadcrumb-item">Phone-directory-listing</li>
             </Breadcrumb>
             <h1>
               Phone Directories

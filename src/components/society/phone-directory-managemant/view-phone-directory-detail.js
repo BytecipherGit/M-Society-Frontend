@@ -6,11 +6,11 @@ import {
   BACK_BUTTON,
   OCCUPATION,
   PHONE_NUMBER,
-  SOCIETY_DETAILS,
 } from "../../../common/constants";
 import { SocietyHeaderView } from "../society-header";
 import { SocietySidebarView } from "../side-bar";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { formatDate, toUpperCase } from "../../../common/reuseable-function";
 export const ViewPhoneDirectoryDetialView = () => {
   const navigate = useNavigate();
   const selectedPhoneDirectory = useSelector(
@@ -35,7 +35,7 @@ export const ViewPhoneDirectoryDetialView = () => {
               </li>
             </Breadcrumb>
             <h1>
-              {SOCIETY_DETAILS}
+              Phone Directory Details
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
@@ -53,7 +53,7 @@ export const ViewPhoneDirectoryDetialView = () => {
                 <h5 className="font-weight-bold">Name</h5>
               </div>
               <div className="col-md-8">
-                <h5>{selectedPhoneDirectory?.name}</h5>
+                <h5>{toUpperCase(selectedPhoneDirectory?.name)}</h5>
               </div>
             </div>
             <div className="row">
@@ -69,7 +69,15 @@ export const ViewPhoneDirectoryDetialView = () => {
                 <h5 className="font-weight-bold">{OCCUPATION}</h5>
               </div>
               <div className="col-md-8">
-                <h5>{selectedPhoneDirectory?.profession}</h5>
+                <h5>{toUpperCase(selectedPhoneDirectory?.profession)}</h5>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">Create Date</h5>
+              </div>
+              <div className="col-md-8">
+                <h5>{formatDate(selectedPhoneDirectory?.createdDate)}</h5>
               </div>
             </div>
 
@@ -78,7 +86,7 @@ export const ViewPhoneDirectoryDetialView = () => {
                 <h5 className="font-weight-bold">Address</h5>
               </div>
               <div className="col-md-8">
-                <h5>{selectedPhoneDirectory?.address}</h5>
+                <h5>{toUpperCase(selectedPhoneDirectory?.address)}</h5>
               </div>
             </div>
           </div>

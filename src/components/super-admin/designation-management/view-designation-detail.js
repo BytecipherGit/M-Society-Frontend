@@ -5,23 +5,13 @@ import { SidebarView } from "../side-bar";
 import { SuperHeaderView } from "../super-admin-header";
 import BackArrow from "../../../static/images/back-icon.png";
 import {
-  ADMIN_ADDRESS,
-  ADMIN_NAME,
   BACK_BUTTON,
-  EMAIL,
-  HOUSE_NUMBER,
-  OCCUPATION,
-  PHONE_NUMBER,
-  ZIP_CODE,
-  REGISTRATION_NUMBER,
-  SOCIETY_ADDRESS,
-  SOCIETY_ADMIN_DETAILS,
   SOCIETY_DETAILS,
-  SOCIETY_NAME,
-  UNIQUE_ID,
   DESIGNATION_NAME,
 } from "../../../common/constants";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { toUpperCase } from "../../../common/reuseable-function";
+
 export const ViewDesignationDetialView = () => {
   const navigate = useNavigate();
   const selectedDesignation = useSelector(
@@ -62,7 +52,7 @@ export const ViewDesignationDetialView = () => {
                 <h5 className="font-weight-bold">{DESIGNATION_NAME}</h5>
               </div>
               <div className="col-md-8">
-                <h5>{selectedDesignation?.name}</h5>
+                <h5>{toUpperCase(selectedDesignation?.name)}</h5>
               </div>
             </div>
           </div>

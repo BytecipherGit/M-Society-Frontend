@@ -1,3 +1,11 @@
+export { AddDocumentView } from "./society/document-management.js/add-document";
+export { DocumentListingView } from "./society/document-management.js/document-listing";
+export { EditDocumentView } from "./society/document-management.js/edit-document";
+export { ViewDocumentDetialView } from "./society/document-management.js/view-document-detail";
+
+export { ResidentialUserListingView } from "./society/residential-user-management/residential-user-listing";
+export { ViewResidentialUserDetialView } from "./society/residential-user-management/view-residential-user-detail";
+
 export { ComplaintListingView } from "./society/complaint-management/complaint-listing";
 export { ViewComplaintDetialView } from "./society/complaint-management/view-complaint-detail";
 

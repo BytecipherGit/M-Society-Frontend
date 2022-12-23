@@ -64,12 +64,12 @@ export const AddPhoneDirectoryView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">
+              <li className="breadcrumb-item">
                 <Link to="/phone-directory-listing">
                   Phone-directory-listing
                 </Link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 Add-phone-directory
               </li>
             </Breadcrumb>

@@ -4,24 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
-import { SocietyHeaderView } from "../society-header";
 import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
-
 import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
+
 import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { SocietyHeaderView } from "../society-header";
 import {
-  deleteComplaint,
-  getAllComplaint,
-  getSelectedComplaint,
-  updateComplaint,
+  getAllResidentialUser,
+  getSelectedResidentialUser,
+  updateResidentialUser,
+  deleteResidentialUser,
 } from "../../../common/store/actions/society-actions";
-import { formatDate, toUpperCase } from "../../../common/reuseable-function";
+import { toUpperCase } from "../../../common/reuseable-function";
 
-export const ComplaintListingView = () => {
+export const ResidentialUserListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(0);
@@ -34,20 +34,20 @@ export const ComplaintListingView = () => {
     setOpenDeleteModal(false);
     setOpenStatusModal(false);
   };
-  const complaintList = useSelector(
-    ({ societyAdmin }) => societyAdmin?.complaintList?.data
+  const residentialUserList = useSelector(
+    ({ societyAdmin }) => societyAdmin?.residentialUserList?.data
   );
   useEffect(() => {
-    callGetAllComplaintAPI(pageNumber);
+    callGetAllResidentialUser(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllComplaintAPI = (pageNo) => {
-    dispatch(getAllComplaint(pageNo)).then((res) => {
+  const callGetAllResidentialUser = (pageNo) => {
+    dispatch(getAllResidentialUser(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllComplaintAPI(pageNo);
+            callGetAllResidentialUser(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -58,7 +58,7 @@ export const ComplaintListingView = () => {
   };
 
   const handleView = (item) => {
-    dispatch(getSelectedComplaint(item)).then((res) => {
+    dispatch(getSelectedResidentialUser(item)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -66,7 +66,7 @@ export const ComplaintListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-complaint-detail");
+        navigate("/view-residential-user-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -81,7 +81,7 @@ export const ComplaintListingView = () => {
         id: item?._id,
         status: item?.newStatus ? "active" : "inactive",
       };
-      callUpdateComplaintAPI(data);
+      callUpdateResidentialUserAPI(data);
     } else {
       setOpenStatusModal(true);
     }
@@ -93,21 +93,21 @@ export const ComplaintListingView = () => {
         id: selectedItem._id,
         status: selectedItem.newStatus ? "active" : "inactive",
       };
-      callUpdateComplaintAPI(data);
+      callUpdateResidentialUserAPI(data);
     }
   };
   // call update Api
-  const callUpdateComplaintAPI = (data) => {
-    dispatch(updateComplaint(data)).then((res) => {
+  const callUpdateResidentialUserAPI = (data) => {
+    dispatch(updateResidentialUser(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateComplaintAPI(data);
+            callUpdateResidentialUserAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllComplaintAPI();
+        callGetAllResidentialUser(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -122,7 +122,7 @@ export const ComplaintListingView = () => {
   };
   const handleDelete = (conformation) => {
     if (conformation) {
-      dispatch(deleteComplaint({ id: selectedItem._id })).then((res) => {
+      dispatch(deleteResidentialUser({ id: selectedItem._id })).then((res) => {
         if (res?.status === 403 && res?.data.success === false) {
           dispatch(generateNewToken()).then((res) => {
             if (res?.status === 200 && res?.data.success) {
@@ -131,7 +131,7 @@ export const ComplaintListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllComplaintAPI();
+          callGetAllResidentialUser(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -149,9 +149,9 @@ export const ComplaintListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Complaint-listing</li>
+              <li className="breadcrumb-item">Residential-user-listing</li>
             </Breadcrumb>
-            <h1>Complaints</h1>
+            <h1>Residential Users</h1>
           </div>
           <div className="table_design">
             <div className="table-responsive">
@@ -171,24 +171,22 @@ export const ComplaintListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>Complian Name</th>
-                    <th>Applicant Name</th>
+                    <th>Resident Name</th>
+                    <th>House Number</th>
                     <th>{PHONE_NUMBER}</th>
-                    <th>Complain Date</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {complaintList &&
-                    complaintList.map((item, index) => {
+                  {residentialUserList &&
+                    residentialUserList.map((item, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{toUpperCase(item?.complainTitle)}</td>
-                          <td>{toUpperCase(item?.applicantName)}</td>
-                          <td>{item?.phoneNumber}</td>
-                          <td>{formatDate(item?.createdDate)}</td>
+                          <td>{toUpperCase(item?.name)}</td>
+                          <td>{toUpperCase(item?.houseNumber)}</td>
+                          <td>{toUpperCase(item?.phoneNumber)}</td>
                           <td>
                             <div className="swich ">
                               <input
@@ -207,7 +205,6 @@ export const ComplaintListingView = () => {
                               <label htmlFor={"checkbox" + item._id}></label>
                             </div>
                           </td>
-
                           <td>
                             <button>
                               <img
@@ -235,34 +232,34 @@ export const ComplaintListingView = () => {
               </table>
             </div>
 
-            {/* <Pagination
+            <Pagination
               nPages={totalPages}
               currentPage={pageNumber}
               setCurrentPage={setPageNumber}
-              data={complaintList}
+              data={residentialUserList}
               totalDatacount={totalDataCount}
-            /> */}
+            />
           </div>
         </div>
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete Complaint"
+          modalHeader="Delete notice"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this Complaint (${selectedItem.complainTitle} )?`}</p>
+          <p>{`Are you sure you want to delete this notice (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Complaint status"
+          modalHeader="Update notice status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this Complaint (${selectedItem.complainTitle} )?`}</p>
+          <p>{`Are you sure you want to update status this notice (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

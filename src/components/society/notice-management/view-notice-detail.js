@@ -6,6 +6,7 @@ import BackArrow from "../../../static/images/back-icon.png";
 import { BACK_BUTTON } from "../../../common/constants";
 import { SocietyHeaderView } from "../society-header";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { formatDate, toUpperCase } from "../../../common/reuseable-function";
 export const ViewNoticeDetialView = () => {
   const navigate = useNavigate();
   const selectedNotice = useSelector(
@@ -27,7 +28,7 @@ export const ViewNoticeDetialView = () => {
               </li>
             </Breadcrumb>
             <h1>
-              Notice Details
+              Notice Detail
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
@@ -45,7 +46,7 @@ export const ViewNoticeDetialView = () => {
                 <h5 className="font-weight-bold">Title</h5>
               </div>
               <div className="col-md-8">
-                <h5>{selectedNotice?.title}</h5>
+                <h5>{toUpperCase(selectedNotice?.title)}</h5>
               </div>
             </div>
             <div className="row">
@@ -53,7 +54,7 @@ export const ViewNoticeDetialView = () => {
                 <h5 className="font-weight-bold">Create Date</h5>
               </div>
               <div className="col-md-8">
-                <h5>{Date(selectedNotice?.createdDate)}</h5>
+                <h5>{formatDate(selectedNotice?.createdDate)}</h5>
               </div>
             </div>
             <div className="row">
@@ -62,6 +63,14 @@ export const ViewNoticeDetialView = () => {
               </div>
               <div className="col-md-8">
                 <h5>{selectedNotice?.description}</h5>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">Status</h5>
+              </div>
+              <div className="col-md-8">
+                <h5>{toUpperCase(selectedNotice?.status)}</h5>
               </div>
             </div>
           </div>

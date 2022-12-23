@@ -2,58 +2,42 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { useDispatch } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { useSelector, useDispatch } from "react-redux";
 import { SocietySidebarView } from "../side-bar";
+
 import BackArrow from "../../../static/images/back-icon.png";
-import {
-  BACK_BUTTON,
-  CANCEL_BUTTON,
-  SOCIETY_ADDRESS,
-  UPDATE_BUTTON,
-  OCCUPATION,
-  PHONE_NUMBER,
-} from "../../../common/constants";
+import { BACK_BUTTON, RESET, SUBMIT } from "../../../common/constants";
 import { generateNewToken } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
-import { updatePhoneDirectory } from "../../../common/store/actions/society-actions";
-
+import { addDocument } from "../../../common/store/actions/society-actions";
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name required"),
-  address: Yup.string().required("Address required"),
-  phoneNumber: Yup.string()
-    .required("Phone number required")
-    .min(10, "Phone number is not valid")
-    .max(10, "Phone number is not valid")
-    .matches(/^[0-9]*$/, "Phone number is not valid"),
-  profession: Yup.string().required("Profession required"),
+  documentName: Yup.string().required("Document name required"),
+  description: Yup.string().required("Description required"),
+  documentImageFile: Yup.mixed().required("Document file required"),
 });
-export const EditPhoneDirectoryView = () => {
+
+export const AddDocumentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectedPhoneDirectory = useSelector(
-    ({ societyAdmin }) => societyAdmin?.selectedPhoneDirectory?.data
-  );
-
   const initialValues = {
-    id: selectedPhoneDirectory?._id,
-    name: selectedPhoneDirectory?.name,
-    address: selectedPhoneDirectory?.address,
-    phoneNumber: selectedPhoneDirectory?.phoneNumber,
-    profession: selectedPhoneDirectory?.profession,
+    documentName: "",
+    description: "",
+    documentImageFile: null,
   };
-  const callUpdatePhoneDirectoryAPI = (data) => {
-    dispatch(updatePhoneDirectory(data)).then((res) => {
+
+  const callAddDocumentAPI = (data) => {
+    dispatch(addDocument(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdatePhoneDirectoryAPI(data);
+            callAddDocumentAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/phone-directory-listing");
+        navigate("/document-listing");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -68,20 +52,18 @@ export const EditPhoneDirectoryView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/phone-directory-listing">
-                  Phone-directory-listing
-                </Link>
+                <Link to="/document-listing">Document-listing</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Edit-phone-directory
+                Add-document
               </li>
             </Breadcrumb>
             <h1>
-              Edit Phone Directory
+              Add Document
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/phone-directory-listing");
+                  navigate("/document-listing");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -94,7 +76,7 @@ export const EditPhoneDirectoryView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdatePhoneDirectoryAPI(values);
+                callAddDocumentAPI(values);
               }}
             >
               {({
@@ -104,86 +86,80 @@ export const EditPhoneDirectoryView = () => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                resetForm,
+                setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          Name <span className="ColorRed">*</span>
+                          Document Name <span className="ColorRed">*</span>
                         </label>
                         <input
                           type="text"
-                          name="name"
+                          name="documentName"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.name}
+                          value={values.documentName}
                         />
-                        {errors.name && touched.name && (
-                          <h6 className="validationBx">{errors.name}</h6>
+                        {errors.documentName && touched.documentName && (
+                          <h6 className="validationBx">
+                            {errors.documentName}
+                          </h6>
                         )}
                       </div>
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {PHONE_NUMBER}
-                          <span className="ColorRed">*</span>
+                          Upload Document <span className="ColorRed">*</span>
                         </label>
                         <input
-                          type="text"
-                          name="phoneNumber"
+                          id="documentImageFile"
+                          name="documentImageFile"
+                          type="file"
                           className="form-control"
                           placeholder=""
-                          onChange={handleChange}
+                          onChange={(event) => {
+                            setFieldValue(
+                              "documentImageFile",
+                              event.currentTarget.files[0].name
+                            );
+                          }}
                           onBlur={handleBlur}
-                          value={values.phoneNumber}
                         />
-                        {errors.phoneNumber && touched.phoneNumber && (
-                          <h6 className="validationBx">{errors.phoneNumber}</h6>
-                        )}
-                      </div>
-                    </div>
 
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {OCCUPATION} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="profession"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.profession}
-                        />
-                        {errors.profession && touched.profession && (
-                          <h6 className="validationBx">{errors.profession}</h6>
-                        )}
+                        {errors.documentImageFile &&
+                          touched.documentImageFile && (
+                            <h6 className="validationBx">
+                              {errors.documentImageFile}
+                            </h6>
+                          )}
                       </div>
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>
-                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
+                          Description
+                          <span className="ColorRed">*</span>
                         </label>
                         <textarea
-                          name="address"
+                          name="description"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.address}
+                          value={values.description}
                           rows={3}
                         ></textarea>
-                        {errors.address && touched.address && (
-                          <h6 className="validationBx">{errors.address}</h6>
+                        {errors.description && touched.description && (
+                          <h6 className="validationBx">{errors.description}</h6>
                         )}
                       </div>
                     </div>
@@ -195,17 +171,18 @@ export const EditPhoneDirectoryView = () => {
                           type="submit"
                           className="buttonSbmt active_button"
                         >
-                          {UPDATE_BUTTON}
+                          {SUBMIT}
                         </button>
                       </div>
                     </div>
                     <div className="col-md-2">
                       <div className="form-group">
                         <button
+                          type="reset"
                           className="buttonreset"
-                          onClick={(e) => navigate("/society-listing")}
+                          onClick={resetForm}
                         >
-                          {CANCEL_BUTTON}
+                          {RESET}
                         </button>
                       </div>
                     </div>

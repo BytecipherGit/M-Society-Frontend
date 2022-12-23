@@ -65,7 +65,6 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
-        console.log(res);
         setTotalPages(res?.data?.totalPages);
         setTotalDataCount(res?.data?.count);
       }

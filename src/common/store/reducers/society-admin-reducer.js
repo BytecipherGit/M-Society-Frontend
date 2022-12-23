@@ -1,22 +1,20 @@
 import { authActions, societyAdminActions } from "../actions/action-types";
 
 const getInitialState = () => ({
-  residentList: {},
   noticeList: {},
   selectedNotice: {},
   phoneDirectoryList: {},
   selectedPhoneDirectory: {},
   complaintList: {},
   selectedComplaint: {},
+  residentialUserList: {},
+  selectedResidentialUser: {},
+  documentList: {},
+  selectedDocument: {},
 });
 
 export const authSocietyReducer = (state = getInitialState(), action) => {
   switch (action.type) {
-    case authActions.RESET_STATE:
-      return {
-        ...state,
-        residentList: {},
-      };
     case societyAdminActions.GET_ALL_NOTICE:
       return {
         ...state,
@@ -40,12 +38,32 @@ export const authSocietyReducer = (state = getInitialState(), action) => {
     case societyAdminActions.GET_ALL_COMPLAINT:
       return {
         ...state,
-        phoneDirectoryList: action.payload,
+        complaintList: action.payload,
       };
     case societyAdminActions.GET_SELECTED_COMPLAINT:
       return {
         ...state,
-        selectedPhoneDirectory: action.payload,
+        selectedComplaint: action.payload,
+      };
+    case societyAdminActions.GET_ALL_RESIDENTIAL_USER:
+      return {
+        ...state,
+        residentialUserList: action.payload,
+      };
+    case societyAdminActions.GET_SELECTED_RESIDENTIAL_USER:
+      return {
+        ...state,
+        selectedResidentialUser: action.payload,
+      };
+    case societyAdminActions.GET_ALL_DOCUMENT:
+      return {
+        ...state,
+        documentList: action.payload,
+      };
+    case societyAdminActions.GET_SELECTED_DOCUMENT:
+      return {
+        ...state,
+        documentNotice: action.payload,
       };
 
     case authActions.RESET_STATE:
@@ -57,6 +75,10 @@ export const authSocietyReducer = (state = getInitialState(), action) => {
         selectedPhoneDirectory: {},
         complaintList: {},
         selectedComplaint: {},
+        residentialUserList: {},
+        selectedResidentialUser: {},
+        documentList: {},
+        selectedDocument: {},
         otpCred: {},
       };
     default:

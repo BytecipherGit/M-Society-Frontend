@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
@@ -69,15 +69,11 @@ export const LoginView = () => {
                   initialValues={super_initialValues}
                   validationSchema={super_Schema}
                   onSubmit={(values) => {
-                    console.log(values);
                     dispatch(doAuthLogin(values)).then((res) => {
                       if (res?.data?.success && res?.status === 200) {
                         toastr.success("Success", res?.data?.message);
-                        // navigate("/dashboard");
-                        return;
                       } else {
                         toastr.error("Error", res?.data?.message);
-                        return;
                       }
                     });
                   }}

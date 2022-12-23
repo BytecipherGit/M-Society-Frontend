@@ -20,6 +20,7 @@ import {
   SOCIETY_NAME,
   UNIQUE_ID,
 } from "../../../common/constants";
+import { toUpperCase } from "../../../common/reuseable-function";
 export const ViewSocietyDetialView = () => {
   const navigate = useNavigate();
   const selectedSociety = useSelector(
@@ -52,7 +53,7 @@ export const ViewSocietyDetialView = () => {
                 <h5 className="font-weight-bold">{SOCIETY_NAME}</h5>
               </div>
               <div className="col-md-8">
-                <h5>{society?.name}</h5>
+                <h5>{toUpperCase(society?.name)}</h5>
               </div>
             </div>
             <div className="row">
@@ -86,7 +87,7 @@ export const ViewSocietyDetialView = () => {
                 <h5 className="font-weight-bold">{SOCIETY_ADDRESS}</h5>
               </div>
               <div className="col-md-8">
-                <h5>{society?.address}</h5>
+                <h5>{toUpperCase(society?.address)}</h5>
               </div>
             </div>
             <hr />
@@ -101,7 +102,7 @@ export const ViewSocietyDetialView = () => {
                         <h5 className="font-weight-bold">{ADMIN_NAME}</h5>
                       </div>
                       <div className="col-md-8">
-                        <h5>{item.name}</h5>
+                        <h5>{toUpperCase(item.name)}</h5>
                       </div>
                     </div>
 
@@ -135,7 +136,7 @@ export const ViewSocietyDetialView = () => {
                         <h5 className="font-weight-bold">{OCCUPATION}</h5>
                       </div>
                       <div className="col-md-8">
-                        <h5>{item.occupation}</h5>
+                        <h5>{toUpperCase(item.occupation)}</h5>
                       </div>
                     </div>
                     <div className="row">
@@ -143,7 +144,7 @@ export const ViewSocietyDetialView = () => {
                         <h5 className="font-weight-bold">{ADMIN_ADDRESS}</h5>
                       </div>
                       <div className="col-md-8">
-                        <h5>{item.address}</h5>
+                        <h5>{toUpperCase(item.address)}</h5>
                       </div>
                     </div>
                     {admin?.length > 1 && <hr />}

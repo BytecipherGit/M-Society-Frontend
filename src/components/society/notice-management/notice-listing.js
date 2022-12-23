@@ -5,17 +5,16 @@ import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
 import { SocietySidebarView } from "../side-bar";
-
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
-import { ACTION, SOCIETY_NAME, STATUS, S_NO } from "../../../common/constants";
-
+import { ACTION, STATUS, S_NO } from "../../../common/constants";
 import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
+import { formatDate, toUpperCase } from "../../../common/reuseable-function";
 import {
   getAllNotice,
   getSelectedNotice,
@@ -44,15 +43,6 @@ export const NoticeListingView = () => {
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  // word upperCase function
-  const toUpperCase = (str) => {
-    const arr = str?.split(" ");
-    for (var i = 0; i < arr?.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    const str2 = arr?.join(" ");
-    return str2;
-  };
   const callGetAllNotice = (pageNo) => {
     dispatch(getAllNotice(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
@@ -62,7 +52,6 @@ export const NoticeListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
-        console.log(res);
         setTotalPages(res?.data?.totalPages);
         setTotalDataCount(res?.data?.count);
       }
@@ -134,7 +123,7 @@ export const NoticeListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllNotice();
+        callGetAllNotice(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -158,7 +147,7 @@ export const NoticeListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllNotice();
+          callGetAllNotice(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -176,7 +165,7 @@ export const NoticeListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">Notice-listing</li>
+              <li className="breadcrumb-item">Notice-listing</li>
             </Breadcrumb>
             <h1>
               Notice
@@ -209,6 +198,7 @@ export const NoticeListingView = () => {
                   <tr>
                     <th>{S_NO}</th>
                     <th>Notice Title</th>
+                    <th>Create Date</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
@@ -220,6 +210,7 @@ export const NoticeListingView = () => {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{toUpperCase(item?.title)}</td>
+                          <td>{formatDate(item?.createdDate)}</td>
 
                           <td>
                             <div className="swich ">
@@ -293,7 +284,7 @@ export const NoticeListingView = () => {
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this notice (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this notice (${selectedItem.title} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
@@ -303,7 +294,7 @@ export const NoticeListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this notice (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this notice (${selectedItem.title} )?`}</p>
         </ModalView>
       )}
     </>

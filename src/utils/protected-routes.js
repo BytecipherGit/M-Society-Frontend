@@ -1,14 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-export const SuperAdminPrivateRoutes = () => {
-  let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-
-  let isSocietyAdmin = useSelector(({ auth }) => auth?.loginUser?.data);
-
-  return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
-};
-
 export const AuthPrivateRoutes = () => {
   const Email = useSelector(({ auth }) => auth?.signUpUser?.email);
 
@@ -29,11 +21,19 @@ export const OtpPrivateRoutes = () => {
   return otp ? <Outlet /> : <Navigate to="/" />;
 };
 
-export const SocietyPrivateRoutes = () => {
+export const SocietyPrivateRoutes = async () => {
   let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-  let isSocietyAdmin = useSelector(
+  let isSocietyAdmin = await useSelector(
     ({ auth }) => auth?.loginUser?.data?.isAdmin
   );
+  console.log(isSocietyAdmin)
 
   return auth && isSocietyAdmin === "1" ? <Outlet /> : <Navigate to="/" />;
+};
+export const SuperAdminPrivateRoutes = () => {
+  let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
+
+  let isSocietyAdmin = useSelector(({ auth }) => auth?.loginUser?.data);
+
+  return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
 };

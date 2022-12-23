@@ -25,6 +25,12 @@ import {
   ViewPhoneDirectoryDetialView,
   ComplaintListingView,
   ViewComplaintDetialView,
+  ResidentialUserListingView,
+  ViewResidentialUserDetialView,
+  ViewDocumentDetialView,
+  EditDocumentView,
+  AddDocumentView,
+  DocumentListingView,
 } from "../components";
 
 import {
@@ -71,7 +77,7 @@ export const Router = () => {
             />
           </Route>
 
-          {/* <Route element={<SuperAdminPrivateRoutes />}>
+          <Route path="/" element={<SuperAdminPrivateRoutes />}>
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
               exact={true}
@@ -133,9 +139,9 @@ export const Router = () => {
               path="/change-password"
               element={<ChangePasswordView />}
             />
-          </Route> */}
+          </Route>
 
-          <Route element={<SocietyPrivateRoutes />}>
+          <Route path="/" element={<SocietyPrivateRoutes />}>
             <Route
               exact={true}
               path="/society-dashboard"
@@ -191,6 +197,36 @@ export const Router = () => {
               exact={true}
               path="/view-complaint-detail"
               element={<ViewComplaintDetialView />}
+            />
+            <Route
+              exact={true}
+              path="/residential-user-listing"
+              element={<ResidentialUserListingView />}
+            />
+            <Route
+              exact={true}
+              path="/view-residential-user-detail"
+              element={<ViewResidentialUserDetialView />}
+            />
+            <Route
+              exact={true}
+              path="/document-listing"
+              element={<DocumentListingView />}
+            />
+            <Route
+              exact={true}
+              path="/add-document"
+              element={<AddDocumentView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-document"
+              element={<EditDocumentView />}
+            />
+            <Route
+              exact={true}
+              path="/view-document-detail"
+              element={<ViewDocumentDetialView />}
             />
           </Route>
 
