@@ -10,7 +10,7 @@ import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
 import { ACTION, STATUS, S_NO } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
@@ -20,6 +20,7 @@ import {
   getSelectedNotice,
   deleteNotice,
   updateNotice,
+  generateNewToken,
 } from "../../../common/store/actions/society-actions";
 
 export const NoticeListingView = () => {

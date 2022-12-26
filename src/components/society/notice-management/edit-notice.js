@@ -11,10 +11,13 @@ import {
   CANCEL_BUTTON,
   UPDATE_BUTTON,
 } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
-import { updateNotice } from "../../../common/store/actions/society-actions";
+import {
+  updateNotice,
+  generateNewToken,
+} from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title required"),

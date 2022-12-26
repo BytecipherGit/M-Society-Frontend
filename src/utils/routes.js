@@ -33,12 +33,7 @@ import {
   DocumentListingView,
 } from "../components";
 
-import {
-  SuperAdminPrivateRoutes,
-  OtpPrivateRoutes,
-  PrivateRoutes,
-  SocietyPrivateRoutes,
-} from "./protected-routes";
+import { OtpPrivateRoutes, PrivateRoutes } from "./protected-routes";
 
 export const Router = () => {
   return (
@@ -77,71 +72,7 @@ export const Router = () => {
             />
           </Route>
 
-          <Route path="/" element={<SuperAdminPrivateRoutes />}>
-            <Route exact={true} path="/dashboard" element={<DashboardView />} />
-            <Route
-              exact={true}
-              path="/society-listing"
-              element={<SocietyListingView />}
-            />
-            <Route
-              exact={true}
-              path="/add-society"
-              element={<AddSocietyView />}
-            />
-            <Route
-              exact={true}
-              path="/edit-society"
-              element={<EditSocietyView />}
-            />
-            <Route
-              exact={true}
-              path="/view-society-detail"
-              element={<ViewSocietyDetialView />}
-            />
-            <Route
-              exact={true}
-              path="/edit-society"
-              element={<EditSocietyView />}
-            />
-            <Route
-              exact={true}
-              path="/designation-listing"
-              element={<DesignationListingView />}
-            />
-            <Route
-              exact={true}
-              path="/add-designation"
-              element={<AddDesignationView />}
-            />
-            <Route
-              exact={true}
-              path="/edit-designation"
-              element={<EditDesignationView />}
-            />
-            <Route
-              exact={true}
-              path="/view-designation-detail"
-              element={<ViewDesignationDetialView />}
-            />
-            <Route
-              exact={true}
-              path="/society-admin/dashboard"
-              element={<SocietyDashboardView />}
-            />
-            <Route
-              exact={true}
-              path="/society-admin/notice"
-              element={<SocietyDashboardView />}
-            />
-            <Route
-              exact={true}
-              path="/change-password"
-              element={<ChangePasswordView />}
-            />
-          </Route>
-
-          <Route path="/" element={<SocietyPrivateRoutes />}>
+          <Route>
             <Route
               exact={true}
               path="/society-dashboard"
@@ -227,6 +158,69 @@ export const Router = () => {
               exact={true}
               path="/view-document-detail"
               element={<ViewDocumentDetialView />}
+            />
+          </Route>
+          <Route>
+            <Route exact={true} path="/dashboard" element={<DashboardView />} />
+            <Route
+              exact={true}
+              path="/society-listing"
+              element={<SocietyListingView />}
+            />
+            <Route
+              exact={true}
+              path="/add-society"
+              element={<AddSocietyView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-society"
+              element={<EditSocietyView />}
+            />
+            <Route
+              exact={true}
+              path="/view-society-detail"
+              element={<ViewSocietyDetialView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-society"
+              element={<EditSocietyView />}
+            />
+            <Route
+              exact={true}
+              path="/designation-listing"
+              element={<DesignationListingView />}
+            />
+            <Route
+              exact={true}
+              path="/add-designation"
+              element={<AddDesignationView />}
+            />
+            <Route
+              exact={true}
+              path="/edit-designation"
+              element={<EditDesignationView />}
+            />
+            <Route
+              exact={true}
+              path="/view-designation-detail"
+              element={<ViewDesignationDetialView />}
+            />
+            <Route
+              exact={true}
+              path="/society-admin/dashboard"
+              element={<SocietyDashboardView />}
+            />
+            <Route
+              exact={true}
+              path="/society-admin/notice"
+              element={<SocietyDashboardView />}
+            />
+            <Route
+              exact={true}
+              path="/change-password"
+              element={<ChangePasswordView />}
             />
           </Route>
 

@@ -181,8 +181,8 @@ export const SocietyHeaderView = () => {
                             navigate("/");
                             return;
                           } else {
+                            navigate("/");
                             toastr.info("Success", "Logged out! ");
-                            return;
                           }
                         });
                       }}

@@ -8,10 +8,13 @@ import { SocietySidebarView } from "../side-bar";
 
 import BackArrow from "../../../static/images/back-icon.png";
 import { BACK_BUTTON, RESET, SUBMIT } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
-import { addNotice } from "../../../common/store/actions/society-actions";
+import {
+  addNotice,
+  generateNewToken,
+} from "../../../common/store/actions/society-actions";
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title required"),
   description: Yup.string().required("Description required"),

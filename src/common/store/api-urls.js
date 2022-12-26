@@ -15,6 +15,8 @@ export const ApiUrl = {
   AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API: BaseUrl + "superAdmin/refresh-token",
 
   // Society Admin API URLS
+  AUTH_SOCIETY_ADMIN_GENERATE_NEW_TOKEN_API:
+    BaseUrl + "residentialUser/refresh-token",
   SOCIETY_ADMIN_LOGIN_API: BaseUrl + "society/adminLogin",
   SOCIETY_ADMIN_SIGNUP_API: "society/adminSignUp",
   SOCIETY_ADMIN_SEND_INVITE_API: "society/sendInvitation",

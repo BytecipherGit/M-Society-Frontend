@@ -17,7 +17,7 @@ import {
   STATUS,
   S_NO,
 } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import {
@@ -25,6 +25,7 @@ import {
   getAllPhoneDirectory,
   getSelectedPhoneDirectory,
   updatePhoneDirectory,
+  generateNewToken,
 } from "../../../common/store/actions/society-actions";
 import { toUpperCase } from "../../../common/reuseable-function";
 

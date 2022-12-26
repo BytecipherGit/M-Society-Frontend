@@ -629,9 +629,73 @@ aside .active img {
 /*----======= Main Heading Css End ========--------*/
 
 /*---======== Dashboard Page Css Close =====-------*/
-.not-change {
-  cursor: not-allowed;
+.ser-part .ser-box {
+  background: rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 0px 14px rgb(23 54 97 / 4%); */
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 34px 34px 36px 44px;
 }
+.ser-part .ser-box .head-sec {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ser-part .ser-box .head-sec h2 {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 25px;
+  color: #000000;
+  margin: 0;
+}
+.ser-part .ser-box .head-sec h2 span {
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #969696;
+  margin-top: 6px;
+}
+.ser-part .ser-box .head-sec .img-bg {
+  background: rgba(39, 109, 156, 0.1);
+  border-radius: 5px;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 5px;
+}
+.ser-part .ser-box .head-sec .img-bg img {
+  width: 100%;
+}
+.ser-part .ser-box h6 {
+  margin: 28px 0 0;
+  display: flex;
+}
+.ser-part .ser-box h6 .bg-section {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 36px;
+  color: #000000;
+  margin-right: 25px;
+  display: flex;
+}
+.ser-part .ser-box h6 a {
+  color: #0182c1;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 24px;
+  display: block;
+  width: max-content;
+  margin: 5px 0 0 auto;
+}
+a {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
 .table_design {
   background: #ffffff;
   box-shadow: 0 7px 9px rgb(0 0 0 / 8%);
@@ -701,6 +765,9 @@ aside .active img {
 .paginationBox ul li:hover {
   color: #fff;
   background: #0182c1;
+}
+.paginationBox ul li .not-change {
+  cursor: not-allowed;
 }
 .table_design table tbody td .swich input {
   display: block;

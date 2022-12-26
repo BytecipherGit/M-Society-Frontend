@@ -8,8 +8,6 @@ import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
-
-import { generateNewToken } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
@@ -18,6 +16,7 @@ import {
   getSelectedResidentialUser,
   updateResidentialUser,
   deleteResidentialUser,
+  generateNewToken,
 } from "../../../common/store/actions/society-actions";
 import { toUpperCase } from "../../../common/reuseable-function";
 

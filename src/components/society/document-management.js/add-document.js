@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -8,19 +8,22 @@ import { SocietySidebarView } from "../side-bar";
 
 import BackArrow from "../../../static/images/back-icon.png";
 import { BACK_BUTTON, RESET, SUBMIT } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
-import { addDocument } from "../../../common/store/actions/society-actions";
+import {
+  addDocument,
+  generateNewToken,
+} from "../../../common/store/actions/society-actions";
 const validationSchema = Yup.object().shape({
   documentName: Yup.string().required("Document name required"),
   description: Yup.string().required("Description required"),
-  documentImageFile: Yup.mixed().required("Document file required"),
+  // documentImageFile: Yup.mixed().required("Document file required"),
 });
 
 export const AddDocumentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState(null);
   const initialValues = {
     documentName: "",
     description: "",
@@ -28,6 +31,14 @@ export const AddDocumentView = () => {
   };
 
   const callAddDocumentAPI = (data) => {
+    const formData = new FormData();
+    formData.append("documentImageFile", selectedFile, "abc.jpg");
+    formData.append("documentName", data.documentName);
+    formData.append("description", data.description);
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+    dispatch(addDocument(formData));
     dispatch(addDocument(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
@@ -76,6 +87,7 @@ export const AddDocumentView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
+                console.log(values);
                 callAddDocumentAPI(values);
               }}
             >
@@ -124,10 +136,7 @@ export const AddDocumentView = () => {
                           className="form-control"
                           placeholder=""
                           onChange={(event) => {
-                            setFieldValue(
-                              "documentImageFile",
-                              event.currentTarget.files[0].name
-                            );
+                            setSelectedFile(event.target.files[0]);
                           }}
                           onBlur={handleBlur}
                         />

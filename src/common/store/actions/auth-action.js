@@ -10,12 +10,20 @@ export const doAuthLogin = (params) => {
       : ApiUrl.SOCIETY_ADMIN_LOGIN_API;
   return async (dispatch) => {
     const response = await Instance("POST", url, params);
-    // console.log(response);
     if (response?.status === 200 && response?.data?.success) {
       // set Tokens
       localStorage.setItem("accessToken", response?.data?.accessToken);
       localStorage.setItem("refreshToken", response?.data?.refreshToken);
-      localStorage.setItem("email", response?.data?.data?.email);
+      response?.data?.data?.email
+        ? localStorage.setItem("email", response?.data?.data?.email)
+        : localStorage.setItem(
+            "phoneNumber",
+            response?.data?.data?.phoneNumber
+          );
+      response?.data?.data?.isAdmin === "1"
+        ? localStorage.setItem("isSocietyAdmin", response?.data?.data?.isAdmin)
+        : localStorage.setItem("isSocietyAdmin", "0");
+
       dispatch({
         type: authActions.AUTH_LOGIN,
         payload: response?.data,

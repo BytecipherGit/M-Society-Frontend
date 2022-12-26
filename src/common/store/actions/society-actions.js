@@ -1,6 +1,36 @@
 import { Instance } from "../api-services";
 import { ApiUrl } from "../api-urls";
-import { societyAdminActions } from "./action-types";
+import { authActions, societyAdminActions } from "./action-types";
+
+export const generateNewToken = () => {
+  return async (dispatch) => {
+    const params = {
+      phoneNumber: localStorage.getItem("phoneNumber"),
+      token: localStorage.getItem("refreshToken"),
+    };
+
+    const response = await Instance(
+      "POST",
+      ApiUrl.AUTH_SOCIETY_ADMIN_GENERATE_NEW_TOKEN_API,
+      params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      // set New Tokens
+      localStorage.setItem("accessToken", response?.data?.accessToken);
+      localStorage.setItem("refreshToken", response?.data?.refreshToken);
+      // dispatch({
+      //   type: authActions.AUTH_LOGIN,
+      //   payload: response?.data,
+      // });
+      return response;
+    } else {
+      dispatch({
+        type: authActions.RESET_STATE,
+        payload: {},
+      });
+    }
+  };
+};
 
 // Add Notice
 export const addNotice = (params) => {

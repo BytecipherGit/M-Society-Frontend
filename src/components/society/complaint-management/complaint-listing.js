@@ -10,10 +10,11 @@ import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 
 import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import {
+  generateNewToken,
   deleteComplaint,
   getAllComplaint,
   getSelectedComplaint,
@@ -235,13 +236,13 @@ export const ComplaintListingView = () => {
               </table>
             </div>
 
-            {/* <Pagination
+            <Pagination
               nPages={totalPages}
               currentPage={pageNumber}
               setCurrentPage={setPageNumber}
               data={complaintList}
               totalDatacount={totalDataCount}
-            /> */}
+            />
           </div>
         </div>
       </div>

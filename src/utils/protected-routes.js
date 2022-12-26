@@ -21,19 +21,13 @@ export const OtpPrivateRoutes = () => {
   return otp ? <Outlet /> : <Navigate to="/" />;
 };
 
-export const SocietyPrivateRoutes = async () => {
-  let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-  let isSocietyAdmin = await useSelector(
-    ({ auth }) => auth?.loginUser?.data?.isAdmin
-  );
-  console.log(isSocietyAdmin)
-
-  return auth && isSocietyAdmin === "1" ? <Outlet /> : <Navigate to="/" />;
-};
-export const SuperAdminPrivateRoutes = () => {
-  let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-
-  let isSocietyAdmin = useSelector(({ auth }) => auth?.loginUser?.data);
-
-  return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
-};
+// export const SocietyPrivateRoutes = () => {
+//   const auth = localStorage.getItem("accessToken");
+//   const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+//   return auth && isSocietyAdmin === "1" ? <Outlet /> : <Navigate to="/" />;
+// };
+// export const SuperAdminPrivateRoutes = () => {
+//   const auth = localStorage.getItem("accessToken");
+//   const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+//   return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
+// };

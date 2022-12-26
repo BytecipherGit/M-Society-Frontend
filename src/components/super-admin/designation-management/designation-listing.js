@@ -25,6 +25,7 @@ import {
 } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
+import { toUpperCase } from "../../../common/reuseable-function";
 
 export const DesignationListingView = () => {
   const navigate = useNavigate();
@@ -47,15 +48,6 @@ export const DesignationListingView = () => {
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  // word upperCase function
-  const toUpperCase = (str) => {
-    const arr = str?.split(" ");
-    for (var i = 0; i < arr?.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    const str2 = arr?.join(" ");
-    return str2;
-  };
   const callGetAllDesignation = (pageNo) => {
     dispatch(getAllDesignation(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {

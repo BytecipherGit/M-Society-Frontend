@@ -63,7 +63,7 @@ export const authSocietyReducer = (state = getInitialState(), action) => {
     case societyAdminActions.GET_SELECTED_DOCUMENT:
       return {
         ...state,
-        documentNotice: action.payload,
+        selectedDocument: action.payload,
       };
 
     case authActions.RESET_STATE:

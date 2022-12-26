@@ -14,10 +14,13 @@ import {
   OCCUPATION,
   PHONE_NUMBER,
 } from "../../../common/constants";
-import { generateNewToken } from "../../../common/store/actions/super-actions";
+
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { SocietyHeaderView } from "../society-header";
-import { updatePhoneDirectory } from "../../../common/store/actions/society-actions";
+import {
+  updatePhoneDirectory,
+  generateNewToken,
+} from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name required"),

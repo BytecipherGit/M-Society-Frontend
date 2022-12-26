@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
@@ -26,20 +26,15 @@ import {
 export const LoginView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-  const isSocietyAdmin = useSelector(({ auth }) => auth?.loginUser?.data);
-  console.log(isSocietyAdmin);
-  console.log(auth);
-  // useEffect(() => {
-  //   console.log(auth && isSocietyAdmin !== "1");
-  //   if (auth && isSocietyAdmin === "1") {
-  //     navigate("/society-dashboard");
-  //   } else if (auth && isSocietyAdmin !== "1") {
-  //     navigate("/dashboard");
-  //   } else {
-  //     navigate("/");
-  //   }
-  // }, [auth, isSocietyAdmin]);
+  const auth = localStorage.getItem("accessToken");
+  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+  useEffect(() => {
+    if (auth && isSocietyAdmin === "1") {
+      navigate("/society-dashboard");
+    } else if (auth && isSocietyAdmin !== "1") {
+      navigate("/dashboard");
+    }
+  }, [auth, isSocietyAdmin]);
   const super_initialValues = { email: "", password: "" };
   const society_initialValues = { phoneNumber: "", password: "" };
   const super_Schema = Yup.object().shape({
@@ -71,6 +66,7 @@ export const LoginView = () => {
                   onSubmit={(values) => {
                     dispatch(doAuthLogin(values)).then((res) => {
                       if (res?.data?.success && res?.status === 200) {
+                        navigate("/dashboard");
                         toastr.success("Success", res?.data?.message);
                       } else {
                         toastr.error("Error", res?.data?.message);
@@ -154,11 +150,11 @@ export const LoginView = () => {
                   initialValues={society_initialValues}
                   validationSchema={society_Schema}
                   onSubmit={(values) => {
-                    console.log(values);
                     dispatch(doAuthLogin(values)).then((res) => {
                       if (res?.data?.success && res?.status === 200) {
+                        navigate("/society-dashboard");
                         toastr.success("Success", res?.data?.message);
-                        // navigate("/dashboard");
+
                         return;
                       } else {
                         toastr.error("Error", res?.data?.message);
