@@ -1,3 +1,5 @@
+export { SocietyAdminChangePasswordView } from "./society/change-password";
+
 export { AddDocumentView } from "./society/document-management.js/add-document";
 export { DocumentListingView } from "./society/document-management.js/document-listing";
 export { EditDocumentView } from "./society/document-management.js/edit-document";

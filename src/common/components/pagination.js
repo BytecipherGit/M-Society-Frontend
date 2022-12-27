@@ -9,7 +9,7 @@ const Pagination = ({
 }) => {
   const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
   const nextPage = () => {
-    if (currentPage !== nPages) setCurrentPage(currentPage + 1);
+    if (currentPage < nPages - 1) setCurrentPage(currentPage + 1);
   };
   const prevPage = () => {
     if (currentPage !== 0) setCurrentPage(currentPage - 1);
@@ -43,14 +43,7 @@ const Pagination = ({
                 </li>
               ))}
 
-              <li
-                className={
-                  currentPage >= nPages - 1 ? "disabled not-change" : ""
-                }
-                onClick={nextPage}
-              >
-                Next
-              </li>
+              <li onClick={nextPage}>Next</li>
             </ul>
           </div>
         </div>

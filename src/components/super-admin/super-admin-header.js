@@ -179,10 +179,9 @@ export const SuperHeaderView = () => {
                           if (res?.data?.success && res?.status === 200) {
                             toastr.info("Success", res?.data?.message);
                             navigate("/");
-                            return;
                           } else {
+                            navigate("/");
                             toastr.info("Success", "Logged out! ");
-                            return;
                           }
                         });
                       }}

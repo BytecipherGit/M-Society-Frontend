@@ -133,6 +133,23 @@ export const getAllSociety = (params) => {
     return response.response;
   };
 };
+// Get all Society list by search
+export const getSearchSociety = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.SUPER_ADMIN_GET_SEARCH_SOCIETY + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: superAdminActions.GET_ALL_SOCIETY,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
 
 // Add Society
 export const doSocietyAdd = (params) => {

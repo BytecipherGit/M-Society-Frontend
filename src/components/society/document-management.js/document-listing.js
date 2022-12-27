@@ -93,15 +93,7 @@ export const DocumentListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateDocumentAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {
@@ -252,7 +244,7 @@ export const DocumentListingView = () => {
                             <button>
                               <img
                                 src={EditIcon}
-                                alt="view icon"
+                                alt="edit icon"
                                 onClick={() => {
                                   handleEdit(item);
                                 }}
@@ -283,7 +275,7 @@ export const DocumentListingView = () => {
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this document (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this document (${selectedItem.documentName} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
@@ -293,7 +285,7 @@ export const DocumentListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this document (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this document (${selectedItem.documentName} )?`}</p>
         </ModalView>
       )}
     </>

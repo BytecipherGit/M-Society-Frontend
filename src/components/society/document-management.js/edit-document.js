@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -22,11 +22,11 @@ import {
 const validationSchema = Yup.object().shape({
   documentName: Yup.string().required("Document name required"),
   description: Yup.string().required("Description required"),
-  documentImageFile: Yup.mixed().required("Document file required"),
 });
 export const EditDocumentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [selectFile, setSelectFile] = useState(null);
   const selectedDocument = useSelector(
     ({ societyAdmin }) => societyAdmin?.selectedDocument?.data
   );
@@ -35,10 +35,22 @@ export const EditDocumentView = () => {
     id: selectedDocument?._id,
     documentName: selectedDocument?.documentName,
     description: selectedDocument?.description,
-    documentImageFile: selectedDocument?.documentImageFile,
+    documentImageFile: null,
   };
   const callUpdateDocumentAPI = (data) => {
-    dispatch(updateDocument(data)).then((res) => {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("id", selectedDocument?._id);
+    selectFile !== null &&
+      formData.append("documentImageFile", selectFile, selectFile.name);
+
+    formData.append("documentName", data.documentName);
+    formData.append("description", data.description);
+
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+    dispatch(updateDocument(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -62,14 +74,14 @@ export const EditDocumentView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/notice-listing">Notice-listing</Link>
+                <Link to="/document-listing">Document-listing</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Edit-notice
+                Edit-document
               </li>
             </Breadcrumb>
             <h1>
-              Edit Notice
+              Edit Document
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
@@ -121,6 +133,8 @@ export const EditDocumentView = () => {
                         )}
                       </div>
                     </div>
+                  </div>
+                  <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
@@ -133,21 +147,32 @@ export const EditDocumentView = () => {
                           className="form-control"
                           placeholder=""
                           onChange={(event) => {
-                            setFieldValue(
-                              "documentImageFile",
-                              event.currentTarget.files[0].name
-                            );
+                            setSelectFile(event.target.files[0]);
                           }}
-                          onBlur={handleBlur}
                         />
-
-                        {errors.documentImageFile &&
-                          touched.documentImageFile && (
-                            <h6 className="validationBx">
-                              {errors.documentImageFile}
-                            </h6>
-                          )}
                       </div>
+                    </div>
+                  </div>
+                  <div className="row my-3">
+                    <div className="col-md-4">
+                      {selectFile === null ? (
+                        <img
+                          src={
+                            process.env.REACT_APP_SERVER_URL +
+                            selectedDocument?.documentImageFile
+                          }
+                          alt="..."
+                          width={"400px"}
+                          height={"300px;"}
+                        />
+                      ) : (
+                        <img
+                          src={URL.createObjectURL(selectFile)}
+                          alt="..."
+                          width={"400px"}
+                          height={"300px;"}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="row">
@@ -187,7 +212,7 @@ export const EditDocumentView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/notice-listing")}
+                          onClick={(e) => navigate("/document-listing")}
                         >
                           {CANCEL_BUTTON}
                         </button>

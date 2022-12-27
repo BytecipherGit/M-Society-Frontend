@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-
 import Logo from "../static/images/logo.png";
 import SuperAdmin from "../static/images/super-admin.png";
 import AdminImage from "../static/images/admin.png";
-
 import RightTick from "../static/images/right-tick.png";
 import { doAuthLogin } from "../common/store/actions/auth-action";
 import { toastr } from "react-redux-toastr";
@@ -28,13 +26,14 @@ export const LoginView = () => {
   const dispatch = useDispatch();
   const auth = localStorage.getItem("accessToken");
   const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+
   useEffect(() => {
-    if (auth && isSocietyAdmin === "1") {
+    if (auth && isSocietyAdmin) {
       navigate("/society-dashboard");
     } else if (auth && isSocietyAdmin !== "1") {
       navigate("/dashboard");
     }
-  }, [auth, isSocietyAdmin]);
+  }, []);
   const super_initialValues = { email: "", password: "" };
   const society_initialValues = { phoneNumber: "", password: "" };
   const super_Schema = Yup.object().shape({

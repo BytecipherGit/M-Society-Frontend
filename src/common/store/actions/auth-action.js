@@ -15,11 +15,8 @@ export const doAuthLogin = (params) => {
       localStorage.setItem("accessToken", response?.data?.accessToken);
       localStorage.setItem("refreshToken", response?.data?.refreshToken);
       response?.data?.data?.email
-        ? localStorage.setItem("email", response?.data?.data?.email)
-        : localStorage.setItem(
-            "phoneNumber",
-            response?.data?.data?.phoneNumber
-          );
+        ? localStorage.setItem("phoneNumber", response?.data?.data?.phoneNumber)
+        : localStorage.setItem("email", response?.data?.data?.email);
       response?.data?.data?.isAdmin === "1"
         ? localStorage.setItem("isSocietyAdmin", response?.data?.data?.isAdmin)
         : localStorage.setItem("isSocietyAdmin", "0");

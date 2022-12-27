@@ -91,6 +91,22 @@ export const ViewComplaintDetialView = () => {
                 <h5>{toUpperCase(selectedComplaint?.status)}</h5>
               </div>
             </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">Attached Image</h5>
+              </div>
+              <div className="col-md-8">
+                <img
+                  src={
+                    process.env.REACT_APP_SERVER_URL +
+                    selectedComplaint?.attachedImage
+                  }
+                  alt="..."
+                  width={"400px"}
+                  height={"300px;"}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

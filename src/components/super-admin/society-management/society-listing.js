@@ -24,6 +24,7 @@ import {
   deleteSociety,
   generateNewToken,
   updateSociety,
+  getSearchSociety,
 } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
@@ -162,7 +163,9 @@ export const SocietyListingView = () => {
       });
     }
   };
-
+  const callSearchAPI = (text) => {
+    text === "" ? callGetAllSociety(0) : dispatch(getSearchSociety(text));
+  };
   return (
     <>
       <SuperHeaderView />
@@ -196,6 +199,7 @@ export const SocietyListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>

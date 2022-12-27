@@ -206,7 +206,7 @@ export const EditPhoneDirectoryView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/society-listing")}
+                          onClick={(e) => navigate("/phone-directory-listing")}
                         >
                           {CANCEL_BUTTON}
                         </button>

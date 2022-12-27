@@ -806,6 +806,23 @@ a {
   left: auto;
   right: 2px;
 }
+.table_design table tbody td .pending-btn-bg {
+  background: #ff9800;
+}
+.table_design table tbody td .resolve-btn-bg {
+  background: #199625;
+}
+.table_design table tbody td .reject-btn-bg {
+  background: #f71e1e;
+}
+.table_design table tbody td .pushme {
+  padding: 10px 24px !important;
+  border-radius: 31px;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: #fff;
+  min-width: 134px;
+}
 
 /* ---=== Add Society ===----*/
 

@@ -73,6 +73,22 @@ export const ViewDocumentDetialView = () => {
                 <h5>{toUpperCase(selectedDocument?.status)}</h5>
               </div>
             </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">Document Image</h5>
+              </div>
+              <div className="col-md-8">
+                <img
+                  src={
+                    process.env.REACT_APP_SERVER_URL +
+                    selectedDocument?.documentImageFile
+                  }
+                  alt="..."
+                  width={"400px"}
+                  height={"300px;"}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

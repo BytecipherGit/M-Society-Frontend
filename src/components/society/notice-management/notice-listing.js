@@ -93,15 +93,7 @@ export const NoticeListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateNoticeAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {

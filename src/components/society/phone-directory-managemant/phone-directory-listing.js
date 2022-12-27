@@ -26,6 +26,7 @@ import {
   getSelectedPhoneDirectory,
   updatePhoneDirectory,
   generateNewToken,
+  getSearchPhoneDirectory,
 } from "../../../common/store/actions/society-actions";
 import { toUpperCase } from "../../../common/reuseable-function";
 
@@ -99,15 +100,7 @@ export const PhoneDirectoryListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdatePhoneDirectoryAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {
@@ -163,6 +156,12 @@ export const PhoneDirectoryListingView = () => {
     }
   };
 
+  const callSearchAPI = (text) => {
+    text === ""
+      ? callGetAllPhoneDirectoryAPI(0)
+      : dispatch(getSearchPhoneDirectory(text));
+  };
+
   return (
     <>
       <SocietyHeaderView />
@@ -196,6 +195,7 @@ export const PhoneDirectoryListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>

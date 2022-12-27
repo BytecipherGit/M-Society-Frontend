@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import {
   AddSocietyView,
   DashboardView,
@@ -31,11 +31,18 @@ import {
   EditDocumentView,
   AddDocumentView,
   DocumentListingView,
+  SocietyAdminChangePasswordView,
 } from "../components";
 
 import { OtpPrivateRoutes, PrivateRoutes } from "./protected-routes";
 
 export const Router = () => {
+  const auth = localStorage.getItem("accessToken");
+  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+  useEffect(() => {
+    console.log(auth);
+    console.log(isSocietyAdmin);
+  });
   return (
     <React.Fragment>
       <BrowserRouter>
@@ -159,7 +166,13 @@ export const Router = () => {
               path="/view-document-detail"
               element={<ViewDocumentDetialView />}
             />
+            <Route
+              exact={true}
+              path="/society-admin-change-password"
+              element={<SocietyAdminChangePasswordView />}
+            />
           </Route>
+
           <Route>
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
@@ -230,12 +243,14 @@ export const Router = () => {
               path="/reset-password"
               element={<ResetPasswordView />}
             />
+
             <Route
               exact={true}
               path="/admin-reset-password"
               element={<ResetPasswordView />}
             />
           </Route>
+          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

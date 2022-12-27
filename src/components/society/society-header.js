@@ -167,7 +167,9 @@ export const SocietyHeaderView = () => {
                     <button className="dropdown-item">{PROFILE}</button>
                     <button
                       className="dropdown-item"
-                      onClick={(e) => navigate("/change-password")}
+                      onClick={(e) =>
+                        navigate("/society-admin-change-password")
+                      }
                     >
                       {CHANGE_PASSWORD}
                     </button>

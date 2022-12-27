@@ -8,6 +8,7 @@ export const ApiUrl = {
   AUTH_SUPER_ADMIN_SEND_OTP_API: BaseUrl + "superAdmin/sendOtp",
   AUTH_SUPER_ADMIN_LOGOUT_API: BaseUrl + "superAdmin/logout",
   SUPER_ADMIN_GET_ALL_SOCIETY: BaseUrl + "society/all",
+  SUPER_ADMIN_GET_SEARCH_SOCIETY: BaseUrl + "society/search/",
   GET_SELECTED_SOCIETY_API: BaseUrl + "society",
   ADD_SOCIETY_API: BaseUrl + "society",
   UPDATE_SOCIETY_API: BaseUrl + "society",
@@ -15,6 +16,7 @@ export const ApiUrl = {
   AUTH_SUPER_ADMIN_GENERATE_NEW_TOKEN_API: BaseUrl + "superAdmin/refresh-token",
 
   // Society Admin API URLS
+
   AUTH_SOCIETY_ADMIN_GENERATE_NEW_TOKEN_API:
     BaseUrl + "residentialUser/refresh-token",
   SOCIETY_ADMIN_LOGIN_API: BaseUrl + "society/adminLogin",
@@ -42,6 +44,7 @@ export const ApiUrl = {
   UPDATE_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
   GET_ALL_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/all",
   GET_SELECTED_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
+  GET_SEARCH_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/search/",
 
   // Phone Directory (Society Admin dashboard) API URLS
 

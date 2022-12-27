@@ -14,6 +14,7 @@ import {
   addDocument,
   generateNewToken,
 } from "../../../common/store/actions/society-actions";
+
 const validationSchema = Yup.object().shape({
   documentName: Yup.string().required("Document name required"),
   description: Yup.string().required("Description required"),
@@ -29,17 +30,17 @@ export const AddDocumentView = () => {
     description: "",
     documentImageFile: null,
   };
-
+  
   const callAddDocumentAPI = (data) => {
     const formData = new FormData();
-    formData.append("documentImageFile", selectedFile, "abc.jpg");
+    formData.append("documentImageFile", selectedFile, selectedFile.name);
     formData.append("documentName", data.documentName);
     formData.append("description", data.description);
     for (const value of formData.values()) {
       console.log(value);
     }
-    dispatch(addDocument(formData));
-    dispatch(addDocument(data)).then((res) => {
+
+    dispatch(addDocument(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -69,6 +70,7 @@ export const AddDocumentView = () => {
                 Add-document
               </li>
             </Breadcrumb>
+
             <h1>
               Add Document
               <button
@@ -138,15 +140,14 @@ export const AddDocumentView = () => {
                           onChange={(event) => {
                             setSelectedFile(event.target.files[0]);
                           }}
-                          onBlur={handleBlur}
                         />
 
-                        {errors.documentImageFile &&
+                        {/* {errors.documentImageFile &&
                           touched.documentImageFile && (
                             <h6 className="validationBx">
                               {errors.documentImageFile}
                             </h6>
-                          )}
+                          )} */}
                       </div>
                     </div>
                   </div>

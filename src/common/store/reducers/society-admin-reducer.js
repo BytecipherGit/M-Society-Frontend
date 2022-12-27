@@ -1,6 +1,7 @@
 import { authActions, societyAdminActions } from "../actions/action-types";
 
 const getInitialState = () => ({
+  otpCred: {},
   noticeList: {},
   selectedNotice: {},
   phoneDirectoryList: {},
@@ -15,6 +16,11 @@ const getInitialState = () => ({
 
 export const authSocietyReducer = (state = getInitialState(), action) => {
   switch (action.type) {
+    case societyAdminActions.SOCIETY_ADMIN_SEND_OTP:
+      return {
+        ...state,
+        otpCred: action.payload,
+      };
     case societyAdminActions.GET_ALL_NOTICE:
       return {
         ...state,

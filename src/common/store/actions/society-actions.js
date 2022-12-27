@@ -32,6 +32,83 @@ export const generateNewToken = () => {
   };
 };
 
+// Otp verification in forgot password
+export const doAuthSocietySendOtp = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "POST",
+      ApiUrl.RESIDENT_USER_SEND_OTP_API,
+      params
+    );
+
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.SOCIETY_ADMIN_SEND_OTP,
+        payload: {
+          phoneNumber: params.phoneNumber,
+          otp: response?.data?.data?.OTP,
+        },
+      });
+      return response;
+    } else if (response?.response?.status === 500) {
+      return response.response;
+    } else if (
+      response?.response?.status === 404 ||
+      response?.response?.status === 401 ||
+      response?.response?.status === 400
+    ) {
+      return response.response;
+    }
+  };
+};
+// Forgot Password Society Admin
+export const doAuthSocietySetNewPassword = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "POST",
+      ApiUrl.RESIDENT_USER_SET_NEW_PASS_API,
+      params
+    );
+
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    } else if (response?.response?.status === 500) {
+      return response.response;
+    } else if (
+      response?.response?.status === 404 ||
+      response?.response?.status === 401 ||
+      response?.response?.status === 400
+    ) {
+      return response.response;
+    }
+  };
+};
+
+// Change Password logged in society Admin
+export const doAuthSocietyChangePassword = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "POST",
+      ApiUrl.RESIDENT_USER_CHANGE_PASS_API,
+      params
+    );
+
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    } else if (response?.response?.status === 403) {
+      return response.response;
+    } else if (response?.response?.status === 500) {
+      return response.response;
+    } else if (
+      response?.response?.status === 404 ||
+      response?.response?.status === 401 ||
+      response?.response?.status === 400
+    ) {
+      return response.response;
+    }
+  };
+};
+
 // Add Notice
 export const addNotice = (params) => {
   return async (dispatch) => {
@@ -130,6 +207,23 @@ export const getAllPhoneDirectory = (params) => {
     return response.response;
   };
 };
+// Get all Phone Directory list by Search
+export const getSearchPhoneDirectory = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_PHONE_DIRECTORY_API + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_ALL_PHONE_DIRECTORY,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
 
 // get selected Phone Directory
 export const getSelectedPhoneDirectory = (params) => {
@@ -148,6 +242,7 @@ export const getSelectedPhoneDirectory = (params) => {
     return response.response;
   };
 };
+
 // Update selected Phone Directory
 export const updatePhoneDirectory = (params) => {
   return async (dispatch) => {
@@ -308,8 +403,16 @@ export const deleteResidentialUser = (params) => {
 
 // Add Document
 export const addDocument = (params) => {
+  for (const value of params.values()) {
+    console.log(value);
+  }
   return async (dispatch) => {
-    const response = await Instance("POST", ApiUrl.ADD_DOCUMENT_API, params);
+    const response = await Instance(
+      "POST",
+      ApiUrl.ADD_DOCUMENT_API,
+      params,
+      "file"
+    );
     if (response?.status === 200 && response?.data?.success) {
       return response;
     }
@@ -354,7 +457,12 @@ export const getSelectedDocument = (params) => {
 // Update selected Document
 export const updateDocument = (params) => {
   return async (dispatch) => {
-    const response = await Instance("PUT", ApiUrl.UPDATE_DOCUMENT_API, params);
+    const response = await Instance(
+      "PUT",
+      ApiUrl.UPDATE_DOCUMENT_API,
+      params,
+      "file"
+    );
     if (response?.status === 200 && response?.data?.success) {
       return response;
     }

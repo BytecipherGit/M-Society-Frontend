@@ -75,15 +75,8 @@ export const ResidentialUserListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateResidentialUserAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {
@@ -243,22 +236,22 @@ export const ResidentialUserListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete notice"
+          modalHeader="Delete Residential user"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this notice (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this Residential user (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update notice status"
+          modalHeader="Update Residential User Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this notice (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this Residential user (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

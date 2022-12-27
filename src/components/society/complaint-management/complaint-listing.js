@@ -8,7 +8,7 @@ import { SocietyHeaderView } from "../society-header";
 import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
-
+import EditIcon from "../../../static/images/edit-icon.png";
 import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
 
 import { ModalView } from "../../../common/modal/modal";
@@ -21,6 +21,7 @@ import {
   updateComplaint,
 } from "../../../common/store/actions/society-actions";
 import { formatDate, toUpperCase } from "../../../common/reuseable-function";
+import { ComplaintStatusModal } from "../../../common/modal/complaint-status-modal";
 
 export const ComplaintListingView = () => {
   const navigate = useNavigate();
@@ -74,49 +75,7 @@ export const ComplaintListingView = () => {
     });
   };
 
-  // handle status onClick event
-  const handleUpdateStatus = (item) => {
-    setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateComplaintAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
-  };
-  // update status finction run after conformation
-  const updateStatus = (conformation) => {
-    if (conformation) {
-      const data = {
-        id: selectedItem._id,
-        status: selectedItem.newStatus ? "active" : "inactive",
-      };
-      callUpdateComplaintAPI(data);
-    }
-  };
-  // call update Api
-  const callUpdateComplaintAPI = (data) => {
-    dispatch(updateComplaint(data)).then((res) => {
-      if (res?.status === 403 && res?.data.success === false) {
-        dispatch(generateNewToken()).then((res) => {
-          if (res?.status === 200 && res?.data.success) {
-            callUpdateComplaintAPI(data);
-          }
-        });
-      } else if (res?.status === 200 && res?.data?.success) {
-        toastr.success("Success", res.data.message);
-        callGetAllComplaintAPI();
-        setOpenStatusModal(false);
-      } else {
-        toastr.error("Error", res?.data?.message);
-      }
-    });
-  };
-
-  // Delete society
+  // Delete Complaint
   const handleDeleteModal = (item) => {
     setSelectedItem(item);
     setOpenDeleteModal(true);
@@ -132,7 +91,7 @@ export const ComplaintListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllComplaintAPI();
+          callGetAllComplaintAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -140,7 +99,27 @@ export const ComplaintListingView = () => {
       });
     }
   };
-
+  const handleEdit = (item) => {
+    setSelectedItem(item);
+    setOpenStatusModal(true);
+  };
+  const updateStatusAPI = (data) => {
+    dispatch(updateComplaint(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            updateStatusAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        toastr.success("Success", res?.data?.message);
+        callGetAllComplaintAPI(pageNumber);
+        setOpenStatusModal(false);
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
+  };
   return (
     <>
       <SocietyHeaderView />
@@ -191,22 +170,15 @@ export const ComplaintListingView = () => {
                           <td>{item?.phoneNumber}</td>
                           <td>{formatDate(item?.createdDate)}</td>
                           <td>
-                            <div className="swich ">
-                              <input
-                                type="checkbox"
-                                id={"checkbox" + item._id}
-                                checked={
-                                  item.status === "active" ? true : false
-                                }
-                                onChange={(e) => {
-                                  handleUpdateStatus({
-                                    ...item,
-                                    newStatus: e.target.checked,
-                                  });
-                                }}
-                              />
-                              <label htmlFor={"checkbox" + item._id}></label>
-                            </div>
+                            <button className={`pushme ${item.status}-btn-bg`}>
+                              {toUpperCase(item?.status)}
+                            </button>
+                            {/* <button className="pushme resolve-btn-bg">
+                              Resolve
+                            </button>
+                            <button className="pushme reject-btn-bg">
+                              Rejected
+                            </button> */}
                           </td>
 
                           <td>
@@ -225,6 +197,15 @@ export const ComplaintListingView = () => {
                                 alt="Delete icon"
                                 onClick={() => {
                                   handleDeleteModal(item);
+                                }}
+                              />
+                            </button>
+                            <button>
+                              <img
+                                src={EditIcon}
+                                alt="edit icon"
+                                onClick={() => {
+                                  handleEdit(item);
                                 }}
                               />
                             </button>
@@ -257,14 +238,12 @@ export const ComplaintListingView = () => {
         </ModalView>
       )}
       {openStatusModal && (
-        <ModalView
-          modalHeader="Update Complaint status"
+        <ComplaintStatusModal
           show={openStatusModal}
           close={handleClose}
-          handleAction={updateStatus}
-        >
-          <p>{`Are you sure you want to update status this Complaint (${selectedItem.complainTitle} )?`}</p>
-        </ModalView>
+          data={selectedItem}
+          handleAction={updateStatusAPI}
+        />
       )}
     </>
   );

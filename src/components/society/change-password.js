@@ -1,16 +1,16 @@
 import React from "react";
-import { SidebarView } from "./side-bar";
-import { SuperHeaderView } from "./super-admin-header";
+import { SocietySidebarView } from "./side-bar";
+import { SocietyHeaderView } from "./society-header";
 import RightTick from "../../static/images/right-tick.png";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import {
-  doAuthSuperChangePassword,
-  generateNewToken,
-} from "../../common/store/actions/super-actions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastr } from "react-redux-toastr";
+import {
+  doAuthSocietyChangePassword,
+  generateNewToken,
+} from "../../common/store/actions/society-actions";
 const validationSchema = Yup.object().shape({
   password: Yup.string().required("Old password required"),
   changePassword: Yup.string().required("New password required"),
@@ -19,17 +19,17 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("changePassword"), null], "Confirm passwords must match"),
 });
 
-export const ChangePasswordView = () => {
+export const SocietyAdminChangePasswordView = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialValues = {
-    email: localStorage.getItem("email"),
+    phoneNumber: localStorage.getItem("phoneNumber"),
     password: "",
     changePassword: "",
     c_changePassword: "",
   };
   const callChangePasswordAPI = (data) => {
-    dispatch(doAuthSuperChangePassword(data)).then((res) => {
+    dispatch(doAuthSocietyChangePassword(data)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
@@ -37,7 +37,7 @@ export const ChangePasswordView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/society-listing");
+        navigate("/society-dashboard");
         toastr.success("Success", res?.data?.message);
       } else if (res?.status === 200 && !res?.data?.success) {
         toastr.error("Error", res?.data?.message);
@@ -48,9 +48,9 @@ export const ChangePasswordView = () => {
   };
   return (
     <>
-      <SuperHeaderView />
+      <SocietyHeaderView />
       <div className="wapper">
-        <SidebarView />
+        <SocietySidebarView />
         <div className="main-container">
           {/* <div className="main-heading">
                         <h1>Change Password
