@@ -24,16 +24,18 @@ import {
 export const LoginView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = localStorage.getItem("accessToken");
-  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
 
   useEffect(() => {
-    if (auth && isSocietyAdmin) {
+    const auth = localStorage.getItem("accessToken");
+    const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+    if (auth && isSocietyAdmin === "1") {
       navigate("/society-dashboard");
-    } else if (auth && isSocietyAdmin !== "1") {
+    } else if (auth && isSocietyAdmin === "0") {
       navigate("/dashboard");
+    } else {
+      return;
     }
-  }, []);
+  });
   const super_initialValues = { email: "", password: "" };
   const society_initialValues = { phoneNumber: "", password: "" };
   const super_Schema = Yup.object().shape({
@@ -64,9 +66,16 @@ export const LoginView = () => {
                   validationSchema={super_Schema}
                   onSubmit={(values) => {
                     dispatch(doAuthLogin(values)).then((res) => {
-                      if (res?.data?.success && res?.status === 200) {
+                      if (!res?.data?.success && res?.status === 400) {
+                        toastr.error(
+                          "Error",
+                          "Please enter correct credentials."
+                        );
+                      } else if (res?.data?.success && res?.status === 200) {
                         navigate("/dashboard");
                         toastr.success("Success", res?.data?.message);
+                      } else if (!res?.data?.success && res?.status === 200) {
+                        toastr.error("Error", res?.data?.message);
                       } else {
                         toastr.error("Error", res?.data?.message);
                       }
@@ -150,14 +159,18 @@ export const LoginView = () => {
                   validationSchema={society_Schema}
                   onSubmit={(values) => {
                     dispatch(doAuthLogin(values)).then((res) => {
-                      if (res?.data?.success && res?.status === 200) {
+                      if (!res?.data?.success && res?.status === 400) {
+                        toastr.error(
+                          "Error",
+                          "Please enter correct credentials."
+                        );
+                      } else if (res?.data?.success && res?.status === 200) {
                         navigate("/society-dashboard");
                         toastr.success("Success", res?.data?.message);
-
-                        return;
+                      } else if (!res?.data?.success && res?.status === 200) {
+                        toastr.error("Error", res?.data?.message);
                       } else {
                         toastr.error("Error", res?.data?.message);
-                        return;
                       }
                     });
                   }}

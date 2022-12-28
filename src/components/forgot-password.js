@@ -43,7 +43,7 @@ export const ForgotPasswordView = () => {
                       if (res?.data?.success && res?.status === 200) {
                         localStorage.setItem("email", values.email);
                         toastr.success("Success", res?.data?.message);
-                        toastr.info("OTP", res?.data?.data?.OTP);
+                        toastr.info("OTP", res?.data?.data?.otp?.toString());
                         navigate("/admin-reset-password");
                       } else {
                         toastr.error("Error", res?.data?.message);
@@ -105,7 +105,7 @@ export const ForgotPasswordView = () => {
                       if (res?.data?.success && res?.status === 200) {
                         localStorage.setItem("phoneNumber", values.phoneNumber);
                         toastr.success("Success", res?.data?.message);
-                        toastr.info("OTP", res?.data?.data?.OTP);
+                        toastr.info("OTP", res?.data?.data?.otp?.toString());
                         navigate("/reset-password");
                       } else {
                         toastr.error("Error", res?.data?.message);

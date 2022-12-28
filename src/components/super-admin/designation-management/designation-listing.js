@@ -22,6 +22,7 @@ import {
   generateNewToken,
   updateDesignation,
   getAllDesignation,
+  getSearchDesignation,
 } from "../../../common/store/actions/super-actions";
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
@@ -44,16 +45,16 @@ export const DesignationListingView = () => {
     ({ superAdmin }) => superAdmin?.designationList?.data
   );
   useEffect(() => {
-    callGetAllDesignation(pageNumber);
+    callGetAllDesignationAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllDesignation = (pageNo) => {
+  const callGetAllDesignationAPI = (pageNo) => {
     dispatch(getAllDesignation(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllDesignation(pageNo);
+            callGetAllDesignationAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -97,15 +98,7 @@ export const DesignationListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateSocietyAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {
@@ -128,7 +121,7 @@ export const DesignationListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllDesignation();
+        callGetAllDesignationAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -152,7 +145,7 @@ export const DesignationListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllDesignation();
+          callGetAllDesignationAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -161,6 +154,11 @@ export const DesignationListingView = () => {
     }
   };
 
+  const callSearchAPI = (text) => {
+    text === ""
+      ? callGetAllDesignationAPI(0)
+      : dispatch(getSearchDesignation(text));
+  };
   return (
     <>
       <SuperHeaderView />
@@ -194,6 +192,7 @@ export const DesignationListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>
@@ -203,12 +202,18 @@ export const DesignationListingView = () => {
                   <tr>
                     <th>{S_NO}</th>
                     <th>{DESIGNATION_NAME}</th>
-
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {designationList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={4}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {designationList &&
                     designationList.map((item, index) => {
                       return (
@@ -310,7 +315,7 @@ export const DesignationListingView = () => {
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Designation status"
+          modalHeader="Update Designation Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}

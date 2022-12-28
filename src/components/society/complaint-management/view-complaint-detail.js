@@ -97,10 +97,7 @@ export const ViewComplaintDetialView = () => {
               </div>
               <div className="col-md-8">
                 <img
-                  src={
-                    process.env.REACT_APP_SERVER_URL +
-                    selectedComplaint?.attachedImage
-                  }
+                  src={selectedComplaint?.attachedImage}
                   alt="..."
                   width={"400px"}
                   height={"300px;"}

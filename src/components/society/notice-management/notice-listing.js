@@ -21,6 +21,7 @@ import {
   deleteNotice,
   updateNotice,
   generateNewToken,
+  getSearchNotice,
 } from "../../../common/store/actions/society-actions";
 
 export const NoticeListingView = () => {
@@ -40,16 +41,16 @@ export const NoticeListingView = () => {
     ({ societyAdmin }) => societyAdmin?.noticeList?.data
   );
   useEffect(() => {
-    callGetAllNotice(pageNumber);
+    callGetAllNoticeAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllNotice = (pageNo) => {
+  const callGetAllNoticeAPI = (pageNo) => {
     dispatch(getAllNotice(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllNotice(pageNo);
+            callGetAllNoticeAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -116,7 +117,7 @@ export const NoticeListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllNotice(pageNumber);
+        callGetAllNoticeAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -140,13 +141,16 @@ export const NoticeListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllNotice(pageNumber);
+          callGetAllNoticeAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
         }
       });
     }
+  };
+  const callSearchAPI = (text) => {
+    text === "" ? callGetAllNoticeAPI(0) : dispatch(getSearchNotice(text));
   };
 
   return (
@@ -182,6 +186,7 @@ export const NoticeListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>
@@ -197,6 +202,13 @@ export const NoticeListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {noticeList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={5}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {noticeList &&
                     noticeList.map((item, index) => {
                       return (
@@ -272,7 +284,7 @@ export const NoticeListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete notice"
+          modalHeader="Delete Notice"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
@@ -282,7 +294,7 @@ export const NoticeListingView = () => {
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update notice status"
+          modalHeader="Update Notice Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}

@@ -57,7 +57,7 @@ export const ResetPasswordView = () => {
       ).then((res) => {
         if (res?.data?.success && res?.status === 200) {
           toastr.success("Success", res?.data?.message);
-          toastr.info("OTP", res?.data?.data?.OTP);
+          toastr.info("OTP", res?.data?.data?.otp?.toString());
           return;
         } else {
           toastr.error("Error", res?.data?.message);
@@ -72,11 +72,9 @@ export const ResetPasswordView = () => {
       ).then((res) => {
         if (res?.data?.success && res?.status === 200) {
           toastr.success("Success", res?.data?.message);
-          toastr.info("OTP", res?.data?.data?.OTP);
-          return;
+          toastr.info("OTP", res?.data?.data?.otp?.toString());
         } else {
           toastr.error("Error", res?.data?.message);
-          return;
         }
       });
     }

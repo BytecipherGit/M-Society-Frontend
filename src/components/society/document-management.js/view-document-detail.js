@@ -79,10 +79,7 @@ export const ViewDocumentDetialView = () => {
               </div>
               <div className="col-md-8">
                 <img
-                  src={
-                    process.env.REACT_APP_SERVER_URL +
-                    selectedDocument?.documentImageFile
-                  }
+                  src={selectedDocument?.documentImageFile}
                   alt="..."
                   width={"400px"}
                   height={"300px;"}

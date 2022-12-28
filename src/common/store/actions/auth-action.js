@@ -14,9 +14,10 @@ export const doAuthLogin = (params) => {
       // set Tokens
       localStorage.setItem("accessToken", response?.data?.accessToken);
       localStorage.setItem("refreshToken", response?.data?.refreshToken);
-      response?.data?.data?.email
-        ? localStorage.setItem("phoneNumber", response?.data?.data?.phoneNumber)
-        : localStorage.setItem("email", response?.data?.data?.email);
+      response?.data?.data?.email &&
+        localStorage.setItem("email", response?.data?.data?.email);
+      response?.data?.data?.phoneNumber &&
+        localStorage.setItem("phoneNumber", response?.data?.data?.phoneNumber);
       response?.data?.data?.isAdmin === "1"
         ? localStorage.setItem("isSocietyAdmin", response?.data?.data?.isAdmin)
         : localStorage.setItem("isSocietyAdmin", "0");
@@ -27,6 +28,8 @@ export const doAuthLogin = (params) => {
       });
 
       return response;
+    } else if (response?.status === 200 && !response?.data?.success) {
+      return response;
     } else if (response?.response?.status === 500) {
       return response.response;
     } else if (
@@ -36,6 +39,7 @@ export const doAuthLogin = (params) => {
     ) {
       return response.response;
     }
+    return response.response;
   };
 };
 

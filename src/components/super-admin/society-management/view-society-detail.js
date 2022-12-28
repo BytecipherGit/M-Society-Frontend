@@ -19,8 +19,9 @@ import {
   SOCIETY_DETAILS,
   SOCIETY_NAME,
   UNIQUE_ID,
+  STATUS,
 } from "../../../common/constants";
-import { toUpperCase } from "../../../common/reuseable-function";
+import { formatDate, toUpperCase } from "../../../common/reuseable-function";
 export const ViewSocietyDetialView = () => {
   const navigate = useNavigate();
   const selectedSociety = useSelector(
@@ -90,67 +91,85 @@ export const ViewSocietyDetialView = () => {
                 <h5>{toUpperCase(society?.address)}</h5>
               </div>
             </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">Create Date</h5>
+              </div>
+              <div className="col-md-8">
+                <h5>{formatDate(society?.createdDate)}</h5>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <h5 className="font-weight-bold">{STATUS}</h5>
+              </div>
+              <div className="col-md-8">
+                <h5>{toUpperCase(society?.status)}</h5>
+              </div>
+            </div>
             <hr />
 
             <h2>{SOCIETY_ADMIN_DETAILS}</h2>
             {admin &&
-              admin.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{ADMIN_NAME}</h5>
+              admin
+                .filter((ad) => ad.isAdmin === "1")
+                .map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{ADMIN_NAME}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{toUpperCase(item.name)}</h5>
+                        </div>
                       </div>
-                      <div className="col-md-8">
-                        <h5>{toUpperCase(item.name)}</h5>
-                      </div>
-                    </div>
 
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{PHONE_NUMBER}</h5>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{PHONE_NUMBER}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{item.phoneNumber}</h5>
+                        </div>
                       </div>
-                      <div className="col-md-8">
-                        <h5>{item.phoneNumber}</h5>
-                      </div>
-                    </div>
 
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{EMAIL}</h5>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{EMAIL}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{item.email}</h5>
+                        </div>
                       </div>
-                      <div className="col-md-8">
-                        <h5>{item.email}</h5>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{HOUSE_NUMBER}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{item.houseNumber}</h5>
+                        </div>
                       </div>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{OCCUPATION}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{toUpperCase(item.occupation)}</h5>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <h5 className="font-weight-bold">{ADMIN_ADDRESS}</h5>
+                        </div>
+                        <div className="col-md-8">
+                          <h5>{toUpperCase(item.address)}</h5>
+                        </div>
+                      </div>
+                      {/* {admin?.length > 1 && <hr />} */}
                     </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{HOUSE_NUMBER}</h5>
-                      </div>
-                      <div className="col-md-8">
-                        <h5>{item.houseNumber}</h5>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{OCCUPATION}</h5>
-                      </div>
-                      <div className="col-md-8">
-                        <h5>{toUpperCase(item.occupation)}</h5>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h5 className="font-weight-bold">{ADMIN_ADDRESS}</h5>
-                      </div>
-                      <div className="col-md-8">
-                        <h5>{toUpperCase(item.address)}</h5>
-                      </div>
-                    </div>
-                    {admin?.length > 1 && <hr />}
-                  </div>
-                );
-              })}
+                  );
+                })}
           </div>
         </div>
       </div>

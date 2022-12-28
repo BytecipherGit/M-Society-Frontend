@@ -17,6 +17,7 @@ import {
   updateResidentialUser,
   deleteResidentialUser,
   generateNewToken,
+  getSearchResidentialUser,
 } from "../../../common/store/actions/society-actions";
 import { toUpperCase } from "../../../common/reuseable-function";
 
@@ -37,16 +38,16 @@ export const ResidentialUserListingView = () => {
     ({ societyAdmin }) => societyAdmin?.residentialUserList?.data
   );
   useEffect(() => {
-    callGetAllResidentialUser(pageNumber);
+    callGetAllResidentialUserAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllResidentialUser = (pageNo) => {
+  const callGetAllResidentialUserAPI = (pageNo) => {
     dispatch(getAllResidentialUser(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllResidentialUser(pageNo);
+            callGetAllResidentialUserAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -99,7 +100,7 @@ export const ResidentialUserListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllResidentialUser(pageNumber);
+        callGetAllResidentialUserAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -123,13 +124,18 @@ export const ResidentialUserListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllResidentialUser(pageNumber);
+          callGetAllResidentialUserAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
         }
       });
     }
+  };
+  const callSearchAPI = (text) => {
+    text === ""
+      ? callGetAllResidentialUserAPI(0)
+      : dispatch(getSearchResidentialUser(text));
   };
 
   return (
@@ -155,6 +161,7 @@ export const ResidentialUserListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>
@@ -171,6 +178,13 @@ export const ResidentialUserListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {residentialUserList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={6}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {residentialUserList &&
                     residentialUserList.map((item, index) => {
                       return (
@@ -236,12 +250,12 @@ export const ResidentialUserListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete Residential user"
+          modalHeader="Delete Residential User"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
         >
-          <p>{`Are you sure you want to delete this Residential user (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to delete this residential user (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
       {openStatusModal && (
@@ -251,7 +265,7 @@ export const ResidentialUserListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this Residential user (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update status this residential user (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import {
   AddSocietyView,
@@ -34,15 +34,13 @@ import {
   SocietyAdminChangePasswordView,
 } from "../components";
 
-import { OtpPrivateRoutes, PrivateRoutes } from "./protected-routes";
+import {
+  OtpPrivateRoutes,
+  SocietyPrivateRoutes,
+  SuperAdminPrivateRoutes,
+} from "./protected-routes";
 
 export const Router = () => {
-  const auth = localStorage.getItem("accessToken");
-  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
-  useEffect(() => {
-    console.log(auth);
-    console.log(isSocietyAdmin);
-  });
   return (
     <React.Fragment>
       <BrowserRouter>
@@ -59,7 +57,7 @@ export const Router = () => {
 						
 					</Route> */}
 
-          <Route element={<PrivateRoutes />}>
+          <Route>
             <Route exact={true} path="/" element={<LoginView />} />
             <Route exact={true} path="/society-admin" element={<LoginView />} />
             <Route
@@ -79,7 +77,8 @@ export const Router = () => {
             />
           </Route>
 
-          <Route>
+          <Route element={<SocietyPrivateRoutes />}>
+            <Route path="*" element={<Navigate to={"/society-dashboard"} />} />
             <Route
               exact={true}
               path="/society-dashboard"
@@ -173,7 +172,8 @@ export const Router = () => {
             />
           </Route>
 
-          <Route>
+          <Route element={<SuperAdminPrivateRoutes />}>
+            <Route path="*" element={<Navigate to={"/dashboard"} />} />
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
               exact={true}
@@ -220,16 +220,7 @@ export const Router = () => {
               path="/view-designation-detail"
               element={<ViewDesignationDetialView />}
             />
-            <Route
-              exact={true}
-              path="/society-admin/dashboard"
-              element={<SocietyDashboardView />}
-            />
-            <Route
-              exact={true}
-              path="/society-admin/notice"
-              element={<SocietyDashboardView />}
-            />
+
             <Route
               exact={true}
               path="/change-password"
@@ -250,7 +241,6 @@ export const Router = () => {
               element={<ResetPasswordView />}
             />
           </Route>
-          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

@@ -7,27 +7,22 @@ export const AuthPrivateRoutes = () => {
   return Email ? <Outlet /> : <Navigate to="/" />;
 };
 
-export const PrivateRoutes = () => {
-  let auth = useSelector(({ auth }) => auth?.loginUser?.accessToken);
-
-  return !auth ? <Outlet /> : <Navigate to="/dashboard" />;
-};
 export const OtpPrivateRoutes = () => {
-  let adminOtp = useSelector(({ superAdmin }) => superAdmin?.otpCred?.otp);
-  console.log(adminOtp);
+  let adminOtp = useSelector(({ societyAdmin }) => societyAdmin?.otpCred?.otp);
+
   let userOtp = "";
   let otp = adminOtp || userOtp;
 
   return otp ? <Outlet /> : <Navigate to="/" />;
 };
 
-// export const SocietyPrivateRoutes = () => {
-//   const auth = localStorage.getItem("accessToken");
-//   const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
-//   return auth && isSocietyAdmin === "1" ? <Outlet /> : <Navigate to="/" />;
-// };
-// export const SuperAdminPrivateRoutes = () => {
-//   const auth = localStorage.getItem("accessToken");
-//   const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
-//   return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
-// };
+export const SocietyPrivateRoutes = () => {
+  const auth = localStorage.getItem("accessToken");
+  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+  return auth && isSocietyAdmin === "1" ? <Outlet /> : <Navigate to="/" />;
+};
+export const SuperAdminPrivateRoutes = () => {
+  const auth = localStorage.getItem("accessToken");
+  const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+  return auth && isSocietyAdmin !== "1" ? <Outlet /> : <Navigate to="/" />;
+};

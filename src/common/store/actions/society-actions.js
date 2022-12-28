@@ -46,7 +46,7 @@ export const doAuthSocietySendOtp = (params) => {
         type: societyAdminActions.SOCIETY_ADMIN_SEND_OTP,
         payload: {
           phoneNumber: params.phoneNumber,
-          otp: response?.data?.data?.OTP,
+          otp: response?.data?.data?.otp,
         },
       });
       return response;
@@ -95,6 +95,8 @@ export const doAuthSocietyChangePassword = (params) => {
 
     if (response?.status === 200 && response?.data?.success) {
       return response;
+    } else if (response?.status === 200 && !response?.data?.success) {
+      return response;
     } else if (response?.response?.status === 403) {
       return response.response;
     } else if (response?.response?.status === 500) {
@@ -106,6 +108,7 @@ export const doAuthSocietyChangePassword = (params) => {
     ) {
       return response.response;
     }
+    return response.response;
   };
 };
 
@@ -125,6 +128,23 @@ export const getAllNotice = (params) => {
     const response = await Instance(
       "GET",
       ApiUrl.GET_ALL_NOTICE_API + "?page=" + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_ALL_NOTICE,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+// Search Notice API
+export const getSearchNotice = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_NOTICE_API + params
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -207,7 +227,7 @@ export const getAllPhoneDirectory = (params) => {
     return response.response;
   };
 };
-// Get all Phone Directory list by Search
+// Search Phone Directory API
 export const getSearchPhoneDirectory = (params) => {
   return async (dispatch) => {
     const response = await Instance(
@@ -291,6 +311,24 @@ export const getAllComplaint = (params) => {
   };
 };
 
+// Search Complaint API
+export const getSearchComplaint = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_COMPLAINT_API + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_ALL_COMPLAINT,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
 // get selected Complaint
 export const getSelectedComplaint = (params) => {
   return async (dispatch) => {
@@ -353,6 +391,24 @@ export const getAllResidentialUser = (params) => {
   };
 };
 
+// Search Residential User API
+export const getSearchResidentialUser = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_RESIDENT_USER_API + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_ALL_RESIDENTIAL_USER,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
 // get selected Residential User
 export const getSelectedResidentialUser = (params) => {
   return async (dispatch) => {
@@ -403,9 +459,6 @@ export const deleteResidentialUser = (params) => {
 
 // Add Document
 export const addDocument = (params) => {
-  for (const value of params.values()) {
-    console.log(value);
-  }
   return async (dispatch) => {
     const response = await Instance(
       "POST",
@@ -425,6 +478,24 @@ export const getAllDocument = (params) => {
     const response = await Instance(
       "GET",
       ApiUrl.GET_ALL_DOCUMENT_API + "?page=" + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_ALL_DOCUMENT,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// Search Document API
+export const getSearchDocument = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_DOCUMENT_API + params
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({

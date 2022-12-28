@@ -14,6 +14,7 @@ const Pagination = ({
   const prevPage = () => {
     if (currentPage !== 0) setCurrentPage(currentPage - 1);
   };
+
   return (
     <>
       <div className="paginationBox">
@@ -28,22 +29,29 @@ const Pagination = ({
           <div className="col-md-6">
             <ul>
               <li
-                className={currentPage <= 0 ? "disabled not-change" : ""}
+                className={currentPage <= 0 ? "disable" : ""}
                 onClick={prevPage}
               >
                 Prev
               </li>
-              {pageNumbers.map((pgNumber) => (
-                <li
-                  key={pgNumber}
-                  className={currentPage + 1 === pgNumber ? "active" : ""}
-                  onClick={() => setCurrentPage(pgNumber - 1)}
-                >
-                  {pgNumber}
-                </li>
-              ))}
+              {pageNumbers &&
+                pageNumbers.map((pgNumber) => (
+                  <li
+                    key={pgNumber}
+                    className={currentPage + 1 === pgNumber ? "active" : ""}
+                    onClick={() => setCurrentPage(pgNumber - 1)}
+                  >
+                    {pgNumber}
+                  </li>
+                ))}
+              {pageNumbers?.length === 0 && <li className="active">1</li>}
 
-              <li onClick={nextPage}>Next</li>
+              <li
+                className={currentPage >= nPages - 1 ? "disable" : ""}
+                onClick={nextPage}
+              >
+                Next
+              </li>
             </ul>
           </div>
         </div>

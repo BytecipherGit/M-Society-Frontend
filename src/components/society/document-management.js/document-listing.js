@@ -20,6 +20,7 @@ import {
   getSelectedDocument,
   updateDocument,
   deleteDocument,
+  getSearchDocument,
 } from "../../../common/store/actions/society-actions";
 import { toUpperCase } from "../../../common/reuseable-function";
 
@@ -40,16 +41,16 @@ export const DocumentListingView = () => {
     ({ societyAdmin }) => societyAdmin?.documentList?.data
   );
   useEffect(() => {
-    callGetAllDocument(pageNumber);
+    callGetAllDocumentAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllDocument = (pageNo) => {
+  const callGetAllDocumentAPI = (pageNo) => {
     dispatch(getAllDocument(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllDocument(pageNo);
+            callGetAllDocumentAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -116,7 +117,7 @@ export const DocumentListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllDocument(pageNumber);
+        callGetAllDocumentAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -140,7 +141,7 @@ export const DocumentListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllDocument(pageNumber);
+          callGetAllDocumentAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -149,6 +150,9 @@ export const DocumentListingView = () => {
     }
   };
 
+  const callSearchAPI = (text) => {
+    text === "" ? callGetAllDocumentAPI(0) : dispatch(getSearchDocument(text));
+  };
   return (
     <>
       <SocietyHeaderView />
@@ -182,6 +186,7 @@ export const DocumentListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>
@@ -196,6 +201,13 @@ export const DocumentListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {documentList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={4}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {documentList &&
                     documentList.map((item, index) => {
                       return (
@@ -270,7 +282,7 @@ export const DocumentListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete document"
+          modalHeader="Delete Document"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
@@ -280,7 +292,7 @@ export const DocumentListingView = () => {
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update document status"
+          modalHeader="Update Document Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}

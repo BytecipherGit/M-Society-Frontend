@@ -30,6 +30,7 @@ export const ApiUrl = {
   UPDATE_DESIGNATION_API: BaseUrl + "designation/",
   GET_ALL_DESIGNATION_API: BaseUrl + "designation",
   GET_SELECTED_DESIGNATION_API: BaseUrl + "designation/",
+  GET_SEARCH_DESIGNATION_API: BaseUrl + "designation/search/",
 
   // Notice (Society Admin dashboard) API URLS
   ADD_NOTICE_API: BaseUrl + "notice/",
@@ -37,6 +38,7 @@ export const ApiUrl = {
   UPDATE_NOTICE_API: BaseUrl + "notice/",
   GET_ALL_NOTICE_API: BaseUrl + "notice/all",
   GET_SELECTED_NOTICE_API: BaseUrl + "notice/",
+  GET_SEARCH_NOTICE_API: BaseUrl + "notice/search/",
 
   // Phone Directory (Society Admin dashboard) API URLS
   ADD_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
@@ -52,6 +54,7 @@ export const ApiUrl = {
   UPDATE_COMPLAINT_API: BaseUrl + "complaint/",
   GET_ALL_COMPLAINT_API: BaseUrl + "complaint/all",
   GET_SELECTED_COMPLAINT_API: BaseUrl + "complaint/",
+  GET_SEARCH_COMPLAINT_API: BaseUrl + "complaint/search/",
 
   // Resident user API URLS
   RESIDENT_USER_SIGNUP_API: BaseUrl + "residentialUser/signup",
@@ -60,6 +63,7 @@ export const ApiUrl = {
   RESIDENT_USER_DELETE_API: BaseUrl + "residentialUser/",
   RESIDENT_USER_UPDATE_API: BaseUrl + "residentialUser/",
   GET_ALL_RESIDENT_USER_API: BaseUrl + "residentialUser/all",
+  GET_SEARCH_RESIDENT_USER_API: BaseUrl + "residentialUser/search/",
   GET_SELECTED_RESIDENT_USER_API: BaseUrl + "residentialUser/",
 
   RESIDENT_USER_SET_NEW_PASS_API: BaseUrl + "residentialUser/setNewPassword",
@@ -72,4 +76,5 @@ export const ApiUrl = {
   UPDATE_DOCUMENT_API: BaseUrl + "document/",
   GET_ALL_DOCUMENT_API: BaseUrl + "document/all",
   GET_SELECTED_DOCUMENT_API: BaseUrl + "document/",
+  GET_SEARCH_DOCUMENT_API: BaseUrl + "document/search/",
 };

@@ -25,20 +25,21 @@ export const AddDocumentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
+  const [documentError, setDocumentError] = useState("");
   const initialValues = {
     documentName: "",
     description: "",
-    documentImageFile: null,
   };
-  
+
   const callAddDocumentAPI = (data) => {
     const formData = new FormData();
-    formData.append("documentImageFile", selectedFile, selectedFile.name);
+    selectedFile !== null &&
+      formData.append("documentImageFile", selectedFile, selectedFile.name);
     formData.append("documentName", data.documentName);
     formData.append("description", data.description);
-    for (const value of formData.values()) {
-      console.log(value);
-    }
+    // for (const value of formData.values()) {
+    //   console.log(value);
+    // }
 
     dispatch(addDocument(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
@@ -89,8 +90,10 @@ export const AddDocumentView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                console.log(values);
-                callAddDocumentAPI(values);
+                selectedFile === null
+                  ? setDocumentError("Document file required")
+                  : setDocumentError("");
+                selectedFile !== null && callAddDocumentAPI(values);
               }}
             >
               {({
@@ -137,17 +140,12 @@ export const AddDocumentView = () => {
                           type="file"
                           className="form-control"
                           placeholder=""
+                          onBlur={(e) => setDocumentError("")}
                           onChange={(event) => {
                             setSelectedFile(event.target.files[0]);
                           }}
                         />
-
-                        {/* {errors.documentImageFile &&
-                          touched.documentImageFile && (
-                            <h6 className="validationBx">
-                              {errors.documentImageFile}
-                            </h6>
-                          )} */}
+                        <h6 className="validationBx">{documentError}</h6>
                       </div>
                     </div>
                   </div>

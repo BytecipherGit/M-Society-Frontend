@@ -180,10 +180,9 @@ export const SocietyHeaderView = () => {
                         dispatch(doAuthLogout()).then((res) => {
                           if (res?.data?.success && res?.status === 200) {
                             toastr.info("Success", res?.data?.message);
-                            navigate("/");
-                            return;
+                            navigate("/society-admin");
                           } else {
-                            navigate("/");
+                            navigate("/society-admin");
                             toastr.info("Success", "Logged out! ");
                           }
                         });

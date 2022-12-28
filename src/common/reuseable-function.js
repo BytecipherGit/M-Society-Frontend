@@ -8,13 +8,14 @@ export const toUpperCase = (str) => {
   return str2;
 };
 export const formatDate = (date) => {
-  return new Date(date).toLocaleString(undefined, {
+  return new Date(date).toLocaleString("en-US", {
+    timeZone: "Asia/Kolkata",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
     weekday: "long",
     hour: "2-digit",
-    hour12: false,
+    hour12: true,
     minute: "2-digit",
     second: "2-digit",
   });
@@ -24,6 +25,7 @@ export const formatDate = (date) => {
 //   const testCases = [
 //     new Date().toLocaleDateString(), // 8/19/2020
 //     new Date().toLocaleString(undefined, {
+
 //       year: "numeric",
 //       month: "2-digit",
 //       day: "2-digit",

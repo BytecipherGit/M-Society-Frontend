@@ -123,7 +123,7 @@ export const PhoneDirectoryListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllPhoneDirectoryAPI();
+        callGetAllPhoneDirectoryAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -147,7 +147,7 @@ export const PhoneDirectoryListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllPhoneDirectoryAPI();
+          callGetAllPhoneDirectoryAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -212,6 +212,13 @@ export const PhoneDirectoryListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {phoneDirectoryList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={6}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {phoneDirectoryList &&
                     phoneDirectoryList.map((item, index) => {
                       return (
@@ -297,7 +304,7 @@ export const PhoneDirectoryListingView = () => {
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update Phone Directory status"
+          modalHeader="Update Phone Directory Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}

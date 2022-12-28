@@ -35,6 +35,8 @@ export const AddDesignationView = () => {
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
         navigate("/designation-listing");
+      } else if (res?.status === 400 && !res?.data?.success) {
+        toastr.error("Error", res?.data?.message);
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -48,10 +50,10 @@ export const AddDesignationView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li class="breadcrumb-item">
+              <li className="breadcrumb-item">
                 <Link to="/designation-listing">Designation-listing</Link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 Add-designation
               </li>
             </Breadcrumb>

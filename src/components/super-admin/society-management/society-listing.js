@@ -47,16 +47,16 @@ export const SocietyListingView = () => {
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
   useEffect(() => {
-    callGetAllSociety(pageNumber);
+    callGetAllSocietyAPI(pageNumber);
     // eslint-disable-next-line
   }, [pageNumber]);
 
-  const callGetAllSociety = (pageNo) => {
+  const callGetAllSocietyAPI = (pageNo) => {
     dispatch(getAllSociety(pageNo)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data?.success) {
-            callGetAllSociety(pageNo);
+            callGetAllSocietyAPI(pageNo);
           }
         });
       } else if (res?.status === 200 && res?.data.success) {
@@ -100,15 +100,7 @@ export const SocietyListingView = () => {
   // handle status onClick event
   const handleUpdateStatus = (item) => {
     setSelectedItem(item);
-    if (item?.status === "inactive") {
-      const data = {
-        id: item?._id,
-        status: item?.newStatus ? "active" : "inactive",
-      };
-      callUpdateSocietyAPI(data);
-    } else {
-      setOpenStatusModal(true);
-    }
+    setOpenStatusModal(true);
   };
   // update status finction run after conformation
   const updateStatus = (conformation) => {
@@ -131,7 +123,7 @@ export const SocietyListingView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        callGetAllSociety();
+        callGetAllSocietyAPI(pageNumber);
         setOpenStatusModal(false);
       } else {
         toastr.error("Error", res?.data?.message);
@@ -155,7 +147,7 @@ export const SocietyListingView = () => {
           });
         } else if (res?.status === 200 && res?.data?.success) {
           toastr.success("Success", res?.data?.message);
-          callGetAllSociety();
+          callGetAllSocietyAPI(pageNumber);
           setOpenDeleteModal(false);
         } else {
           toastr.error("Error", res?.data?.message);
@@ -164,7 +156,7 @@ export const SocietyListingView = () => {
     }
   };
   const callSearchAPI = (text) => {
-    text === "" ? callGetAllSociety(0) : dispatch(getSearchSociety(text));
+    text === "" ? callGetAllSocietyAPI(0) : dispatch(getSearchSociety(text));
   };
   return (
     <>
@@ -216,6 +208,13 @@ export const SocietyListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {societyList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={6}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {societyList &&
                     societyList.map((item, index) => {
                       return (
@@ -308,7 +307,7 @@ export const SocietyListingView = () => {
       </div>
       {openDeleteModal && (
         <ModalView
-          modalHeader="Delete society"
+          modalHeader="Delete Society"
           show={openDeleteModal}
           close={handleClose}
           handleAction={handleDelete}
@@ -318,7 +317,7 @@ export const SocietyListingView = () => {
       )}
       {openStatusModal && (
         <ModalView
-          modalHeader="Update society status"
+          modalHeader="Update Society Status"
           show={openStatusModal}
           close={handleClose}
           handleAction={updateStatus}

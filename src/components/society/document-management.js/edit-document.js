@@ -35,7 +35,6 @@ export const EditDocumentView = () => {
     id: selectedDocument?._id,
     documentName: selectedDocument?.documentName,
     description: selectedDocument?.description,
-    documentImageFile: null,
   };
   const callUpdateDocumentAPI = (data) => {
     console.log(data);
@@ -47,9 +46,9 @@ export const EditDocumentView = () => {
     formData.append("documentName", data.documentName);
     formData.append("description", data.description);
 
-    for (const value of formData.values()) {
-      console.log(value);
-    }
+    // for (const value of formData.values()) {
+    //   console.log(value);
+    // }
     dispatch(updateDocument(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
@@ -85,7 +84,7 @@ export const EditDocumentView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/notice-listing");
+                  navigate("/document-listing");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -108,7 +107,6 @@ export const EditDocumentView = () => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -157,10 +155,7 @@ export const EditDocumentView = () => {
                     <div className="col-md-4">
                       {selectFile === null ? (
                         <img
-                          src={
-                            process.env.REACT_APP_SERVER_URL +
-                            selectedDocument?.documentImageFile
-                          }
+                          src={selectedDocument?.documentImageFile}
                           alt="..."
                           width={"400px"}
                           height={"300px;"}

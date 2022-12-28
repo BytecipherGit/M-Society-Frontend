@@ -9,8 +9,6 @@ import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
-import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
-
 import { ModalView } from "../../../common/modal/modal";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import {
@@ -19,6 +17,7 @@ import {
   getAllComplaint,
   getSelectedComplaint,
   updateComplaint,
+  getSearchComplaint,
 } from "../../../common/store/actions/society-actions";
 import { formatDate, toUpperCase } from "../../../common/reuseable-function";
 import { ComplaintStatusModal } from "../../../common/modal/complaint-status-modal";
@@ -120,6 +119,12 @@ export const ComplaintListingView = () => {
       }
     });
   };
+  const callSearchAPI = (text) => {
+    text === ""
+      ? callGetAllComplaintAPI(0)
+      : dispatch(getSearchComplaint(text));
+  };
+
   return (
     <>
       <SocietyHeaderView />
@@ -143,6 +148,7 @@ export const ComplaintListingView = () => {
                     name="search"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e) => callSearchAPI(e.target.value)}
                   />
                 </div>
               </div>
@@ -150,16 +156,23 @@ export const ComplaintListingView = () => {
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th>{S_NO}</th>
+                    <th>S.No.</th>
                     <th>Complian Name</th>
                     <th>Applicant Name</th>
-                    <th>{PHONE_NUMBER}</th>
+                    <th>Phone Number</th>
                     <th>Complain Date</th>
-                    <th>{STATUS}</th>
-                    <th>{ACTION}</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {complaintList?.length === 0 && (
+                    <tr>
+                      <td className="text-center" colSpan={7}>
+                        No Records
+                      </td>
+                    </tr>
+                  )}
                   {complaintList &&
                     complaintList.map((item, index) => {
                       return (

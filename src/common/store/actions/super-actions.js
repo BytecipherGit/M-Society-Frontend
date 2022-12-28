@@ -45,7 +45,7 @@ export const doAuthSuperSendOtp = (params) => {
         type: superAdminActions.SUPER_ADMIN_SEND_OTP,
         payload: {
           email: params.email,
-          otp: response?.data?.data?.OTP,
+          otp: response?.data?.data?.otp,
         },
       });
       return response;
@@ -231,6 +231,24 @@ export const getAllDesignation = (params) => {
     const response = await Instance(
       "GET",
       ApiUrl.GET_ALL_DESIGNATION_API + "?page=" + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: superAdminActions.GET_ALL_DESIGNATION,
+        payload: response?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// Search Designation API
+export const getSearchDesignation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SEARCH_DESIGNATION_API + params
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
