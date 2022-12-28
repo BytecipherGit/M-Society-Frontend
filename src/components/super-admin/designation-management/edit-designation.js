@@ -43,7 +43,7 @@ export const EditDesignationView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/designation-listing");
+        navigate("/designation");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -58,7 +58,7 @@ export const EditDesignationView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/designation-listing">Designation-listing</Link>
+                <Link to="/designation">Designation</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-designation
@@ -69,7 +69,7 @@ export const EditDesignationView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation-listing");
+                  navigate("/designation");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -131,7 +131,7 @@ export const EditDesignationView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/designation-listing")}
+                          onClick={(e) => navigate("/designation")}
                         >
                           {CANCEL_BUTTON}
                         </button>

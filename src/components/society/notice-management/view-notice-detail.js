@@ -21,7 +21,7 @@ export const ViewNoticeDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/notice-listing">Notice-listing</Link>
+                <Link to="/notice">Notice</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-notice
@@ -32,7 +32,7 @@ export const ViewNoticeDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/notice-listing");
+                  navigate("/notice");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}
@@ -51,7 +51,7 @@ export const ViewNoticeDetialView = () => {
             </div>
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(selectedNotice?.createdDate)}</h5>

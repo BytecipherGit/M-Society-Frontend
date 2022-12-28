@@ -36,15 +36,15 @@ export const SocietySidebarView = ({ menu }) => {
         </li>
         <li
           className={
-            window.location.pathname === "/residential-user-listing" ||
-            window.location.pathname === "/view-residential-user-detail"
+            window.location.pathname === "/residential-user" ||
+            window.location.pathname === "/view-residential-user"
               ? "active"
               : ""
           }
         >
           <button
             onClick={() => {
-              navigate("/residential-user-listing");
+              navigate("/residential-user");
             }}
           >
             Residential User
@@ -52,9 +52,9 @@ export const SocietySidebarView = ({ menu }) => {
         </li>
         <li
           className={
-            window.location.pathname === "/phone-directory-listing" ||
+            window.location.pathname === "/phone-directory" ||
             window.location.pathname === "/add-phone-directory" ||
-            window.location.pathname === "/view-phone-directory-detail" ||
+            window.location.pathname === "/view-phone-directory" ||
             window.location.pathname === "/edit-phone-directory"
               ? "active"
               : ""
@@ -62,7 +62,7 @@ export const SocietySidebarView = ({ menu }) => {
         >
           <button
             onClick={() => {
-              navigate("/phone-directory-listing");
+              navigate("/phone-directory");
             }}
           >
             Phone Directory
@@ -70,9 +70,9 @@ export const SocietySidebarView = ({ menu }) => {
         </li>
         <li
           className={
-            window.location.pathname === "/notice-listing" ||
+            window.location.pathname === "/notice" ||
             window.location.pathname === "/add-notice" ||
-            window.location.pathname === "/view-notice-detail" ||
+            window.location.pathname === "/view-notice" ||
             window.location.pathname === "/edit-notice"
               ? "active"
               : ""
@@ -80,7 +80,7 @@ export const SocietySidebarView = ({ menu }) => {
         >
           <button
             onClick={() => {
-              navigate("/notice-listing");
+              navigate("/notice");
             }}
           >
             Notice
@@ -89,15 +89,15 @@ export const SocietySidebarView = ({ menu }) => {
 
         <li
           className={
-            window.location.pathname === "/complaint-listing" ||
-            window.location.pathname === "/view-complaint-detail"
+            window.location.pathname === "/complaint" ||
+            window.location.pathname === "/view-complaint"
               ? "active"
               : ""
           }
         >
           <button
             onClick={() => {
-              navigate("/complaint-listing");
+              navigate("/complaint");
             }}
           >
             Complaint
@@ -106,9 +106,9 @@ export const SocietySidebarView = ({ menu }) => {
 
         <li
           className={
-            window.location.pathname === "/document-listing" ||
+            window.location.pathname === "/document" ||
             window.location.pathname === "/add-document" ||
-            window.location.pathname === "/view-document-detail" ||
+            window.location.pathname === "/view-document" ||
             window.location.pathname === "/edit-document"
               ? "active"
               : ""
@@ -116,7 +116,7 @@ export const SocietySidebarView = ({ menu }) => {
         >
           <button
             onClick={() => {
-              navigate("/document-listing");
+              navigate("/document");
             }}
           >
             Documents

@@ -34,9 +34,9 @@ export const SidebarView = ({ menu }) => {
         </li>
         <li
           className={
-            window.location.pathname === "/society-listing" ||
+            window.location.pathname === "/society" ||
             window.location.pathname === "/add-society" ||
-            window.location.pathname === "/view-society-detail" ||
+            window.location.pathname === "/view-society" ||
             window.location.pathname === "/edit-society"
               ? "active"
               : ""
@@ -44,17 +44,17 @@ export const SidebarView = ({ menu }) => {
         >
           <button
             onClick={() => {
-              navigate("/society-listing");
+              navigate("/society");
             }}
           >
-            Society Listing
+            Society
           </button>
         </li>
         <li
           className={
-            window.location.pathname === "/designation-listing" ||
+            window.location.pathname === "/designation" ||
             window.location.pathname === "/add-designation" ||
-            window.location.pathname === "/view-designation-detail" ||
+            window.location.pathname === "/view-designation" ||
             window.location.pathname === "/edit-designation"
               ? "active"
               : ""
@@ -62,10 +62,10 @@ export const SidebarView = ({ menu }) => {
         >
           <button
             onClick={() => {
-              navigate("/designation-listing");
+              navigate("/designation");
             }}
           >
-            Designation Listing
+            Designation
           </button>
         </li>
       </aside>

@@ -46,17 +46,6 @@ export const Router = () => {
       <BrowserRouter>
         {/* < ScrollToTop /> */}
         <Routes>
-          {/* <Route path='*' element={<GenericNotFound />} />
-					
-
-					<Route element={<DashboardPrivateRoutes />} >
-						
-					</Route>
-
-					<Route element={<AuthPrivateRoutes />} >
-						
-					</Route> */}
-
           <Route>
             <Route exact={true} path="/" element={<LoginView />} />
             <Route exact={true} path="/society-admin" element={<LoginView />} />
@@ -86,7 +75,7 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/notice-listing"
+              path="/notice"
               element={<NoticeListingView />}
             />
             <Route
@@ -101,13 +90,13 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-notice-detail"
+              path="/view-notice"
               element={<ViewNoticeDetialView />}
             />
 
             <Route
               exact={true}
-              path="/phone-directory-listing"
+              path="/phone-directory"
               element={<PhoneDirectoryListingView />}
             />
             <Route
@@ -122,32 +111,32 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-phone-directory-detail"
+              path="/view-phone-directory"
               element={<ViewPhoneDirectoryDetialView />}
             />
             <Route
               exact={true}
-              path="/complaint-listing"
+              path="/complaint"
               element={<ComplaintListingView />}
             />
             <Route
               exact={true}
-              path="/view-complaint-detail"
+              path="/view-complaint"
               element={<ViewComplaintDetialView />}
             />
             <Route
               exact={true}
-              path="/residential-user-listing"
+              path="/residential-user"
               element={<ResidentialUserListingView />}
             />
             <Route
               exact={true}
-              path="/view-residential-user-detail"
+              path="/view-residential-user"
               element={<ViewResidentialUserDetialView />}
             />
             <Route
               exact={true}
-              path="/document-listing"
+              path="/document"
               element={<DocumentListingView />}
             />
             <Route
@@ -162,7 +151,7 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-document-detail"
+              path="/view-document"
               element={<ViewDocumentDetialView />}
             />
             <Route
@@ -177,7 +166,7 @@ export const Router = () => {
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
               exact={true}
-              path="/society-listing"
+              path="/society"
               element={<SocietyListingView />}
             />
             <Route
@@ -192,17 +181,13 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-society-detail"
+              path="/view-society"
               element={<ViewSocietyDetialView />}
             />
+
             <Route
               exact={true}
-              path="/edit-society"
-              element={<EditSocietyView />}
-            />
-            <Route
-              exact={true}
-              path="/designation-listing"
+              path="/designation"
               element={<DesignationListingView />}
             />
             <Route
@@ -217,7 +202,7 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-designation-detail"
+              path="/view-designation"
               element={<ViewDesignationDetialView />}
             />
 

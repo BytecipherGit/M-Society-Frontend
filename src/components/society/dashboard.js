@@ -127,7 +127,7 @@ export const SocietyDashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={usersImage}
                     count={residentialUserCount}
-                    link={"/residential-user-listing"}
+                    link={"/residential-user"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
@@ -136,7 +136,7 @@ export const SocietyDashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={phoneDirectoryImage}
                     count={phoneDirectoryCount}
-                    link={"/phone-directory-listing"}
+                    link={"/phone-directory"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
@@ -145,7 +145,7 @@ export const SocietyDashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={noticeImage}
                     count={noticeCount}
-                    link={"/notice-listing"}
+                    link={"/notice"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
@@ -154,7 +154,7 @@ export const SocietyDashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={complaintImage}
                     count={complaintCount}
-                    link={"/complaint-listing"}
+                    link={"/complaint"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
@@ -163,7 +163,7 @@ export const SocietyDashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={documentImage}
                     count={documentCount}
-                    link={"/document-listing"}
+                    link={"/document"}
                   />
                 </div>
               </div>

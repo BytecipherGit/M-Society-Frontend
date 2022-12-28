@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { SidebarView } from "../side-bar";
 import { SuperHeaderView } from "../super-admin-header";
@@ -22,6 +22,7 @@ import {
   STATUS,
 } from "../../../common/constants";
 import { formatDate, toUpperCase } from "../../../common/reuseable-function";
+import Breadcrumb from "../../../common/components/breadcrumb";
 export const ViewSocietyDetialView = () => {
   const navigate = useNavigate();
   const selectedSociety = useSelector(
@@ -35,12 +36,20 @@ export const ViewSocietyDetialView = () => {
         <SidebarView />
         <div className="main-container">
           <div className="main-heading">
+            <Breadcrumb>
+              <li className="breadcrumb-item">
+                <Link to="/society">Society</Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                View-society
+              </li>
+            </Breadcrumb>
             <h1>
               {SOCIETY_DETAILS}
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/society");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}

@@ -21,7 +21,7 @@ export const ViewDocumentDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/document-listing">Document-listing</Link>
+                <Link to="/document">Document</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-document
@@ -32,7 +32,7 @@ export const ViewDocumentDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/document-listing");
+                  navigate("/document");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}
@@ -43,7 +43,7 @@ export const ViewDocumentDetialView = () => {
           <div className="form-box main-form-detial">
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Document Name</h5>
+                <h5 className="font-weight-bold">Name</h5>
               </div>
               <div className="col-md-8">
                 <h5>{toUpperCase(selectedDocument?.documentName)}</h5>
@@ -51,7 +51,7 @@ export const ViewDocumentDetialView = () => {
             </div>
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(selectedDocument?.createdDate)}</h5>

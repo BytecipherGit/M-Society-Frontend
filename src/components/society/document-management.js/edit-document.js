@@ -58,7 +58,7 @@ export const EditDocumentView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/document-listing");
+        navigate("/document");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -73,7 +73,7 @@ export const EditDocumentView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/document-listing">Document-listing</Link>
+                <Link to="/document">Document</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-document
@@ -84,7 +84,7 @@ export const EditDocumentView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/document-listing");
+                  navigate("/document");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -207,7 +207,7 @@ export const EditDocumentView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/document-listing")}
+                          onClick={(e) => navigate("/document")}
                         >
                           {CANCEL_BUTTON}
                         </button>

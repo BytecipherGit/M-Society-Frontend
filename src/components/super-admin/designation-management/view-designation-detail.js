@@ -27,7 +27,7 @@ export const ViewDesignationDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/designation-listing">Designation-listing</Link>
+                <Link to="/designation">Designation</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-designation
@@ -38,7 +38,7 @@ export const ViewDesignationDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation-listing");
+                  navigate("/designation");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}

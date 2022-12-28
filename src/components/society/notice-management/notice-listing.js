@@ -69,7 +69,7 @@ export const NoticeListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-notice-detail");
+        navigate("/view-notice");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -162,7 +162,7 @@ export const NoticeListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Notice-listing</li>
+              <li className="breadcrumb-item">Notice</li>
             </Breadcrumb>
             <h1>
               Notice
@@ -195,8 +195,8 @@ export const NoticeListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>Notice Title</th>
-                    <th>Create Date</th>
+                    <th>Title</th>
+                    <th>Date</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
@@ -299,7 +299,7 @@ export const NoticeListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this notice (${selectedItem.title} )?`}</p>
+          <p>{`Are you sure you want to update the status of this notice (${selectedItem.title} )?`}</p>
         </ModalView>
       )}
     </>

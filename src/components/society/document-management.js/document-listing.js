@@ -69,7 +69,7 @@ export const DocumentListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-document-detail");
+        navigate("/view-document");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -162,7 +162,7 @@ export const DocumentListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Document-listing</li>
+              <li className="breadcrumb-item">Document</li>
             </Breadcrumb>
             <h1>
               Documents
@@ -195,7 +195,7 @@ export const DocumentListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>Document Name</th>
+                    <th>Name</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
@@ -297,7 +297,7 @@ export const DocumentListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this document (${selectedItem.documentName} )?`}</p>
+          <p>{`Are you sure you want to update the status of this document (${selectedItem.documentName} )?`}</p>
         </ModalView>
       )}
     </>

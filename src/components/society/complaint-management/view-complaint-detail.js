@@ -22,7 +22,7 @@ export const ViewComplaintDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/complaint-listing">Complaint-listing</Link>
+                <Link to="/complaint">Complaint</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-complaint
@@ -33,7 +33,7 @@ export const ViewComplaintDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/complaint-listing");
+                  navigate("/complaint");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}
@@ -44,7 +44,7 @@ export const ViewComplaintDetialView = () => {
           <div className="form-box main-form-detial">
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Complain Title</h5>
+                <h5 className="font-weight-bold">Title</h5>
               </div>
               <div className="col-md-8">
                 <h5>{toUpperCase(selectedComplaint?.complainTitle)}</h5>
@@ -69,7 +69,7 @@ export const ViewComplaintDetialView = () => {
 
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(selectedComplaint?.createdDate)}</h5>

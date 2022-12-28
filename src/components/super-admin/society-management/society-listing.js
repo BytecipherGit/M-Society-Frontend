@@ -10,14 +10,7 @@ import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
-import {
-  ACTION,
-  ADDRESS,
-  ADMIN_NAME,
-  SOCIETY_NAME,
-  STATUS,
-  S_NO,
-} from "../../../common/constants";
+import { ACTION, ADDRESS, STATUS, S_NO } from "../../../common/constants";
 import {
   getAllSociety,
   getSelectedSociety,
@@ -75,7 +68,7 @@ export const SocietyListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-society-detail");
+        navigate("/view-society");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -167,7 +160,7 @@ export const SocietyListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Society-listing</li>
+              <li className="breadcrumb-item">Society</li>
             </Breadcrumb>
             <h1>
               Societies
@@ -200,9 +193,9 @@ export const SocietyListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>{SOCIETY_NAME}</th>
+                    <th>Name</th>
                     <th>{ADDRESS}</th>
-                    <th>{ADMIN_NAME}</th>
+                    <th>Admin</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
@@ -322,7 +315,7 @@ export const SocietyListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this society (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update the status of this society (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

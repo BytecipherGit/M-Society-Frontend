@@ -38,7 +38,7 @@ export const AddNoticeView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/notice-listing");
+        navigate("/notice");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -53,7 +53,7 @@ export const AddNoticeView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/notice-listing">Notice-listing</Link>
+                <Link to="/notice">Notice</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Add-notice
@@ -64,7 +64,7 @@ export const AddNoticeView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/notice-listing");
+                  navigate("/notice");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}

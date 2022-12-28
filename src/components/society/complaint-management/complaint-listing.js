@@ -67,7 +67,7 @@ export const ComplaintListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-complaint-detail");
+        navigate("/view-complaint");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -134,7 +134,7 @@ export const ComplaintListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Complaint-listing</li>
+              <li className="breadcrumb-item">Complaint</li>
             </Breadcrumb>
             <h1>Complaints</h1>
           </div>
@@ -157,10 +157,10 @@ export const ComplaintListingView = () => {
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>Complian Name</th>
+                    <th>Name</th>
                     <th>Applicant Name</th>
                     <th>Phone Number</th>
-                    <th>Complain Date</th>
+                    <th>Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>

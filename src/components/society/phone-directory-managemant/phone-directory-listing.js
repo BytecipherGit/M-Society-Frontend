@@ -75,7 +75,7 @@ export const PhoneDirectoryListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-phone-directory-detail");
+        navigate("/view-phone-directory");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -171,7 +171,7 @@ export const PhoneDirectoryListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Phone-directory-listing</li>
+              <li className="breadcrumb-item">Phone-directory</li>
             </Breadcrumb>
             <h1>
               Phone Directories
@@ -309,7 +309,7 @@ export const PhoneDirectoryListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this phone directory (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update the status of this directory (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

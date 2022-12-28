@@ -45,7 +45,7 @@ export const EditNoticeView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/notice-listing");
+        navigate("/notice");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -60,7 +60,7 @@ export const EditNoticeView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/notice-listing">Notice-listing</Link>
+                <Link to="/notice">Notice</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-notice
@@ -71,7 +71,7 @@ export const EditNoticeView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/notice-listing");
+                  navigate("/notice");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -154,7 +154,7 @@ export const EditNoticeView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/notice-listing")}
+                          onClick={(e) => navigate("/notice")}
                         >
                           {CANCEL_BUTTON}
                         </button>

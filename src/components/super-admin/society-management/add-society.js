@@ -31,7 +31,6 @@ import {
 } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
 
-
 const validationSchema = Yup.object().shape({
   societyName: Yup.string().required("Society name required"),
   societyAddress: Yup.string().required("Society address required"),
@@ -76,7 +75,7 @@ export const AddSocietyView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society-listing");
+        navigate("/society");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -91,7 +90,7 @@ export const AddSocietyView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society-listing">Society-listing</Link>
+                <Link to="/society">Society</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Add-society
@@ -102,7 +101,7 @@ export const AddSocietyView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/society");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}

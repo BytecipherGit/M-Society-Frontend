@@ -22,9 +22,7 @@ export const ViewResidentialUserDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/residential-user-listing">
-                  Residential-user-listing
-                </Link>
+                <Link to="/residential-user">Residential-user</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-residential-user
@@ -35,7 +33,7 @@ export const ViewResidentialUserDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/residential-user-listing");
+                  navigate("/residential-user");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}
@@ -46,7 +44,7 @@ export const ViewResidentialUserDetialView = () => {
           <div className="form-box main-form-detial">
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Resident Name</h5>
+                <h5 className="font-weight-bold">Name</h5>
               </div>
               <div className="col-md-8">
                 <h5>{toUpperCase(selectedUser?.name)}</h5>
@@ -71,7 +69,7 @@ export const ViewResidentialUserDetialView = () => {
 
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(selectedUser?.createdDate)}</h5>

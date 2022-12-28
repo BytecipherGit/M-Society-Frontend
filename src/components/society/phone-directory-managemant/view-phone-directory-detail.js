@@ -26,9 +26,7 @@ export const ViewPhoneDirectoryDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/phone-directory-listing">
-                  Phone-directory-listing
-                </Link>
+                <Link to="/phone-directory">Phone-directory</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 View-phone-directory
@@ -39,7 +37,7 @@ export const ViewPhoneDirectoryDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/phone-directory-listing");
+                  navigate("/phone-directory");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}
@@ -74,7 +72,7 @@ export const ViewPhoneDirectoryDetialView = () => {
             </div>
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(selectedPhoneDirectory?.createdDate)}</h5>

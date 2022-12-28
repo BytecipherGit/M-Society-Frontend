@@ -10,12 +10,7 @@ import ViewIcon from "../../../static/images/view.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
-import {
-  ACTION,
-  DESIGNATION_NAME,
-  STATUS,
-  S_NO,
-} from "../../../common/constants";
+import { ACTION, STATUS, S_NO } from "../../../common/constants";
 import {
   getSelectedDesignation,
   deleteDesignation,
@@ -73,7 +68,7 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-designation-detail");
+        navigate("/view-designation");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -168,7 +163,7 @@ export const DesignationListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Designation-listing</li>
+              <li className="breadcrumb-item">Designation</li>
             </Breadcrumb>
             <h1>
               Designations
@@ -201,7 +196,7 @@ export const DesignationListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>{DESIGNATION_NAME}</th>
+                    <th>Name</th>
                     <th>{STATUS}</th>
                     <th>{ACTION}</th>
                   </tr>
@@ -320,7 +315,7 @@ export const DesignationListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this designation (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update the status of this designation (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

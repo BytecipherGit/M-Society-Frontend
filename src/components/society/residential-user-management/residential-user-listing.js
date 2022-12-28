@@ -66,7 +66,7 @@ export const ResidentialUserListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-residential-user-detail");
+        navigate("/view-residential-user");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -147,7 +147,7 @@ export const ResidentialUserListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Residential-user-listing</li>
+              <li className="breadcrumb-item">Residential-user</li>
             </Breadcrumb>
             <h1>Residential Users</h1>
           </div>
@@ -170,7 +170,7 @@ export const ResidentialUserListingView = () => {
                 <thead>
                   <tr>
                     <th>{S_NO}</th>
-                    <th>Resident Name</th>
+                    <th>Name</th>
                     <th>House Number</th>
                     <th>{PHONE_NUMBER}</th>
                     <th>{STATUS}</th>
@@ -265,7 +265,7 @@ export const ResidentialUserListingView = () => {
           close={handleClose}
           handleAction={updateStatus}
         >
-          <p>{`Are you sure you want to update status this residential user (${selectedItem.name} )?`}</p>
+          <p>{`Are you sure you want to update the status of this residential user (${selectedItem.name} )?`}</p>
         </ModalView>
       )}
     </>

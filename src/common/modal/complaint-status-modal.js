@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 export const ComplaintStatusModal = ({ show, close, handleAction, data }) => {
   const [status, setStatus] = useState("");
+  useEffect(() => {
+    setStatus(data?.status);
+  }, [data?.status]);
   const onSubmit = (e) => {
     e.preventDefault();
     handleAction({ id: data._id, status: status });

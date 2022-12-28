@@ -54,7 +54,7 @@ export const EditSocietyView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society-listing");
+        navigate("/society");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -69,7 +69,7 @@ export const EditSocietyView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society-listing">Society-listing</Link>
+                <Link to="/society">Society</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-society
@@ -80,7 +80,7 @@ export const EditSocietyView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/society");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -206,7 +206,7 @@ export const EditSocietyView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/society-listing")}
+                          onClick={(e) => navigate("/society")}
                         >
                           {CANCEL_BUTTON}
                         </button>

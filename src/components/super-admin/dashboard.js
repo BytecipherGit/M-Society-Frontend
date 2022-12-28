@@ -69,7 +69,7 @@ export const DashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={societyIcon}
                     count={societyCount}
-                    link={"/society-listing"}
+                    link={"/society"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
@@ -78,7 +78,7 @@ export const DashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={designationIcon}
                     count={designationCount}
-                    link={"/designation-listing"}
+                    link={"/designation"}
                   />
                 </div>
               </div>

@@ -52,7 +52,7 @@ export const AddPhoneDirectoryView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/phone-directory-listing");
+        navigate("/phone-directory");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -67,9 +67,7 @@ export const AddPhoneDirectoryView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/phone-directory-listing">
-                  Phone-directory-listing
-                </Link>
+                <Link to="/phone-directory">Phone-directory</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Add-phone-directory
@@ -80,7 +78,7 @@ export const AddPhoneDirectoryView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/phone-directory-listing");
+                  navigate("/phone-directory");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
