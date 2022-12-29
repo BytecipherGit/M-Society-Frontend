@@ -164,7 +164,7 @@ export const SuperHeaderView = () => {
                     }
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <button className="dropdown-item">{PROFILE}</button>
+                    {/* <button className="dropdown-item">{PROFILE}</button> */}
                     <button
                       className="dropdown-item"
                       onClick={(e) => navigate("/change-password")}

@@ -102,7 +102,7 @@ export const ViewSocietyDetialView = () => {
             </div>
             <div className="row">
               <div className="col-md-4">
-                <h5 className="font-weight-bold">Create Date</h5>
+                <h5 className="font-weight-bold">Date</h5>
               </div>
               <div className="col-md-8">
                 <h5>{formatDate(society?.createdDate)}</h5>

@@ -112,6 +112,40 @@ export const doAuthSocietyChangePassword = (params) => {
   };
 };
 
+// get logged in admin profile
+export const getSocietyAdminProfile = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "GET",
+      ApiUrl.GET_SELECTED_RESIDENT_USER_API + params
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      dispatch({
+        type: societyAdminActions.GET_SOCIETY_ADMIN_PROFILE,
+        payload: response?.data?.data,
+      });
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// Update Admin Profile
+export const updateSocietyAdminProfile = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "PUT",
+      ApiUrl.RESIDENT_USER_UPDATE_API,
+      params,
+      "file"
+    );
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    }
+    return response.response;
+  };
+};
+
 // Add Notice
 export const addNotice = (params) => {
   return async (dispatch) => {

@@ -14,7 +14,8 @@ export const SocietyHeaderView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminName = useSelector(({ auth }) => auth.loginUser?.data?.name);
+ 
+  const profile = useSelector(({ societyAdmin }) => societyAdmin?.adminProfile);
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState(false);
 
@@ -151,7 +152,7 @@ export const SocietyHeaderView = () => {
                     aria-expanded="false"
                   >
                     <img src={UserIcon} className="userIconimg" alt="User" />
-                    <span>{adminName}</span>
+                    <span>{profile?.name}</span>
                     <img
                       src={DropdownIcon}
                       className="right-doun"
@@ -164,7 +165,12 @@ export const SocietyHeaderView = () => {
                     }
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <button className="dropdown-item">{PROFILE}</button>
+                    <button
+                      onClick={(e) => navigate("/society-admin-profile")}
+                      className="dropdown-item"
+                    >
+                      {PROFILE}
+                    </button>
                     <button
                       className="dropdown-item"
                       onClick={(e) =>

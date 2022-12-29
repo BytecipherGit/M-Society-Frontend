@@ -32,6 +32,7 @@ import {
   AddDocumentView,
   DocumentListingView,
   SocietyAdminChangePasswordView,
+  SocietyAdminProfile,
 } from "../components";
 
 import {
@@ -93,7 +94,6 @@ export const Router = () => {
               path="/view-notice"
               element={<ViewNoticeDetialView />}
             />
-
             <Route
               exact={true}
               path="/phone-directory"
@@ -154,10 +154,16 @@ export const Router = () => {
               path="/view-document"
               element={<ViewDocumentDetialView />}
             />
+
             <Route
               exact={true}
               path="/society-admin-change-password"
               element={<SocietyAdminChangePasswordView />}
+            />
+            <Route
+              exact={true}
+              path="/society-admin-profile"
+              element={<SocietyAdminProfile />}
             />
           </Route>
 

@@ -1,67 +1,98 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import { Formik } from "formik";
-import { toastr } from "react-redux-toastr";
-import { useSelector, useDispatch } from "react-redux";
-import { SocietySidebarView } from "../side-bar";
-import BackArrow from "../../../static/images/back-icon.png";
+import * as Yup from "yup";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Breadcrumb from "../../common/components/breadcrumb";
+import BackArrow from "../../static/images/back-icon.png";
 import {
   BACK_BUTTON,
   CANCEL_BUTTON,
-  SOCIETY_ADDRESS,
   UPDATE_BUTTON,
   OCCUPATION,
   PHONE_NUMBER,
-} from "../../../common/constants";
-
-import Breadcrumb from "../../../common/components/breadcrumb";
-import { SocietyHeaderView } from "../society-header";
+  HOUSE_NUMBER,
+} from "../../common/constants";
+import { SocietySidebarView } from "./side-bar";
+import { SocietyHeaderView } from "./society-header";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  updatePhoneDirectory,
   generateNewToken,
-} from "../../../common/store/actions/society-actions";
+  getSocietyAdminProfile,
+  updateSocietyAdminProfile,
+} from "../../common/store/actions/society-actions";
+import { toastr } from "react-redux-toastr";
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name required"),
-  address: Yup.string().required("Address required"),
-  phoneNumber: Yup.string()
-    .required("Phone number required")
-    .min(10, "Phone number is not valid")
-    .max(10, "Phone number is not valid")
-    .matches(/^[0-9]*$/, "Phone number is not valid"),
-  profession: Yup.string().required("Profession required"),
-});
-export const EditPhoneDirectoryView = () => {
-  const navigate = useNavigate();
+export const SocietyAdminProfile = () => {
   const dispatch = useDispatch();
-  const selectedPhoneDirectory = useSelector(
-    ({ societyAdmin }) => societyAdmin?.selectedPhoneDirectory?.data
-  );
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const initialValues = {
-    id: selectedPhoneDirectory?._id,
-    name: selectedPhoneDirectory?.name,
-    address: selectedPhoneDirectory?.address,
-    phoneNumber: selectedPhoneDirectory?.phoneNumber,
-    profession: selectedPhoneDirectory?.profession,
+  const profile = useSelector(({ societyAdmin }) => societyAdmin?.adminProfile);
+  
+  const callGetProfileAPI = (id) => {
+    dispatch(getSocietyAdminProfile(id)).then((res) => {
+      if (res?.status === 403 && res?.data?.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data?.success) {
+            callGetProfileAPI(id);
+          }
+        });
+      } else if (res?.status === 200 && res?.data.success) {
+      }
+    });
   };
-  const callUpdatePhoneDirectoryAPI = (data) => {
-    dispatch(updatePhoneDirectory(data)).then((res) => {
+
+  const callUpdateProfileAPI = (data) => {
+    const formData = new FormData();
+    formData.append("id", data?.id);
+    formData.append("name", data.name);
+    formData.append("address", data.address);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("houseNumber", data.houseNumber);
+    formData.append("occupation", data.occupation);
+    selectedFile !== null &&
+      formData.append("profileImage", selectedFile, selectedFile.name);
+
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+    dispatch(updateSocietyAdminProfile(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdatePhoneDirectoryAPI(data);
+            callUpdateProfileAPI(data);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/phone-directory");
+        callGetProfileAPI(profile._id);
+        navigate("/society-dashboard");
       } else {
         toastr.error("Error", res?.data?.message);
       }
     });
   };
+
+  const initialValues = {
+    id: profile?._id,
+    name: profile?.name,
+    address: profile?.address,
+    phoneNumber: profile?.phoneNumber,
+    houseNumber: profile?.houseNumber,
+    occupation: profile?.occupation,
+    profileImage: profile?.profileImage,
+  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name required"),
+    address: Yup.string().required("Address required"),
+    phoneNumber: Yup.string()
+      .required("Phone number required")
+      .min(10, "Phone number is not valid")
+      .max(10, "Phone number is not valid")
+      .matches(/^[0-9]*$/, "Phone number is not valid"),
+    occupation: Yup.string().required("Occupation / Profession required"),
+    houseNumber: Yup.string().required("House / Flat number required"),
+  });
   return (
     <>
       <SocietyHeaderView />
@@ -70,19 +101,16 @@ export const EditPhoneDirectoryView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">
-                <Link to="/phone-directory">Phone-directory</Link>
-              </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Edit-phone-directory
+                Profile
               </li>
             </Breadcrumb>
             <h1>
-              Edit Phone Directory
+              Profile
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/phone-directory");
+                  navigate("/society-dashboard");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -95,7 +123,8 @@ export const EditPhoneDirectoryView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdatePhoneDirectoryAPI(values);
+                console.log(values);
+                callUpdateProfileAPI(values);
               }}
             >
               {({
@@ -106,7 +135,40 @@ export const EditPhoneDirectoryView = () => {
                 handleBlur,
                 handleSubmit,
               }) => (
-                <form onSubmit={handleSubmit}>
+                <form className="adminProfile" onSubmit={handleSubmit}>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="upload-img-box">
+                        <div className="circle">
+                          {selectedFile && (
+                            <img
+                              className="profile-pic"
+                              src={URL.createObjectURL(selectedFile)}
+                              alt={selectedFile?.name}
+                              // height="100px"
+                            />
+                          )}
+                          <img
+                            className="profile-pic"
+                            src={profile?.profileImage}
+                            alt="..."
+                          />
+                        </div>
+                        <div className="p-image ml-auto">
+                          <label htmlFor="profileImageSelect">
+                            <i className="fa fa-pencil upload-button"></i>
+                          </label>
+                          <input
+                            className="file-upload"
+                            type="file"
+                            accept="image/*"
+                            id="profileImageSelect"
+                            onChange={(e) => setSelectedFile(e.target.files[0])}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
@@ -155,15 +217,36 @@ export const EditPhoneDirectoryView = () => {
                         </label>
                         <input
                           type="text"
-                          name="profession"
+                          name="occupation"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.profession}
+                          value={values.occupation}
                         />
-                        {errors.profession && touched.profession && (
-                          <h6 className="validationBx">{errors.profession}</h6>
+                        {errors.occupation && touched.occupation && (
+                          <h6 className="validationBx">{errors.occupation}</h6>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {HOUSE_NUMBER} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="houseNumber"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.houseNumber}
+                        />
+                        {errors.houseNumber && touched.houseNumber && (
+                          <h6 className="validationBx">{errors.houseNumber}</h6>
                         )}
                       </div>
                     </div>
@@ -204,7 +287,7 @@ export const EditPhoneDirectoryView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/phone-directory")}
+                          onClick={(e) => navigate("/society-dashboard")}
                         >
                           {CANCEL_BUTTON}
                         </button>

@@ -1,7 +1,7 @@
 import storage from "redux-persist/lib/storage";
 import { Instance } from "../api-services";
 import { ApiUrl } from "../api-urls";
-import { authActions } from "./action-types";
+import { authActions, societyAdminActions } from "./action-types";
 
 export const doAuthLogin = (params) => {
   const url =
@@ -26,7 +26,12 @@ export const doAuthLogin = (params) => {
         type: authActions.AUTH_LOGIN,
         payload: response?.data,
       });
-
+      if (response?.data?.data?.isAdmin === "1") {
+        dispatch({
+          type: societyAdminActions.GET_SOCIETY_ADMIN_PROFILE,
+          payload: response?.data?.data,
+        });
+      }
       return response;
     } else if (response?.status === 200 && !response?.data?.success) {
       return response;

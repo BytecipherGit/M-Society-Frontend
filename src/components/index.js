@@ -1,3 +1,5 @@
+export { SocietyAdminProfile } from "./society/society-admin-profile";
+
 export { SocietyAdminChangePasswordView } from "./society/change-password";
 
 export { AddDocumentView } from "./society/document-management.js/add-document";
