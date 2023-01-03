@@ -66,7 +66,7 @@ export const doAuthSocietySetNewPassword = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "POST",
-      ApiUrl.RESIDENT_USER_SET_NEW_PASS_API,
+      ApiUrl.SOCIETY_ADMIN_SET_NEW_PASS_API,
       params
     );
 
@@ -89,7 +89,7 @@ export const doAuthSocietyChangePassword = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "POST",
-      ApiUrl.RESIDENT_USER_CHANGE_PASS_API,
+      ApiUrl.SOCIETY_ADMIN_CHANGE_PASS_API,
       params
     );
 
@@ -484,6 +484,21 @@ export const deleteResidentialUser = (params) => {
       params
     );
 
+    if (response?.status === 200 && response?.data?.success) {
+      return response;
+    }
+    return response.response;
+  };
+};
+
+// Send invietion Api
+export const sendInvitation = (params) => {
+  return async (dispatch) => {
+    const response = await Instance(
+      "POST",
+      ApiUrl.SOCIETY_ADMIN_SEND_INVITE_API,
+      params
+    );
     if (response?.status === 200 && response?.data?.success) {
       return response;
     }

@@ -9,7 +9,6 @@ import BackArrow from "../../../static/images/back-icon.png";
 import {
   BACK_BUTTON,
   CANCEL_BUTTON,
-  SOCIETY_ADDRESS,
   UPDATE_BUTTON,
   OCCUPATION,
   PHONE_NUMBER,

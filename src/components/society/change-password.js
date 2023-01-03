@@ -91,7 +91,11 @@ export const SocietyAdminChangePasswordView = () => {
                       initialValues={initialValues}
                       validationSchema={validationSchema}
                       onSubmit={(values) => {
-                        callChangePasswordAPI(values);
+                        const data = {
+                          oldPassword: values.password,
+                          newPassword: values.changePassword,
+                        };
+                        callChangePasswordAPI(data);
                       }}
                     >
                       {({

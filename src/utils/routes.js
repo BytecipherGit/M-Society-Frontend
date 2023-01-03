@@ -33,6 +33,7 @@ import {
   DocumentListingView,
   SocietyAdminChangePasswordView,
   SocietyAdminProfile,
+  InvitetionView,
 } from "../components";
 
 import {
@@ -128,6 +129,11 @@ export const Router = () => {
               exact={true}
               path="/residential-user"
               element={<ResidentialUserListingView />}
+            />
+            <Route
+              exact={true}
+              path="/invitetion"
+              element={<InvitetionView />}
             />
             <Route
               exact={true}

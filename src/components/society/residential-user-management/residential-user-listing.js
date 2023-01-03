@@ -6,6 +6,7 @@ import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
 import { SocietySidebarView } from "../side-bar";
 import ViewIcon from "../../../static/images/view.png";
+import PlusIcon from "../../../static/images/button-plus.png";
 import DeleteIcon from "../../../static/images/delete.png";
 import { ACTION, PHONE_NUMBER, STATUS, S_NO } from "../../../common/constants";
 import { ModalView } from "../../../common/modal/modal";
@@ -149,7 +150,17 @@ export const ResidentialUserListingView = () => {
             <Breadcrumb>
               <li className="breadcrumb-item">Residential-user</li>
             </Breadcrumb>
-            <h1>Residential Users</h1>
+            <h1>
+              Residential Users
+              <button
+                className="active_button"
+                onClick={() => {
+                  navigate("/invitetion");
+                }}
+              >
+                <img src={PlusIcon} alt="Plus" /> Add
+              </button>
+            </h1>
           </div>
           <div className="table_design">
             <div className="table-responsive">

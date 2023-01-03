@@ -17,12 +17,12 @@ export const ApiUrl = {
 
   // Society Admin API URLS
 
-  AUTH_SOCIETY_ADMIN_GENERATE_NEW_TOKEN_API:
-    BaseUrl + "residentialUser/refresh-token",
-  SOCIETY_ADMIN_LOGIN_API: BaseUrl + "society/adminLogin",
-  SOCIETY_ADMIN_SIGNUP_API: "society/adminSignUp",
-  SOCIETY_ADMIN_SEND_INVITE_API: "society/sendInvitation",
-  GET_ALL_SOCIETY_API: "society/all",
+  AUTH_SOCIETY_ADMIN_GENERATE_NEW_TOKEN_API: BaseUrl + "admin/refresh-token",
+  SOCIETY_ADMIN_LOGIN_API: BaseUrl + "admin/login",
+  SOCIETY_ADMIN_LOGOUT_API: BaseUrl + "admin/logout",
+  SOCIETY_ADMIN_CHANGE_PASS_API: BaseUrl + "admin/changePassword",
+  SOCIETY_ADMIN_SEND_INVITE_API: BaseUrl + "admin/invitation/send",
+  SOCIETY_ADMIN_SET_NEW_PASS_API: BaseUrl + "user/setNewPassword",
 
   // Designation API URLS
   ADD_DESIGNATION_API: BaseUrl + "designation/",
@@ -41,12 +41,12 @@ export const ApiUrl = {
   GET_SEARCH_NOTICE_API: BaseUrl + "notice/search/",
 
   // Phone Directory (Society Admin dashboard) API URLS
-  ADD_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
-  DELETE_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
-  UPDATE_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
-  GET_ALL_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/all",
-  GET_SELECTED_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/",
-  GET_SEARCH_PHONE_DIRECTORY_API: BaseUrl + "phonedirectory/search/",
+  ADD_PHONE_DIRECTORY_API: BaseUrl + "directory/",
+  DELETE_PHONE_DIRECTORY_API: BaseUrl + "directory/",
+  UPDATE_PHONE_DIRECTORY_API: BaseUrl + "directory/",
+  GET_ALL_PHONE_DIRECTORY_API: BaseUrl + "directory/all",
+  GET_SELECTED_PHONE_DIRECTORY_API: BaseUrl + "directory/",
+  GET_SEARCH_PHONE_DIRECTORY_API: BaseUrl + "directory/search/",
 
   // Phone Directory (Society Admin dashboard) API URLS
 
@@ -60,15 +60,15 @@ export const ApiUrl = {
   RESIDENT_USER_SIGNUP_API: BaseUrl + "residentialUser/signup",
   RESIDENT_USER_LOGIN_API: BaseUrl + "residentialUser/login",
 
-  RESIDENT_USER_DELETE_API: BaseUrl + "residentialUser/",
-  RESIDENT_USER_UPDATE_API: BaseUrl + "residentialUser/",
-  GET_ALL_RESIDENT_USER_API: BaseUrl + "residentialUser/all",
-  GET_SEARCH_RESIDENT_USER_API: BaseUrl + "residentialUser/search/",
-  GET_SELECTED_RESIDENT_USER_API: BaseUrl + "residentialUser/",
+  RESIDENT_USER_DELETE_API: BaseUrl + "user/",
+  RESIDENT_USER_UPDATE_API: BaseUrl + "user",
+  GET_ALL_RESIDENT_USER_API: BaseUrl + "user/all",
+  GET_SEARCH_RESIDENT_USER_API: BaseUrl + "user/search/",
+  GET_SELECTED_RESIDENT_USER_API: BaseUrl + "user/",
 
-  RESIDENT_USER_SET_NEW_PASS_API: BaseUrl + "residentialUser/setNewPassword",
+  RESIDENT_USER_SET_NEW_PASS_API: BaseUrl + "user/setNewPassword",
   RESIDENT_USER_CHANGE_PASS_API: BaseUrl + "residentialUser/changePassword",
-  RESIDENT_USER_SEND_OTP_API: BaseUrl + "residentialUser/sendOtp",
+  RESIDENT_USER_SEND_OTP_API: BaseUrl + "user/sendOtp",
 
   // Document (Society Admin dashboard) API URLS
   ADD_DOCUMENT_API: BaseUrl + "document/",

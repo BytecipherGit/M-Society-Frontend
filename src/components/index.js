@@ -1,3 +1,5 @@
+export { InvitetionView } from "./society/residential-user-management/invitetion";
+
 export { SocietyAdminProfile } from "./society/society-admin-profile";
 
 export { SocietyAdminChangePasswordView } from "./society/change-password";

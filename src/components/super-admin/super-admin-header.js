@@ -8,7 +8,7 @@ import DropdownIcon from "../../static/images/droup-down-gray.png";
 import UserIcon from "../../static/images/user-img.png";
 import NotificationsIcon from "../../static/images/notifications-icon.png";
 import { doAuthLogout } from "../../common/store/actions/auth-action";
-import { CHANGE_PASSWORD, LOGOUT, PROFILE } from "../../common/constants";
+import { CHANGE_PASSWORD, LOGOUT } from "../../common/constants";
 
 export const SuperHeaderView = () => {
   const navigate = useNavigate();

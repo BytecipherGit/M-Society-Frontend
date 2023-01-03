@@ -23,7 +23,6 @@ export const ChangePasswordView = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialValues = {
-    email: localStorage.getItem("email"),
     password: "",
     changePassword: "",
     c_changePassword: "",
@@ -91,7 +90,11 @@ export const ChangePasswordView = () => {
                       initialValues={initialValues}
                       validationSchema={validationSchema}
                       onSubmit={(values) => {
-                        callChangePasswordAPI(values);
+                        const data = {
+                          oldPassword: values.password,
+                          newPassword: values.changePassword,
+                        };
+                        callChangePasswordAPI(data);
                       }}
                     >
                       {({

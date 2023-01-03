@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../common/components/breadcrumb";
 import BackArrow from "../../static/images/back-icon.png";
 import {
@@ -28,7 +28,7 @@ export const SocietyAdminProfile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const profile = useSelector(({ societyAdmin }) => societyAdmin?.adminProfile);
-  
+
   const callGetProfileAPI = (id) => {
     dispatch(getSocietyAdminProfile(id)).then((res) => {
       if (res?.status === 403 && res?.data?.success === false) {
@@ -53,9 +53,9 @@ export const SocietyAdminProfile = () => {
     selectedFile !== null &&
       formData.append("profileImage", selectedFile, selectedFile.name);
 
-    for (const value of formData.values()) {
-      console.log(value);
-    }
+    // for (const value of formData.values()) {
+    //   console.log(value);
+    // }
     dispatch(updateSocietyAdminProfile(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {

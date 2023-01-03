@@ -52,13 +52,13 @@ export const doAuthLogout = (params) => {
   return async (dispatch) => {
     const refresh_token = localStorage.getItem("refreshToken");
     const token = localStorage.getItem("accessToken");
+    const isSocietyAdmin = localStorage.getItem("isSocietyAdmin");
+    const URL =
+      isSocietyAdmin === "1"
+        ? ApiUrl.SOCIETY_ADMIN_LOGOUT_API
+        : ApiUrl.AUTH_SUPER_ADMIN_LOGOUT_API;
     params = { refresh_token, token };
-    const response = await Instance(
-      "DELETE",
-      ApiUrl.AUTH_SUPER_ADMIN_LOGOUT_API,
-      params
-    );
-    // console.log("logout api rresponse >>>", response);
+    const response = await Instance("DELETE", URL, params);
 
     if (response?.status === 200 && response?.data?.success) {
       storage?.localStorage?.clear();
