@@ -8,7 +8,7 @@ import DropdownIcon from "../../static/images/droup-down-gray.png";
 import UserIcon from "../../static/images/user-img.png";
 import NotificationsIcon from "../../static/images/notifications-icon.png";
 import { doAuthLogout } from "../../common/store/actions/auth-action";
-import { CHANGE_PASSWORD, LOGOUT, PROFILE } from "../../common/constants";
+import { CHANGE_PASSWORD, LOGOUT } from "../../common/constants";
 
 export const SuperHeaderView = () => {
   const navigate = useNavigate();
@@ -164,8 +164,13 @@ export const SuperHeaderView = () => {
                     }
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <button className="dropdown-item">{PROFILE}</button>
-                    <button className="dropdown-item">{CHANGE_PASSWORD}</button>
+                    {/* <button className="dropdown-item">{PROFILE}</button> */}
+                    <button
+                      className="dropdown-item"
+                      onClick={(e) => navigate("/change-password")}
+                    >
+                      {CHANGE_PASSWORD}
+                    </button>
                     <hr />
                     <button
                       className="dropdown-item dropdown-item-no d-flex"
@@ -174,10 +179,9 @@ export const SuperHeaderView = () => {
                           if (res?.data?.success && res?.status === 200) {
                             toastr.info("Success", res?.data?.message);
                             navigate("/");
-                            return;
                           } else {
-                            toastr.error("Error", res?.data?.message);
-                            return;
+                            navigate("/");
+                            toastr.info("Success", "Logged out! ");
                           }
                         });
                       }}

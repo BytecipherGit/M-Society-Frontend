@@ -3,6 +3,8 @@ import { authActions, superAdminActions } from "../actions/action-types";
 const getInitialState = () => ({
   societyList: {},
   selectedSociety: {},
+  designationList: {},
+  selectedDesignation: {},
   otpCred: {},
 });
 
@@ -23,11 +25,23 @@ export const authSuperReducer = (state = getInitialState(), action) => {
         ...state,
         selectedSociety: action.payload,
       };
+    case superAdminActions.GET_ALL_DESIGNATION:
+      return {
+        ...state,
+        designationList: action.payload,
+      };
+    case superAdminActions.SUPER_ADMIN_VIEW_DESIGNATION:
+      return {
+        ...state,
+        selectedDesignation: action.payload,
+      };
 
     case authActions.RESET_STATE:
       return {
         ...state,
         societyList: {},
+        designationList: {},
+        selectedDesignation: {},
         otpCred: {},
       };
     default:

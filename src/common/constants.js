@@ -22,7 +22,7 @@ export const RESET_PASSWORD = "Reset Password";
 export const RESET_YOUR_PASS = "Reset Your Password";
 export const RESEND_OTP = "RE-SEND OTP?";
 export const SUBMIT = "Submit";
-export const RESET="Reset";
+export const RESET = "Reset";
 export const CONFIRM_PASS_PLACEHOLDER = "Confirm Password";
 export const NEW_PASS_PLACEHOLDER = "New Password";
 export const OTP_PLACEHOLDER = "OTP";
@@ -31,36 +31,40 @@ export const OTP_PLACEHOLDER = "OTP";
 export const PROFILE = "Profile";
 export const CHANGE_PASSWORD = "Change Password";
 export const LOGOUT = "Logout";
-export const DASHBOARD = "Dashboard"
+export const DASHBOARD = "Dashboard";
 export const SOCIETY_LISTING = "Society Listing";
 export const RECENT_NOTIFICATIONS = "Recent Notifications";
 export const SEE_ALL_NOTIFICATION = "See All Notifications";
 
 // page heading
-export const SOCIETY="Society";
-export const ADD_SOCIETY="Add Society"
+export const SOCIETY = "Society";
+export const ADD_SOCIETY = "Add Society";
 
 // table headings static text
 export const S_NO = "S.No.";
 export const SOCIETY_NAME = "Society Name";
+export const DESIGNATION_NAME = "Designation Name";
 export const ADDRESS = "Address";
-export const ADMIN_NAME = "Admin_Name";
+export const ADMIN_NAME = "Admin Name";
 export const STATUS = "Status";
 export const ACTION = "Action";
 
 // pagination static text
 export const PAGINATE_NEXT = "Next";
 export const PAGINATE_PREV = "Prev";
-export const BACK_BUTTON="Back";
+export const BACK_BUTTON = "Back";
+export const CANCEL_BUTTON = "Cancel";
+export const UPDATE_BUTTON = "Update";
 
 // add society field labels
-export const SOCIETY_DETAILS="Society Details";
-export const SOCIETY_ADDRESS="Society Address";
-export const PIN="Pin";
-export const REGISTRATION_NUMBER="Registration Number";
-export const SOCIETY_ADMIN_DETAILS="Society Admin Details";
-export const ADMIN_ADDRESS="Admin Address";
-export const PHONE_NUMBER="Phone Number";
-export const EMAIL="Email";
-export const OCCUPATION="Occupation (Work)";
-export const HOUSE_NUMBER="House Number";
+export const SOCIETY_DETAILS = "Society Details";
+export const SOCIETY_ADDRESS = "Society Address";
+export const ZIP_CODE = "Zip Code";
+export const REGISTRATION_NUMBER = "Registration Number";
+export const SOCIETY_ADMIN_DETAILS = "Society Admin Details";
+export const ADMIN_ADDRESS = "Address";
+export const PHONE_NUMBER = "Phone Number";
+export const EMAIL = "Email";
+export const OCCUPATION = "Occupation (Profession)";
+export const HOUSE_NUMBER = "House / Flat Number";
+export const UNIQUE_ID = "Unique Id";

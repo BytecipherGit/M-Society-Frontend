@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { SidebarView } from "./side-bar";
-import { SuperHeaderView } from "./super-admin-header";
-import BackArrow from "../../static/images/back-icon.png";
+import { toastr } from "react-redux-toastr";
+import { SidebarView } from "../side-bar";
+import { SuperHeaderView } from "../super-admin-header";
+import BackArrow from "../../../static/images/back-icon.png";
 import {
   ADD_SOCIETY,
   ADMIN_ADDRESS,
@@ -15,7 +16,7 @@ import {
   HOUSE_NUMBER,
   OCCUPATION,
   PHONE_NUMBER,
-  PIN,
+  ZIP_CODE,
   REGISTRATION_NUMBER,
   RESET,
   SOCIETY_ADDRESS,
@@ -23,20 +24,29 @@ import {
   SOCIETY_DETAILS,
   SOCIETY_NAME,
   SUBMIT,
-} from "../../common/constants";
-import { doSocietyAdd } from "../../common/store/actions/super-actions";
+} from "../../../common/constants";
+import {
+  doSocietyAdd,
+  generateNewToken,
+} from "../../../common/store/actions/super-actions";
+import Breadcrumb from "../../../common/components/breadcrumb";
 
 const validationSchema = Yup.object().shape({
-  societyName: Yup.string().required("Required"),
-  societyAddress: Yup.string().required("Required"),
-  pin: Yup.string().required("Required"),
-  registrationNumber: Yup.string().required("Required"),
-  adminName: Yup.string().required("Required"),
-  adminAddress: Yup.string().required("Required"),
-  phoneNumber: Yup.string().required("Required"),
-  houseNumber: Yup.string().required("Required"),
-  occupation: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  societyName: Yup.string().required("Society name required"),
+  societyAddress: Yup.string().required("Society address required"),
+  pin: Yup.string().required("Zip code required"),
+  registrationNumber: Yup.number().required("Registration number required"),
+  adminName: Yup.string().required("Admin name required"),
+  adminAddress: Yup.string().required("Address required"),
+  phoneNumber: Yup.string()
+    .required("Phone number required")
+    .min(10, "Phone number is not valid")
+    .max(10, "Phone number is not valid")
+    .matches(/^[0-9]*$/, "Phone number is not valid"),
+
+  houseNumber: Yup.string().required("House or Flat number required"),
+  occupation: Yup.string().required("Occupation required"),
+  email: Yup.string().email("Invalid email").required("Email required"),
 });
 
 export const AddSocietyView = () => {
@@ -53,7 +63,23 @@ export const AddSocietyView = () => {
     email: "",
     houseNumber: "",
     occupation: "",
-    status: "active",
+  };
+
+  const callDoSocietyAddAPI = (data) => {
+    dispatch(doSocietyAdd(data)).then((res) => {
+      if (res?.status === 403 && res?.data.success === false) {
+        dispatch(generateNewToken()).then((res) => {
+          if (res?.status === 200 && res?.data.success) {
+            callDoSocietyAddAPI(data);
+          }
+        });
+      } else if (res?.status === 200 && res?.data?.success) {
+        toastr.success("Success", res.data.message);
+        navigate("/society");
+      } else {
+        toastr.error("Error", res?.data?.message);
+      }
+    });
   };
   return (
     <>
@@ -62,12 +88,20 @@ export const AddSocietyView = () => {
         <SidebarView />
         <div className="main-container">
           <div className="main-heading">
+            <Breadcrumb>
+              <li className="breadcrumb-item">
+                <Link to="/society">Society</Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                Add-society
+              </li>
+            </Breadcrumb>
             <h1>
               {ADD_SOCIETY}
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society-listing");
+                  navigate("/society");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -80,8 +114,7 @@ export const AddSocietyView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                console.log(values);
-                dispatch(doSocietyAdd(values));
+                callDoSocietyAddAPI(values);
               }}
             >
               {({
@@ -92,7 +125,7 @@ export const AddSocietyView = () => {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
-                /* and other goodies */
+                resetForm,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <h2>{SOCIETY_DETAILS}</h2>
@@ -119,49 +152,7 @@ export const AddSocietyView = () => {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
-                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="societyAddress"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.societyAddress}
-                        />
-                        {errors.societyAddress && touched.societyAddress && (
-                          <h6 className="validationBx">
-                            {errors.societyAddress}
-                          </h6>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {PIN} <span className="ColorRed">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="pin"
-                          className="form-control"
-                          placeholder=""
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.pin}
-                        />
-                        {errors.pin && touched.pin && (
-                          <h6 className="validationBx">{errors.pin}</h6>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {REGISTRATION_NUMBER}{" "}
+                          {REGISTRATION_NUMBER}
                           <span className="ColorRed">*</span>
                         </label>
                         <input
@@ -179,6 +170,49 @@ export const AddSocietyView = () => {
                               {errors.registrationNumber}
                             </h6>
                           )}
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {ZIP_CODE} <span className="ColorRed">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="pin"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.pin}
+                        />
+                        {errors.pin && touched.pin && (
+                          <h6 className="validationBx">{errors.pin}</h6>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          {SOCIETY_ADDRESS} <span className="ColorRed">*</span>
+                        </label>
+                        <textarea
+                          name="societyAddress"
+                          className="form-control"
+                          placeholder=""
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.societyAddress}
+                          rows={3}
+                        ></textarea>
+                        {errors.societyAddress && touched.societyAddress && (
+                          <h6 className="validationBx">
+                            {errors.societyAddress}
+                          </h6>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -282,22 +316,23 @@ export const AddSocietyView = () => {
                         )}
                       </div>
                     </div>
-
-                    <div className="col-md-4">
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
                       <div className="form-group">
                         <label>
                           {ADMIN_ADDRESS}
                           <span className="ColorRed">*</span>
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           name="adminAddress"
                           className="form-control"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.adminAddress}
-                        />
+                          rows={3}
+                        ></textarea>
                         {errors.adminAddress && touched.adminAddress && (
                           <h6 className="validationBx">
                             {errors.adminAddress}
@@ -319,7 +354,11 @@ export const AddSocietyView = () => {
                     </div>
                     <div className="col-md-2">
                       <div className="form-group">
-                        <button type="reset" className="buttonreset">
+                        <button
+                          type="reset"
+                          className="buttonreset"
+                          onClick={resetForm}
+                        >
                           {RESET}
                         </button>
                       </div>

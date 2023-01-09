@@ -1,32 +1,26 @@
-import './App.css';
-import { Router } from './utils/routes';
-import { createBrowserHistory } from 'history';
-import ReduxToastr from 'react-redux-toastr';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
-import React from 'react';
+import "./App.css";
+import { Router } from "./utils/routes";
+
+import ReduxToastr from "react-redux-toastr";
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
+import React from "react";
 
 function App() {
-  const { createHistory } = createBrowserHistory;
-
-
   // sasfa
   return (
     <React.Fragment>
-      <Router history={createHistory}></Router>
+      <Router />
       <ReduxToastr
         timeOut={2000}
         newestOnTop={false}
         preventDuplicates
-        position='top-right'
+        position="top-right"
         getState={(state) => state.toastr}
-        transitionIn='fadeIn'
-        transitionOut='fadeOut'
+        transitionIn="fadeIn"
+        transitionOut="fadeOut"
         progressBar={false}
-        closeOnToastrClick={true}        
-
+        closeOnToastrClick={true}
       />
-
-
     </React.Fragment>
   );
 }

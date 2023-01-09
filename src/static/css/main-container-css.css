@@ -629,6 +629,72 @@ aside .active img {
 /*----======= Main Heading Css End ========--------*/
 
 /*---======== Dashboard Page Css Close =====-------*/
+.ser-part .ser-box {
+  background: rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 0px 14px rgb(23 54 97 / 4%); */
+  border-radius: 10px;
+  margin: 20px 0;
+  padding: 34px 34px 36px 44px;
+}
+.ser-part .ser-box .head-sec {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ser-part .ser-box .head-sec h2 {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 25px;
+  color: #000000;
+  margin: 0;
+}
+.ser-part .ser-box .head-sec h2 span {
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #969696;
+  margin-top: 6px;
+}
+.ser-part .ser-box .head-sec .img-bg {
+  background: rgba(39, 109, 156, 0.1);
+  border-radius: 5px;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 5px;
+}
+.ser-part .ser-box .head-sec .img-bg img {
+  width: 100%;
+}
+.ser-part .ser-box h6 {
+  margin: 28px 0 0;
+  display: flex;
+}
+.ser-part .ser-box h6 .bg-section {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 36px;
+  color: #000000;
+  margin-right: 25px;
+  display: flex;
+}
+.ser-part .ser-box h6 a {
+  color: #0182c1;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 24px;
+  display: block;
+  width: max-content;
+  margin: 5px 0 0 auto;
+}
+a {
+  text-decoration: none !important;
+  cursor: pointer;
+}
 
 .table_design {
   background: #ffffff;
@@ -680,6 +746,11 @@ aside .active img {
   height: 40px;
   width: 40px;
 }
+.paginationBox ul .disable {
+  color: "black";
+  opacity: 0.3;
+  cursor: "not-allowed";
+}
 .paginationBox ul li:first-child {
   margin: 0px 3px 0 -5px;
 }
@@ -699,6 +770,63 @@ aside .active img {
 .paginationBox ul li:hover {
   color: #fff;
   background: #0182c1;
+}
+.paginationBox ul li .not-change {
+  cursor: not-allowed;
+}
+.table_design table tbody td .swich input {
+  display: block;
+  opacity: 0;
+  position: absolute;
+}
+.table_design table tbody td .swich label {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  display: inline-block;
+  background: #6c6f73;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  margin-bottom: 0;
+}
+.table_design table tbody td .swich label:after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 1px 3px 6px #6c6f73;
+}
+.table_design table tbody td .swich input:checked + label {
+  background: #0182c1;
+}
+
+.table_design table tbody td .swich input:checked + label:after {
+  left: auto;
+  right: 2px;
+}
+.table_design table tbody td .pending-btn-bg {
+  background: #ff9800;
+}
+.table_design table tbody td .resolve-btn-bg {
+  background: #199625;
+}
+.table_design table tbody td .reject-btn-bg {
+  background: #f71e1e;
+}
+.table_design table tbody td .pushme {
+  padding: 10px 24px !important;
+  border-radius: 31px;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: #fff;
+  min-width: 134px;
 }
 
 /* ---=== Add Society ===----*/
@@ -916,4 +1044,69 @@ aside .active img {
 }
 .changePasswordUI button.cancelBnt:hover {
   background: transparent !important;
+}
+
+/* profile */
+.adminProfile .upload-img-box {
+  position: relative;
+  width: 128px;
+  display: block;
+  margin: 0 auto;
+}
+.adminProfile .upload-img-box .circle {
+  border-radius: 1000px !important;
+  overflow: hidden;
+  width: 128px;
+  height: 128px;
+  border: 1px solid #53a0a0;
+  top: 0;
+  margin: 35px 0 25px;
+}
+.adminProfile .upload-img-box .profile-pic {
+  max-width: 200px;
+  max-height: 200px;
+  display: block;
+}
+.adminProfile .upload-img-box img {
+  max-width: 100%;
+  height: 100%;
+}
+.adminProfile .upload-img-box .p-image {
+  position: absolute;
+  right: 0;
+  color: #666666;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: #53a0a0;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+  top: 70%;
+}
+.ml-auto,
+.mx-auto {
+  margin-left: auto !important;
+}
+.adminProfile .upload-img-box .p-image i {
+  text-align: center;
+  padding: 11px;
+  color: #fff;
+  font-size: 18px;
+}
+.adminProfile .upload-img-box .p-image {
+  position: absolute;
+  right: 0;
+  color: #666666;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: #53a0a0;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+  top: 70%;
+}
+.adminProfile .upload-img-box .file-upload {
+  display: none;
 }

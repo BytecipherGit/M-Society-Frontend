@@ -1,85 +1,82 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import Logo from "../static/images/logo.png";
-import { useDispatch, useSelector } from "react-redux";
-import { superAdminActions } from "../common/store/actions";
+import { useDispatch } from "react-redux";
+
 import { toastr } from "react-redux-toastr";
 import { CopyrightView } from "./copy-right";
+import { RESEND_OTP, RESET_YOUR_PASS, SUBMIT } from "../common/constants";
 import {
-  CONFIRM_PASS_PLACEHOLDER,
-  NEW_PASS_PLACEHOLDER,
-  OTP_PLACEHOLDER,
-  RESEND_OTP,
-  RESET_YOUR_PASS,
-  SUBMIT,
-} from "../common/constants";
+  doAuthSuperSendOtp,
+  doAuthSuperSetNewPassword,
+} from "../common/store/actions/super-actions";
+import {
+  doAuthSocietySendOtp,
+  doAuthSocietySetNewPassword,
+} from "../common/store/actions/society-actions";
 
 export const ResetPasswordView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const adminEmail = useSelector(
-    ({ superAdmin }) => superAdmin?.otpCred?.email
-  );
-  const userEmail = "";
-  let Email = adminEmail || userEmail;
-
-  const ResetPasswordFormik = useFormik({
-    initialValues: { OTP: "", newPassword: "", confirmPassword: "" },
-    validationSchema: Yup.object({
-      OTP: Yup.string()
-        .required()
-        .matches(/^[0-9]+$/)
-        .min(4)
-        .max(4),
-      newPassword: Yup.string().required(),
-      confirmPassword: Yup.string()
-        .required()
-        .oneOf([Yup.ref("newPassword")]),
-    }),
-    onSubmit: (values) => {
-      if (ResetPasswordFormik.dirty && ResetPasswordFormik.isValid) {
-        const params = {
-          email: Email,
-          otp: values?.OTP,
-          newPassword: values?.newPassword,
-        };
-        if (window.location.pathname === "/admin-reset-password") {
-          dispatch(superAdminActions.doAuthSuperSetNewPassword(params)).then(
-            (res) => {
-              if (res?.data?.success && res?.status === 200) {
-                toastr.success("Success", res?.data?.message);
-                navigate("/");
-              } else {
-                toastr.error("Error", res?.data?.message);
-                return;
-              }
-            }
-          );
-        } else {
-          return;
-        }
-      }
-    },
+  const super_initialValues = {
+    email: localStorage.getItem("email"),
+    otp: "",
+    newPassword: "",
+    c_newPassword: "",
+  };
+  const society_initialValues = {
+    phoneNumber: localStorage.getItem("phoneNumber"),
+    otp: "",
+    newPassword: "",
+    c_newPassword: "",
+  };
+  const super_Schema = Yup.object().shape({
+    otp: Yup.string().required("Otp required"),
+    newPassword: Yup.string().required("New password required"),
+    c_newPassword: Yup.string()
+      .required("Confirm password required")
+      .oneOf([Yup.ref("newPassword"), null], "Confirm passwords must match"),
   });
+  const society_Schema = Yup.object().shape({
+    otp: Yup.string().required("Otp required"),
+    newPassword: Yup.string().required("New password required"),
+    c_newPassword: Yup.string()
+      .required("Confirm password required")
+      .oneOf([Yup.ref("newPassword"), null], "Confirm passwords must match"),
+  });
+
   const ResendOtp = async () => {
     if (window.location.pathname === "/admin-reset-password") {
       dispatch(
-        superAdminActions.doAuthSuperSendOtp({ email: adminEmail })
+        doAuthSuperSendOtp({
+          email: localStorage.getItem("email"),
+        })
       ).then((res) => {
         if (res?.data?.success && res?.status === 200) {
           toastr.success("Success", res?.data?.message);
-          toastr.info("OTP", res?.data?.data?.OTP);
+          toastr.info("OTP", res?.data?.data?.otp?.toString());
           return;
         } else {
           toastr.error("Error", res?.data?.message);
           return;
         }
       });
-    } else {
-      return;
+    } else if (window.location.pathname === "/reset-password") {
+      dispatch(
+        doAuthSocietySendOtp({
+          phoneNumber: localStorage.getItem("phoneNumber"),
+        })
+      ).then((res) => {
+        if (res?.data?.success && res?.status === 200) {
+          toastr.success("Success", res?.data?.message);
+          toastr.info("OTP", res?.data?.data?.otp?.toString());
+        } else {
+          toastr.error("Error", res?.data?.message);
+        }
+      });
     }
   };
   return (
@@ -88,79 +85,205 @@ export const ResetPasswordView = () => {
         <div className="container-fluid">
           <div className="align-self-cente form-section">
             <div className="log-box-txt">
-              <form method="POST" onSubmit={ResetPasswordFormik.handleSubmit}>
-                <img
-                  src={Logo}
-                  className="login-logo"
-                  alt="Logo"
-                  onClick={() => navigate("/")}
-                />
-                <h1>{RESET_YOUR_PASS}</h1>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="OTP"
-                    value={ResetPasswordFormik.values.OTP}
-                    onChange={ResetPasswordFormik.handleChange}
-                    placeholder={OTP_PLACEHOLDER}
-                  />
+              {window.location.pathname === "/admin-reset-password" && (
+                <Formik
+                  initialValues={super_initialValues}
+                  validationSchema={super_Schema}
+                  onSubmit={(values) => {
+                    dispatch(doAuthSuperSetNewPassword(values)).then((res) => {
+                      if (res?.data?.success && res?.status === 200) {
+                        localStorage.clear();
+                        toastr.success("Success", res?.data?.message);
+                        navigate("/");
+                      } else {
+                        toastr.error("Error", res?.data?.message);
+                        return;
+                      }
+                    });
+                  }}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <img
+                        src={Logo}
+                        className="login-logo"
+                        alt="Logo"
+                        onClick={() => navigate("/")}
+                      />
+                      <h1>{RESET_YOUR_PASS}</h1>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="otp"
+                          placeholder="Enter Otp"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.otp}
+                        />
 
-                  {ResetPasswordFormik.errors.OTP &&
-                    ResetPasswordFormik.touched.OTP && (
-                      <p className="validationBx">
-                        {ResetPasswordFormik.errors.OTP}
-                      </p>
-                    )}
-                  <h6
-                    className="resendotpSection d-flex justify-content-end "
-                    onClick={() => {
-                      ResendOtp();
-                    }}
-                  >
-                    {RESEND_OTP}
-                  </h6>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    name="newPassword"
-                    className="form-control"
-                    placeholder={NEW_PASS_PLACEHOLDER}
-                    autoComplete="current-password"
-                    onChange={ResetPasswordFormik.handleChange}
-                    value={ResetPasswordFormik.values.newPassword}
-                  />
-                  {ResetPasswordFormik.errors.newPassword &&
-                    ResetPasswordFormik.touched.newPassword && (
-                      <h6 className="validationBx">
-                        {ResetPasswordFormik.errors.newPassword}
-                      </h6>
-                    )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    className="form-control"
-                    placeholder={CONFIRM_PASS_PLACEHOLDER}
-                    autoComplete="current-password"
-                    onChange={ResetPasswordFormik.handleChange}
-                    value={ResetPasswordFormik.values.confirmPassword}
-                  />
-                  {ResetPasswordFormik.errors.confirmPassword &&
-                    ResetPasswordFormik.touched.confirmPassword && (
-                      <h6 className="validationBx">
-                        {ResetPasswordFormik.errors.confirmPassword}
-                      </h6>
-                    )}
-                </div>
-                <div className="form-group">
-                  <button type="submit" className="buttonLog active_button">
-                    {SUBMIT}
-                  </button>
-                </div>
-              </form>
+                        {errors.otp && touched.otp && (
+                          <h6 className="validationBx">{errors.otp}</h6>
+                        )}
+                        <h6
+                          className="resendotpSection d-flex justify-content-end "
+                          onClick={() => {
+                            ResendOtp();
+                          }}
+                        >
+                          {RESEND_OTP}
+                        </h6>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="password"
+                          placeholder="New Password"
+                          name="newPassword"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.newPassword}
+                        />
+                        {errors.newPassword && touched.newPassword && (
+                          <h6 className="validationBx">{errors.newPassword}</h6>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="password"
+                          placeholder="Confirm Password"
+                          name="c_newPassword"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.c_newPassword}
+                        />
+                        {errors.c_newPassword && touched.c_newPassword && (
+                          <h6 className="validationBx">
+                            {errors.c_newPassword}
+                          </h6>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <button
+                          type="submit"
+                          className="buttonLog active_button"
+                        >
+                          {SUBMIT}
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </Formik>
+              )}
+              {window.location.pathname === "/reset-password" && (
+                <Formik
+                  initialValues={society_initialValues}
+                  validationSchema={society_Schema}
+                  onSubmit={(values) => {
+                    dispatch(doAuthSocietySetNewPassword(values)).then(
+                      (res) => {
+                        if (res?.data?.success && res?.status === 200) {
+                          localStorage.clear();
+                          toastr.success("Success", res?.data?.message);
+                          navigate("/society-admin");
+                        } else {
+                          toastr.error("Error", res?.data?.message);
+                          return;
+                        }
+                      }
+                    );
+                  }}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <img
+                        src={Logo}
+                        className="login-logo"
+                        alt="Logo"
+                        onClick={() => navigate("/")}
+                      />
+                      <h1>{RESET_YOUR_PASS}</h1>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="otp"
+                          placeholder="Enter Otp"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.otp}
+                        />
+
+                        {errors.otp && touched.otp && (
+                          <h6 className="validationBx">{errors.otp}</h6>
+                        )}
+                        <h6
+                          className="resendotpSection d-flex justify-content-end "
+                          onClick={() => {
+                            ResendOtp();
+                          }}
+                        >
+                          {RESEND_OTP}
+                        </h6>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="password"
+                          placeholder="New Password"
+                          name="newPassword"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.newPassword}
+                        />
+                        {errors.newPassword && touched.newPassword && (
+                          <h6 className="validationBx">{errors.newPassword}</h6>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="password"
+                          placeholder="Confirm password"
+                          name="c_newPassword"
+                          className="form-control"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.c_newPassword}
+                        />
+                        {errors.c_newPassword && touched.c_newPassword && (
+                          <h6 className="validationBx">
+                            {errors.c_newPassword}
+                          </h6>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <button
+                          type="submit"
+                          className="buttonLog active_button"
+                        >
+                          {SUBMIT}
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </Formik>
+              )}
+
               <CopyrightView />
             </div>
           </div>
