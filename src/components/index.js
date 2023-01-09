@@ -1,4 +1,4 @@
-export { InvitetionView } from "./society/residential-user-management/invitetion";
+export { InvitationView } from "./society/residential-user-management/invitation";
 
 export { SocietyAdminProfile } from "./society/society-admin-profile";
 

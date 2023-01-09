@@ -11,7 +11,7 @@ export const OtpPrivateRoutes = () => {
   let adminOtp = useSelector(({ societyAdmin }) => societyAdmin?.otpCred?.otp);
 
   let userOtp = "";
-  let otp = adminOtp || userOtp;
+  let otp = adminOtp || userOtp;  
 
   return otp ? <Outlet /> : <Navigate to="/" />;
 };

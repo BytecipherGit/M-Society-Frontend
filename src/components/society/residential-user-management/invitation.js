@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
 });
 
-export const InvitetionView = () => {
+export const InvitationView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const initialValues = {
@@ -54,11 +54,11 @@ export const InvitetionView = () => {
                 <Link to="/residential-user">Residential-user</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Send-invitetion
+                Send-invitation
               </li>
             </Breadcrumb>
             <h1>
-              Send Invitetion
+              Send Invitation
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {

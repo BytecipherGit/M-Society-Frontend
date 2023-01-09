@@ -33,11 +33,10 @@ import {
   DocumentListingView,
   SocietyAdminChangePasswordView,
   SocietyAdminProfile,
-  InvitetionView,
+  InvitationView,
 } from "../components";
 
 import {
-  OtpPrivateRoutes,
   SocietyPrivateRoutes,
   SuperAdminPrivateRoutes,
 } from "./protected-routes";
@@ -65,6 +64,17 @@ export const Router = () => {
               exact={true}
               path="/admin-forgot-password"
               element={<ForgotPasswordView />}
+            />
+            <Route
+              exact={true}
+              path="/reset-password"
+              element={<ResetPasswordView />}
+            />
+
+            <Route
+              exact={true}
+              path="/admin-reset-password"
+              element={<ResetPasswordView />}
             />
           </Route>
 
@@ -132,8 +142,8 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/invitetion"
-              element={<InvitetionView />}
+              path="/invitation"
+              element={<InvitationView />}
             />
             <Route
               exact={true}
@@ -222,20 +232,6 @@ export const Router = () => {
               exact={true}
               path="/change-password"
               element={<ChangePasswordView />}
-            />
-          </Route>
-
-          <Route element={<OtpPrivateRoutes />}>
-            <Route
-              exact={true}
-              path="/reset-password"
-              element={<ResetPasswordView />}
-            />
-
-            <Route
-              exact={true}
-              path="/admin-reset-password"
-              element={<ResetPasswordView />}
             />
           </Route>
         </Routes>

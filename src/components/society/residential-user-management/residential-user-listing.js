@@ -155,7 +155,7 @@ export const ResidentialUserListingView = () => {
               <button
                 className="active_button"
                 onClick={() => {
-                  navigate("/invitetion");
+                  navigate("/invitation");
                 }}
               >
                 <img src={PlusIcon} alt="Plus" /> Add

@@ -279,22 +279,7 @@ export const DesignationListingView = () => {
               totalDatacount={totalDataCount}
             />
 
-            {/* <div className="paginationBox">
-              <div className="row">
-                <div className="col-md-6">
-                  <p className="paginatext">Showing 1 to 10 of 27 entries</p>
-                </div>
-                <div className="col-md-6">
-                  <ul>
-                    <li>{PAGINATE_PREV}</li>
-                    <li className="active">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>{PAGINATE_NEXT}</li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
+            
           </div>
         </div>
       </div>
