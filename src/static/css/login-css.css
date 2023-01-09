@@ -15,7 +15,8 @@ input::placeholder{
   display: flex;
   color: #e1202c !important;
   font-size: 14px !important;
-  font-weight: 400 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.45px;
 }
 .active_button{
   background: #0182c1;
