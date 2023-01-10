@@ -1,12 +1,12 @@
 // copyright static text
-export const M_SOCIETY_COPYRIGHT = "© 2022 M Society. All Rights Reserved";
+export const M_SOCIETY_COPYRIGHT = "© 2023 M Society. All Rights Reserved";
 
 // login static text
 export const LOGIN_TO_YOUR_ACCOUNT = "Log in to your account";
 export const LOGIN_USERNAME_PLACEHOLDER = "Enter your email or phone number";
 export const PASSWORD_PLACEHOLDER = "Enter your password";
-export const EMAIL_REQUIRED_VALIDATION = "Email is a required field!";
-export const PASSWORD_REQUIRED_VALIDATION = "Password is a required field!";
+export const EMAIL_REQUIRED_VALIDATION = "Email is required";
+export const PASSWORD_REQUIRED_VALIDATION = "Password is required";
 export const FORGOT_PASSWORD = "Forgot Password?";
 export const LOGIN_BUTTON_TEXT = "Log In";
 export const SUPER_ADMIN = "Super Admin";
