@@ -188,7 +188,7 @@ export const Router = () => {
             <Route exact={true} path="/dashboard" element={<DashboardView />} />
             <Route
               exact={true}
-              path="/society"
+              path="/societies"
               element={<SocietyListingView />}
             />
             <Route
@@ -203,13 +203,13 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-society"
+              path="/society-detail"
               element={<ViewSocietyDetialView />}
             />
 
             <Route
               exact={true}
-              path="/designation"
+              path="/designations"
               element={<DesignationListingView />}
             />
             <Route
@@ -224,7 +224,7 @@ export const Router = () => {
             />
             <Route
               exact={true}
-              path="/view-designation"
+              path="/designation-detail"
               element={<ViewDesignationDetialView />}
             />
 

@@ -57,7 +57,7 @@ export const CANCEL_BUTTON = "Cancel";
 export const UPDATE_BUTTON = "Update";
 
 // add society field labels
-export const SOCIETY_DETAILS = "Society Details";
+export const SOCIETY_DETAILS = "Society Detail";
 export const SOCIETY_ADDRESS = "Society Address";
 export const ZIP_CODE = "Zip Code";
 export const REGISTRATION_NUMBER = "Registration Number";

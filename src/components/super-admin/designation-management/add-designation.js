@@ -14,7 +14,7 @@ import {
 } from "../../../common/store/actions/super-actions";
 import Breadcrumb from "../../../common/components/breadcrumb";
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Designation name required"),
+  name: Yup.string().required("Designation name is required"),
 });
 
 export const AddDesignationView = () => {
@@ -34,7 +34,7 @@ export const AddDesignationView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/designation");
+        navigate("/designations");
       } else if (res?.status === 400 && !res?.data?.success) {
         toastr.error("Error", res?.data?.message);
       } else {
@@ -51,7 +51,7 @@ export const AddDesignationView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/designation">Designation</Link>
+                <Link to="/designations">Designations</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Add-designation
@@ -62,7 +62,7 @@ export const AddDesignationView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation");
+                  navigate("/designations");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}

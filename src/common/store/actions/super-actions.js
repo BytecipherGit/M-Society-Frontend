@@ -142,7 +142,7 @@ export const getSearchSociety = (params) => {
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
-        type: superAdminActions.GET_ALL_SOCIETY,
+        type: superAdminActions.GET_SEARCH_SOCIETY,
         payload: response?.data,
       });
       return response;
@@ -156,10 +156,8 @@ export const doSocietyAdd = (params) => {
   return async (dispatch) => {
     const response = await Instance("POST", ApiUrl.ADD_SOCIETY_API, params);
     if (response?.status === 200 && response?.data?.success) {
-      // dispatch({
-      //   type: superAdminActions.SUPER_ADMIN_ADD_SOCIETY,
-      //   payload: {},
-      // });
+      return response;
+    } else if (response?.status === 200 && !response?.data?.success) {
       return response;
     }
     return response.response;

@@ -38,10 +38,10 @@ export const ViewSocietyDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society">Society</Link>
+                <Link to="/societies">Societies</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                View-society
+                Society-detail
               </li>
             </Breadcrumb>
             <h1>
@@ -49,7 +49,7 @@ export const ViewSocietyDetialView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society");
+                  navigate("/societies");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}

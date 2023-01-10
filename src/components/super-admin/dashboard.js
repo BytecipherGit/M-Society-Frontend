@@ -69,16 +69,16 @@ export const DashboardView = () => {
                     description={"Lorem Ipsum"}
                     image={societyIcon}
                     count={societyCount}
-                    link={"/society"}
+                    link={"/societies"}
                   />
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6">
                   <CountCardView
-                    title={"Designation"}
+                    title={"Designations"}
                     description={"Lorem Ipsum"}
                     image={designationIcon}
                     count={designationCount}
-                    link={"/designation"}
+                    link={"/designations"}
                   />
                 </div>
               </div>

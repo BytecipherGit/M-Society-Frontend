@@ -47,7 +47,7 @@ export const SocietySidebarView = ({ menu }) => {
               navigate("/residential-user");
             }}
           >
-            Residential User
+            Residential Users
           </button>
         </li>
         <li
@@ -65,7 +65,7 @@ export const SocietySidebarView = ({ menu }) => {
               navigate("/phone-directory");
             }}
           >
-            Phone Directory
+            Phone Directories
           </button>
         </li>
         <li
@@ -100,7 +100,7 @@ export const SocietySidebarView = ({ menu }) => {
               navigate("/complaint");
             }}
           >
-            Complaint
+            Complaints
           </button>
         </li>
 

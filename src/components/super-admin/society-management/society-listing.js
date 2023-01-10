@@ -6,9 +6,7 @@ import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
 import { SidebarView } from "../side-bar";
 import { SuperHeaderView } from "../super-admin-header";
-import ViewIcon from "../../../static/images/view.png";
-import DeleteIcon from "../../../static/images/delete.png";
-import EditIcon from "../../../static/images/edit-icon.png";
+
 import PlusIcon from "../../../static/images/button-plus.png";
 import { ACTION, ADDRESS, STATUS, S_NO } from "../../../common/constants";
 import {
@@ -32,6 +30,7 @@ export const SocietyListingView = () => {
   const [selectedItem, setSelectedItem] = useState();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const handleClose = () => {
     setOpenDeleteModal(false);
     setOpenStatusModal(false);
@@ -39,6 +38,10 @@ export const SocietyListingView = () => {
   const societyList = useSelector(
     ({ superAdmin }) => superAdmin?.societyList?.data
   );
+  const searchSocietyList = useSelector(
+    ({ superAdmin }) => superAdmin?.searchSocietyList?.data
+  );
+
   useEffect(() => {
     callGetAllSocietyAPI(pageNumber);
     // eslint-disable-next-line
@@ -68,7 +71,7 @@ export const SocietyListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-society");
+        navigate("/society-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -149,6 +152,7 @@ export const SocietyListingView = () => {
     }
   };
   const callSearchAPI = (text) => {
+    setSearchText(text);
     text === "" ? callGetAllSocietyAPI(0) : dispatch(getSearchSociety(text));
   };
   return (
@@ -160,7 +164,7 @@ export const SocietyListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Society</li>
+              <li className="breadcrumb-item">Societies</li>
             </Breadcrumb>
             <h1>
               Societies
@@ -201,14 +205,15 @@ export const SocietyListingView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {societyList?.length === 0 && (
+                  {societyList?.length === 0 && searchText === "" && (
                     <tr>
                       <td className="text-center" colSpan={6}>
-                        No Records
+                        No records
                       </td>
                     </tr>
                   )}
                   {societyList &&
+                    searchText === "" &&
                     societyList.map((item, index) => {
                       return (
                         <tr key={index}>
@@ -237,31 +242,142 @@ export const SocietyListingView = () => {
 
                           <td>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleView(item);
+                                }}
+                                className="fa fa-eye view-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={ViewIcon}
                                 alt="view icon"
                                 onClick={() => {
                                   handleView(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleDeleteModal(item);
+                                }}
+                                className="fa fa-trash-o delete-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={DeleteIcon}
                                 alt="Delete icon"
                                 onClick={() => {
                                   handleDeleteModal(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                                className="fa fa-pencil edit-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={EditIcon}
                                 alt="view icon"
                                 onClick={() => {
                                   handleEdit(item);
                                 }}
+                              /> */}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  {searchSocietyList?.length === 0 && searchText !== "" && (
+                    <tr>
+                      <td className="text-center" colSpan={6}>
+                        No records found !
+                      </td>
+                    </tr>
+                  )}
+                  {searchSocietyList?.length > 0 &&
+                    searchText !== "" &&
+                    searchSocietyList.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{toUpperCase(item?.society?.name)}</td>
+                          <td>{toUpperCase(item?.society?.address)}</td>
+                          <td>{toUpperCase(item?.AdminName)}</td>
+                          <td>
+                            <div className="swich ">
+                              <input
+                                type="checkbox"
+                                id={"checkbox" + item._id}
+                                checked={
+                                  item?.society?.status === "active"
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  handleUpdateStatus({
+                                    ...item?.society,
+                                    newStatus: e.target.checked,
+                                  });
+                                }}
                               />
+                              <label htmlFor={"checkbox" + item._id}></label>
+                            </div>
+                          </td>
+
+                          <td>
+                            <button>
+                              <i
+                                onClick={() => {
+                                  handleView(item);
+                                }}
+                                className="fa fa-eye view-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
+                                src={ViewIcon}
+                                alt="view icon"
+                                onClick={() => {
+                                  handleView(item);
+                                }}
+                              /> */}
+                            </button>
+                            <button>
+                              <i
+                                onClick={() => {
+                                  handleDeleteModal(item);
+                                }}
+                                className="fa fa-trash-o delete-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
+                                src={DeleteIcon}
+                                alt="Delete icon"
+                                onClick={() => {
+                                  handleDeleteModal(item);
+                                }}
+                              /> */}
+                            </button>
+                            <button>
+                              <i
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                                className="fa fa-pencil edit-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
+                                src={EditIcon}
+                                alt="view icon"
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                              /> */}
                             </button>
                           </td>
                         </tr>

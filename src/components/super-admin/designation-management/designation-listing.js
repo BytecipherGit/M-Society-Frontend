@@ -6,9 +6,6 @@ import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
 import { SidebarView } from "../side-bar";
 import { SuperHeaderView } from "../super-admin-header";
-import ViewIcon from "../../../static/images/view.png";
-import DeleteIcon from "../../../static/images/delete.png";
-import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
 import { ACTION, STATUS, S_NO } from "../../../common/constants";
 import {
@@ -68,7 +65,7 @@ export const DesignationListingView = () => {
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
-        navigate("/view-designation");
+        navigate("/designation-detail");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -163,7 +160,7 @@ export const DesignationListingView = () => {
         <div className="main-container">
           <div className="main-heading">
             <Breadcrumb>
-              <li className="breadcrumb-item">Designation</li>
+              <li className="breadcrumb-item">Designations</li>
             </Breadcrumb>
             <h1>
               Designations
@@ -205,7 +202,7 @@ export const DesignationListingView = () => {
                   {designationList?.length === 0 && (
                     <tr>
                       <td className="text-center" colSpan={4}>
-                        No Records
+                        No records!
                       </td>
                     </tr>
                   )}
@@ -237,31 +234,53 @@ export const DesignationListingView = () => {
 
                           <td>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleView(item);
+                                }}
+                                className="fa fa-eye view-icon"
+                                aria-hidden="true"
+                              ></i>
+
+                              {/* <img
                                 src={ViewIcon}
                                 alt="view icon"
                                 onClick={() => {
                                   handleView(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleDeleteModal(item);
+                                }}
+                                className="fa fa-trash-o delete-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={DeleteIcon}
                                 alt="Delete icon"
                                 onClick={() => {
                                   handleDeleteModal(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                                className="fa fa-pencil edit-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={EditIcon}
                                 alt="view icon"
                                 onClick={() => {
                                   handleEdit(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                           </td>
                         </tr>
@@ -278,8 +297,6 @@ export const DesignationListingView = () => {
               data={designationList}
               totalDatacount={totalDataCount}
             />
-
-            
           </div>
         </div>
       </div>
