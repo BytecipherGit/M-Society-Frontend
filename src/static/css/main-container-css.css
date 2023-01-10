@@ -747,9 +747,9 @@ a {
   width: 40px;
 }
 .paginationBox ul .disable {
-  color: "black";
+  color: black;
   opacity: 0.3;
-  cursor: "not-allowed";
+  cursor: not-allowed;
 }
 .paginationBox ul li:first-child {
   margin: 0px 3px 0 -5px;
@@ -1109,4 +1109,17 @@ a {
 }
 .adminProfile .upload-img-box .file-upload {
   display: none;
+}
+
+.view-icon {
+  font-size: 25px;
+  color: forestgreen;
+}
+.delete-icon {
+  font-size: 25px;
+  color: red;
+}
+.edit-icon {
+  font-size: 25px;
+  color: #0182c1;
 }

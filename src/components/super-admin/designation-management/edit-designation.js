@@ -20,7 +20,7 @@ import {
 import Breadcrumb from "../../../common/components/breadcrumb";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Designation name required"),
+  name: Yup.string().required("Designation name is required"),
 });
 export const EditDesignationView = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export const EditDesignationView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/designation");
+        navigate("/designations");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -58,7 +58,7 @@ export const EditDesignationView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/designation">Designation</Link>
+                <Link to="/designations">Designations</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-designation
@@ -69,7 +69,7 @@ export const EditDesignationView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation");
+                  navigate("/designations");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -131,7 +131,7 @@ export const EditDesignationView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/designation")}
+                          onClick={(e) => navigate("/designations")}
                         >
                           {CANCEL_BUTTON}
                         </button>

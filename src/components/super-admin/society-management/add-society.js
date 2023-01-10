@@ -32,21 +32,21 @@ import {
 import Breadcrumb from "../../../common/components/breadcrumb";
 
 const validationSchema = Yup.object().shape({
-  societyName: Yup.string().required("Society name required"),
-  societyAddress: Yup.string().required("Society address required"),
-  pin: Yup.string().required("Zip code required"),
-  registrationNumber: Yup.number().required("Registration number required"),
-  adminName: Yup.string().required("Admin name required"),
-  adminAddress: Yup.string().required("Address required"),
+  societyName: Yup.string().required("Society name is required"),
+  societyAddress: Yup.string().required("Society address is required"),
+  pin: Yup.string().required("Zip code is required"),
+  registrationNumber: Yup.string().required("Registration number is required"),
+  adminName: Yup.string().required("Admin name is required"),
+  adminAddress: Yup.string().required("Address is required"),
   phoneNumber: Yup.string()
-    .required("Phone number required")
+    .required("Phone number is required")
     .min(10, "Phone number is not valid")
     .max(10, "Phone number is not valid")
     .matches(/^[0-9]*$/, "Phone number is not valid"),
 
-  houseNumber: Yup.string().required("House or Flat number required"),
-  occupation: Yup.string().required("Occupation required"),
-  email: Yup.string().email("Invalid email").required("Email required"),
+  houseNumber: Yup.string().required("House or Flat number is required"),
+  occupation: Yup.string().required("Occupation is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
 });
 
 export const AddSocietyView = () => {
@@ -75,7 +75,7 @@ export const AddSocietyView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society");
+        navigate("/societies");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -90,7 +90,7 @@ export const AddSocietyView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society">Society</Link>
+                <Link to="/societies">Societies</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Add-society
@@ -101,7 +101,7 @@ export const AddSocietyView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society");
+                  navigate("/societies");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}

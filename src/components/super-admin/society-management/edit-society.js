@@ -24,10 +24,10 @@ import {
 import Breadcrumb from "../../../common/components/breadcrumb";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Society name required"),
-  address: Yup.string().required("Society address required"),
-  pin: Yup.string().required("Zip code required"),
-  registrationNumber: Yup.string().required("Registration number required"),
+  name: Yup.string().required("Society name is required"),
+  address: Yup.string().required("Society address is required"),
+  pin: Yup.string().required("Zip code is required"),
+  registrationNumber: Yup.string().required("Registration number is required"),
 });
 export const EditSocietyView = () => {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export const EditSocietyView = () => {
         });
       } else if (res?.status === 200 && res?.data?.success) {
         toastr.success("Success", res.data.message);
-        navigate("/society");
+        navigate("/societies");
       } else {
         toastr.error("Error", res?.data?.message);
       }
@@ -69,7 +69,7 @@ export const EditSocietyView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/society">Society</Link>
+                <Link to="/societies">Societies</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Edit-society
@@ -80,7 +80,7 @@ export const EditSocietyView = () => {
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/society");
+                  navigate("/societies");
                 }}
               >
                 <img src={BackArrow} alt="Plus" /> {BACK_BUTTON}
@@ -206,7 +206,7 @@ export const EditSocietyView = () => {
                       <div className="form-group">
                         <button
                           className="buttonreset"
-                          onClick={(e) => navigate("/society")}
+                          onClick={(e) => navigate("/societies")}
                         >
                           {CANCEL_BUTTON}
                         </button>

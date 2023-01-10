@@ -5,10 +5,6 @@ import { toastr } from "react-redux-toastr";
 import { useState } from "react";
 import Pagination from "../../../common/components/pagination";
 import { SocietySidebarView } from "../side-bar";
-
-import ViewIcon from "../../../static/images/view.png";
-import DeleteIcon from "../../../static/images/delete.png";
-import EditIcon from "../../../static/images/edit-icon.png";
 import PlusIcon from "../../../static/images/button-plus.png";
 import { ACTION, STATUS, S_NO } from "../../../common/constants";
 import { ModalView } from "../../../common/modal/modal";
@@ -236,31 +232,52 @@ export const DocumentListingView = () => {
 
                           <td>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleView(item);
+                                }}
+                                className="fa fa-eye view-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={ViewIcon}
                                 alt="view icon"
                                 onClick={() => {
                                   handleView(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleDeleteModal(item);
+                                }}
+                                className="fa fa-trash-o delete-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={DeleteIcon}
                                 alt="Delete icon"
                                 onClick={() => {
                                   handleDeleteModal(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                             <button>
-                              <img
+                              <i
+                                onClick={() => {
+                                  handleEdit(item);
+                                }}
+                                className="fa fa-pencil edit-icon"
+                                aria-hidden="true"
+                              ></i>
+                              {/* <img
                                 src={EditIcon}
                                 alt="edit icon"
                                 onClick={() => {
                                   handleEdit(item);
                                 }}
-                              />
+                              /> */}
                             </button>
                           </td>
                         </tr>

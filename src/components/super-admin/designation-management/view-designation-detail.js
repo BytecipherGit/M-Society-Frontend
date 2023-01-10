@@ -4,11 +4,7 @@ import { useSelector } from "react-redux";
 import { SidebarView } from "../side-bar";
 import { SuperHeaderView } from "../super-admin-header";
 import BackArrow from "../../../static/images/back-icon.png";
-import {
-  BACK_BUTTON,
-  SOCIETY_DETAILS,
-  DESIGNATION_NAME,
-} from "../../../common/constants";
+import { BACK_BUTTON, DESIGNATION_NAME } from "../../../common/constants";
 import Breadcrumb from "../../../common/components/breadcrumb";
 import { toUpperCase } from "../../../common/reuseable-function";
 
@@ -27,18 +23,18 @@ export const ViewDesignationDetialView = () => {
           <div className="main-heading">
             <Breadcrumb>
               <li className="breadcrumb-item">
-                <Link to="/designation">Designation</Link>
+                <Link to="/designations">Designations</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                View-designation
+                Designation-detail
               </li>
             </Breadcrumb>
             <h1>
-              {SOCIETY_DETAILS}
+              Designation Detail
               <button
                 className="active_button effctbtn backbg"
                 onClick={() => {
-                  navigate("/designation");
+                  navigate("/designations");
                 }}
               >
                 <img src={BackArrow} alt="Arrow" /> {BACK_BUTTON}

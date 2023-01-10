@@ -78,12 +78,28 @@ export const ViewDocumentDetialView = () => {
                 <h5 className="font-weight-bold">Document Image</h5>
               </div>
               <div className="col-md-8">
-                <img
+                <a
+                  target="_blank"
+                  href={selectedDocument?.documentImageFile}
+                  className="active_button btn btn-primary"
+                >
+                  <i
+                    style={{
+                      color: "#fff",
+                      fontSize: "25px",
+                      marginRight: "15px",
+                    }}
+                    className="fa fa-eye "
+                    aria-hidden="true"
+                  ></i>
+                  View document
+                </a>
+                {/* <img
                   src={selectedDocument?.documentImageFile}
                   alt="..."
                   width={"400px"}
                   height={"300px;"}
-                />
+                /> */}
               </div>
             </div>
           </div>

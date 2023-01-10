@@ -5,6 +5,7 @@ const getInitialState = () => ({
   selectedSociety: {},
   designationList: {},
   selectedDesignation: {},
+  searchSocietyList: {},
   otpCred: {},
 });
 
@@ -19,6 +20,11 @@ export const authSuperReducer = (state = getInitialState(), action) => {
       return {
         ...state,
         societyList: action.payload,
+      };
+    case superAdminActions.GET_SEARCH_SOCIETY:
+      return {
+        ...state,
+        searchSocietyList: action.payload,
       };
     case superAdminActions.SUPER_ADMIN_VIEW_SOCIETY:
       return {
@@ -42,6 +48,7 @@ export const authSuperReducer = (state = getInitialState(), action) => {
         societyList: {},
         designationList: {},
         selectedDesignation: {},
+        searchSocietyList: {},
         otpCred: {},
       };
     default:
