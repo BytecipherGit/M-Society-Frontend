@@ -20,8 +20,8 @@ import {
 } from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title required"),
-  description: Yup.string().required("Description required"),
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
 });
 export const EditNoticeView = () => {
   const navigate = useNavigate();

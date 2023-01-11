@@ -221,7 +221,10 @@ export const PhoneDirectoryListingView = () => {
                     phoneDirectoryList.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td>{index + 1}</td>
+                          <td>
+                            {process.env.REACT_APP_PER_PAGE_LIMIT * pageNumber +
+                              (index + 1)}
+                          </td>
                           <td>{toUpperCase(item?.name)}</td>
                           <td>{toUpperCase(item?.phoneNumber)}</td>
                           <td>{toUpperCase(item?.profession)}</td>

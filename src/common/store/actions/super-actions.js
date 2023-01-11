@@ -121,7 +121,11 @@ export const getAllSociety = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.SUPER_ADMIN_GET_ALL_SOCIETY + "?page=" + params
+      ApiUrl.SUPER_ADMIN_GET_ALL_SOCIETY +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -228,7 +232,11 @@ export const getAllDesignation = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_DESIGNATION_API + "?page=" + params
+      ApiUrl.GET_ALL_DESIGNATION_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({

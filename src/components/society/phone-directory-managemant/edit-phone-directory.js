@@ -25,11 +25,11 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name required"),
   address: Yup.string().required("Address required"),
   phoneNumber: Yup.string()
-    .required("Phone number required")
+    .required("Phone number is required")
     .min(10, "Phone number is not valid")
     .max(10, "Phone number is not valid")
     .matches(/^[0-9]*$/, "Phone number is not valid"),
-  profession: Yup.string().required("Profession required"),
+  profession: Yup.string().required("Profession is required"),
 });
 export const EditPhoneDirectoryView = () => {
   const navigate = useNavigate();

@@ -25,6 +25,7 @@ import { toUpperCase } from "../../../common/reuseable-function";
 export const ResidentialUserListingView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [pageNumber, setPageNumber] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalDataCount, setTotalDataCount] = useState(0);
@@ -38,6 +39,7 @@ export const ResidentialUserListingView = () => {
   const residentialUserList = useSelector(
     ({ societyAdmin }) => societyAdmin?.residentialUserList?.data
   );
+
   useEffect(() => {
     callGetAllResidentialUserAPI(pageNumber);
     // eslint-disable-next-line
@@ -200,7 +202,10 @@ export const ResidentialUserListingView = () => {
                     residentialUserList.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td>{index + 1}</td>
+                          <td>
+                            {process.env.REACT_APP_PER_PAGE_LIMIT * pageNumber +
+                              (index + 1)}
+                          </td>
                           <td>{toUpperCase(item?.name)}</td>
                           <td>{toUpperCase(item?.houseNumber)}</td>
                           <td>{toUpperCase(item?.phoneNumber)}</td>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -20,13 +20,21 @@ import {
 } from "../../../common/store/actions/society-actions";
 
 const validationSchema = Yup.object().shape({
-  documentName: Yup.string().required("Document name required"),
-  description: Yup.string().required("Description required"),
+  documentName: Yup.string().required("Document name is required"),
+  description: Yup.string().required("Description is required"),
+  // docImage: Yup.mixed().test(
+  //   "fileFormat",
+  //   "Unsupported File Format",
+  //   (value) =>
+  //     value.type === "image/jpeg" ||
+  //     value.type === "image/png" ||
+  //     value.type === "application/pdf"
+  // ),
 });
 export const EditDocumentView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectFile, setSelectFile] = useState(null);
+
   const selectedDocument = useSelector(
     ({ societyAdmin }) => societyAdmin?.selectedDocument?.data
   );
@@ -35,25 +43,14 @@ export const EditDocumentView = () => {
     id: selectedDocument?._id,
     documentName: selectedDocument?.documentName,
     description: selectedDocument?.description,
+    docImage: null,
   };
-  const callUpdateDocumentAPI = (data) => {
-    console.log(data);
-    const formData = new FormData();
-    formData.append("id", selectedDocument?._id);
-    selectFile !== null &&
-      formData.append("documentImageFile", selectFile, selectFile.name);
-
-    formData.append("documentName", data.documentName);
-    formData.append("description", data.description);
-
-    // for (const value of formData.values()) {
-    //   console.log(value);
-    // }
+  const callUpdateDocumentAPI = (formData) => {
     dispatch(updateDocument(formData)).then((res) => {
       if (res?.status === 403 && res?.data.success === false) {
         dispatch(generateNewToken()).then((res) => {
           if (res?.status === 200 && res?.data.success) {
-            callUpdateDocumentAPI(data);
+            callUpdateDocumentAPI(formData);
           }
         });
       } else if (res?.status === 200 && res?.data?.success) {
@@ -64,6 +61,10 @@ export const EditDocumentView = () => {
       }
     });
   };
+  const get_url_extension = (url) => {
+    return url.split(/[#?]/)[0].split(".").pop().trim();
+  };
+
   return (
     <>
       <SocietyHeaderView />
@@ -97,7 +98,17 @@ export const EditDocumentView = () => {
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                callUpdateDocumentAPI(values);
+                const formData = new FormData();
+                formData.append("id", values?.id);
+                values.docImage !== null &&
+                  formData.append(
+                    "documentImageFile",
+                    values.docImage,
+                    values.docImage.name
+                  );
+                formData.append("documentName", values.documentName);
+                formData.append("description", values.description);
+                callUpdateDocumentAPI(formData);
               }}
             >
               {({
@@ -107,6 +118,7 @@ export const EditDocumentView = () => {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                setFieldValue,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="row">
@@ -139,33 +151,66 @@ export const EditDocumentView = () => {
                           Upload Document <span className="ColorRed">*</span>
                         </label>
                         <input
-                          id="documentImageFile"
-                          name="documentImageFile"
+                          accept="image/jpeg,image/png,image/jpg,application/pdf"
+                          id="docImage"
+                          name="docImage"
                           type="file"
                           className="form-control"
-                          placeholder=""
+                          placeholder="Select document"
+                          onBlur={handleBlur}
                           onChange={(event) => {
-                            setSelectFile(event.target.files[0]);
+                            setFieldValue(
+                              "docImage",
+                              event.currentTarget.files[0]
+                            );
                           }}
                         />
+                        {errors.docImage && touched.docImage && (
+                          <h6 className="validationBx">{errors.docImage}</h6>
+                        )}
                       </div>
                     </div>
                   </div>
-                  <div className="row my-3">
-                    <div className="col-md-4">
-                      {selectFile === null ? (
-                        <img
-                          src={selectedDocument?.documentImageFile}
-                          alt="..."
-                          width={"400px"}
-                          height={"300px;"}
-                        />
+                  <div className="row ">
+                    <div className="col-md-12 mb-3">
+                      {values.docImage === null ? (
+                        get_url_extension(
+                          selectedDocument?.documentImageFile
+                        ) === "pdf" ? (
+                          <embed
+                            src={`${selectedDocument?.documentImageFile}#toolbar=0&navpanes=0&scrollbar=0`}
+                            type="application/pdf"
+                            frameBorder="0"
+                            scrolling="auto"
+                            height="400px"
+                            width="500px"
+                          ></embed>
+                        ) : (
+                          <img
+                            src={selectedDocument?.documentImageFile}
+                            alt="..."
+                            width="500px"
+                            height="400px"
+                          />
+                        )
+                      ) : get_url_extension(values.docImage?.type) ===
+                        "application/pdf" ? (
+                        <embed
+                          src={`${URL.createObjectURL(
+                            values.docImage
+                          )}#toolbar=0&navpanes=0&scrollbar=0`}
+                          type="application/pdf"
+                          frameBorder="0"
+                          scrolling="auto"
+                          height="400px"
+                          width="500px"
+                        ></embed>
                       ) : (
                         <img
-                          src={URL.createObjectURL(selectFile)}
+                          src={URL.createObjectURL(values.docImage)}
                           alt="..."
-                          width={"400px"}
-                          height={"300px;"}
+                          width="500px"
+                          height="400px"
                         />
                       )}
                     </div>

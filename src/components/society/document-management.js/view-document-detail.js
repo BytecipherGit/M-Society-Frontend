@@ -80,6 +80,7 @@ export const ViewDocumentDetialView = () => {
               <div className="col-md-8">
                 <a
                   target="_blank"
+                  rel="noopener noreferrer"
                   href={selectedDocument?.documentImageFile}
                   className="active_button btn btn-primary"
                 >

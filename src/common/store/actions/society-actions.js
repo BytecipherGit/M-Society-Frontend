@@ -161,7 +161,11 @@ export const getAllNotice = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_NOTICE_API + "?page=" + params
+      ApiUrl.GET_ALL_NOTICE_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -249,7 +253,11 @@ export const getAllPhoneDirectory = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_PHONE_DIRECTORY_API + "?page=" + params
+      ApiUrl.GET_ALL_PHONE_DIRECTORY_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -332,7 +340,11 @@ export const getAllComplaint = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_COMPLAINT_API + "?page=" + params
+      ApiUrl.GET_ALL_COMPLAINT_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -412,7 +424,11 @@ export const getAllResidentialUser = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_RESIDENT_USER_API + "?page=" + params
+      ApiUrl.GET_ALL_RESIDENT_USER_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
@@ -526,7 +542,11 @@ export const getAllDocument = (params) => {
   return async (dispatch) => {
     const response = await Instance(
       "GET",
-      ApiUrl.GET_ALL_DOCUMENT_API + "?page=" + params
+      ApiUrl.GET_ALL_DOCUMENT_API +
+        "?page=" +
+        params +
+        "&limit=" +
+        process.env.REACT_APP_PER_PAGE_LIMIT
     );
     if (response?.status === 200 && response?.data?.success) {
       dispatch({
